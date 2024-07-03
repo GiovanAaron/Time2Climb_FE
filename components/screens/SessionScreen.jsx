@@ -1,16 +1,26 @@
 import { useState } from 'react';
 
-import { Button, View, Text, FlatList, StyleSheet } from "react-native";
-import { Picker } from '@react-native-picker/picker';
+import { Button, Alert, View, Text, Pressable, StatusBar, ScrollView, Modal } from "react-native";
+import Ionicons from '@expo/vector-icons/Ionicons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
-// import DateTimePicker from 'react-native-ui-datepicker';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { TimerPickerModal } from "react-native-timer-picker";
+import ModalSelector from 'react-native-modal-selector'
 
 import dayjs from 'dayjs';
 
 import styles from "../../style-sheets/session-style"
 import appStyles from "../../style-sheets/app-style"
+
+let climbingWallIndex = 0;
+const climbingWallData = [
+  { key: climbingWallIndex++, section: true, label: 'Walls' },
+  { key: climbingWallIndex++, label: 'Climbing Works' },
+  { key: climbingWallIndex++, label: 'Sheffield Depot' },
+  { key: climbingWallIndex++, label: 'Sheffield Hanger' },
+  { key: climbingWallIndex++, label: 'Nottingham Depot' }
+];
 
 const climbList = [
   {
@@ -39,143 +49,248 @@ const climbList = [
   }
 ]
 
-const ClimbItem = ({ climb_type_label, grade_label, climb_outcome_label }) => {
-  return (
-    <View style={styles.climbContainer}>
-      <Text style={styles.climbItem}>{climb_type_label}</Text>
-      <Text style={styles.climbItem}>{grade_label}</Text>
-      <Text style={styles.climbItem}>{climb_outcome_label}</Text>
-    </View>
-  )
-}
-
-const renderClimbItem = ({ item }) => (
-  <ClimbItem
-    climb_type_label={item.climb_type_label}
-    grade_label={item.grade_label}
-    climb_outcome_label={item.climb_outcome_label}
-  />
-)
-
-const climbingWallList = ["Climbing Works", "Sheffield Depot", "Sheffield Hanger"]
-
 export default function SessionScreen({ navigation }) {
 
-  const [sessionWall, setSessionWall] = useState('Climbing Wall')
+  const [sessionWall, setSessionWall] = useState('-')
 
-  const [sessionDate, setSessionDate] = useState(dayjs());
-  const [datePickerOpen, setDatePickerOpen] = useState(false);
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [editSession, setEditSession] = useState(false);
+
+  const [sessionDate, setSessionDate] = useState(null);
+  const [sessionTime, setSessionTime] = useState(null);
+  const [sessionDuration, setSessionDuration] = useState("-");
+
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
+  const [timePickerOpen, setTimePickerOpen] = useState(false);
+  const [durationPickerOpen, setDurationPickerOpen] = useState(false);
+
+  let formattedDate, formattedTime;
+  sessionDate ? formattedDate = dayjs(sessionDate).format('DD/MM/YYYY') : formattedDate = "-";
+  sessionTime ? formattedTime = dayjs(sessionTime).format('HH:mm:ss') : formattedTime = "-";
+
+  const [addClimbOpen, setAddClimbOpen] = useState(false);
 
   const handlePressEditButton = () => {
     setEditSession(!editSession)
   }
 
   const showDatePicker = () => {
-    setDatePickerVisibility(true);
+    setDatePickerOpen(true);
+  }
+
+  const showTimePicker = () => {
+    setTimePickerOpen(true);
+  }
+
+  const showDurationPicker = () => {
+    setDurationPickerOpen(true);
+  }
+
+  const handleDateChange = (event, selectedDate) => {
+    setDatePickerOpen(false);
+    if (event.type === 'set') {
+      setSessionDate(selectedDate);
+    }
+  }
+
+  const handleTimeChange = (event, selectedTime) => {
+    setTimePickerOpen(false);
+    console.log(sessionTime)
+    if (event.type === 'set') {
+      console.log(selectedTime);
+      setSessionTime(selectedTime);
+    }
+  }
+
+  const formatTime = ({
+    hours,
+    minutes,
+  }) => {
+    let timeParts = "";
+
+    if (hours !== undefined) {
+      timeParts += (hours.toString() + " hrs ");
+    }
+    if (minutes !== undefined) {
+      timeParts += (minutes.toString() + " mins");
+    }
+    return timeParts;
   };
 
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date);
-    hideDatePicker();
-  };
-
-
-  const formattedDate = sessionDate.format('DD/MM/YYYY')
+  const handleDurationConfirmation = (pickedDuration) => {
+    console.log(formatTime(pickedDuration))
+    setSessionDuration(formatTime(pickedDuration));
+    setDurationPickerOpen(false);
+  }
 
   const handleWallChange = (wall) => {
-    setSessionWall(wall);
+    console.log(wall.label)
+    console.log(sessionWall)
+    setSessionWall(wall.label)
   }
 
-  const handleDateChange = (newDate) => {
-    setSessionDate(newDate.date);
+  const handleSessionSave = () => {
+    console.log("save the data!!!")
   }
 
-  const SessionInfoContainer = () => {
-    return (
-      <View style={styles.sessionInfoContainer}>
-        <Text style={appStyles.h3}>Session Info</Text>
-        <View>
-          <Text style={styles.sessionInfoItem}>{sessionWall}</Text>
-          <Text style={styles.sessionInfoItem}>{formattedDate}</Text>
-          <Text style={styles.sessionInfoItem}>{'2 hours'}</Text>
-          <Text style={styles.sessionInfoItem}>{
-            climbList.length > 1 ?
-              climbList.length + ' climbs' :
-              climbList.length + ' climb'}
-          </Text>
-        </View>
-      </View>
-    )
+  const handlePressAddClimb = () => {
+    setAddClimbOpen(true);
   }
 
-  const SessionInfoContainerForm = () => {
-    return (
-      <View style={styles.sessionInfoContainer}>
-        <Text style={appStyles.h3}>Session Info</Text>
-        <View>
-          <Picker
-            selectedValue={sessionWall}
-            onValueChange={handleWallChange}
-          >
-            {climbingWallList.map(wall => {
-              return <Picker.Item key={wall} label={wall} value={wall} />
-            })}
-          </Picker>
-            <Button title="Show Date Picker" onPress={showDatePicker} /> 
-            <Button title={formattedDate} onPress={() => setDatePickerOpen(true)} /> :
-            <Text style={styles.sessionInfoItem}>{formattedDate}</Text>
-
-          <Text style={styles.sessionInfoItem}>{'2 hours'}</Text>
-          <Text style={styles.sessionInfoItem}>{
-            climbList.length > 1 ?
-              climbList.length + ' climbs' :
-              climbList.length + ' climb'}
-          </Text>
-        </View>
-      </View>
-    )
+  const handleCloseAddClimb = () => {
+    setAddClimbOpen(false);
   }
 
   return (
-    <View style={styles.screenContainer}>
+    <ScrollView>
 
-      {editSession && <RNDateTimePicker value={new Date()} />}
+      {/* <Modal
+        animationType="fade"
+        transparent={true}
+        visible={addClimbOpen}
+        onRequestClose={handleCloseAddClimb}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Hello World!</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => handleCloseAddClimb(!modalVisible)}>
+              <Text style={styles.textStyle}>Cancel</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal> */}
 
-      {editSession && <RNDateTimePicker mode="time" value={new Date()}/>}
+      <View style={styles.screenContainer}>
+        <StatusBar hidden={true} />
 
-      <Button title="Edit session" onPress={handlePressEditButton} />
-
-      <View style={styles.datePickerContainer}>
-        <DateTimePickerModal
-          isVisible={isDatePickerVisible}
-          mode="date"
-          onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
+        <TimerPickerModal
+          visible={durationPickerOpen}
+          setIsVisible={setDurationPickerOpen}
+          onConfirm={handleDurationConfirmation}
+          modalTitle="Session duration"
+          onCancel={() => setDurationPickerOpen(false)}
+          closeOnOverlayPress
+          hideSeconds={true}
         />
 
-        {/* <DateTimePicker
-            mode="single"
-            date={sessionDate}
-            onChange={handleDateChange}
-          /> */}
-      </View>
+        {datePickerOpen && <
+          RNDateTimePicker
+          value={new Date()}
+          onChange={handleDateChange}
+        />}
 
-      {editSession ? <SessionInfoContainerForm /> : <SessionInfoContainer />}
+        {timePickerOpen && <
+          RNDateTimePicker
+          mode="time"
+          value={new Date()}
+          onChange={handleTimeChange}
+        />}
 
-      <View style={styles.climbListContainer}>
-        <Text style={appStyles.h3}>Climbs</Text>
-        <FlatList
-          data={climbList}
-          renderItem={renderClimbItem}
-          keyExtractor={(item) => item.climb_id}
-        />
+        <View style={styles.headerInfoBox}>
+          <Text style={appStyles.h3}>Session Info</Text>
+          {editSession ?
+            <Pressable onPress={handlePressEditButton} hitSlop={100}>
+              <MaterialCommunityIcons name="pencil-off-outline" size={24} color="black" />
+            </Pressable> :
+            <Pressable onPress={handlePressEditButton} hitSlop={100}>
+              <MaterialCommunityIcons name="pencil-outline" size={24} color="black" />
+            </Pressable>
+          }
+        </View>
+
+        <View style={styles.sessionInfoContainer}>
+
+          <View>
+
+            <Text style={styles.sessionInfoLabel}>Climbing Wall</Text>
+            <ModalSelector
+              data={climbingWallData}
+              disabled={!editSession}
+              cancelText="Cancel"
+              initValue="Climbing Works"
+              supportedOrientations={['landscape']}
+              accessible={true}
+              scrollViewAccessibilityLabel={'Scrollable options'}
+              cancelButtonAccessibilityLabel={'Cancel Button'}
+              onChange={handleWallChange}
+            >
+              <View style={editSession ? styles.sessionInfoEditBox : styles.sessionInfoBox}>
+                <Text style={styles.sessionInfoItem}>
+                  {sessionWall}
+                </Text>
+                {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
+              </View>
+            </ModalSelector>
+
+            <Text style={styles.sessionInfoLabel}>Session date</Text>
+            <Pressable onPress={showDatePicker} disabled={!editSession}>
+              <View style={editSession ? styles.sessionInfoEditBox : styles.sessionInfoBox}>
+                <Text style={styles.sessionInfoItem}>{formattedDate}</Text>
+                {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
+              </View>
+            </Pressable>
+
+            <Text style={styles.sessionInfoLabel}>Session start time</Text>
+            <Pressable onPress={showTimePicker} disabled={!editSession}>
+              <View style={editSession ? styles.sessionInfoEditBox : styles.sessionInfoBox}>
+                <Text style={styles.sessionInfoItem}>{formattedTime}</Text>
+                {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
+              </View>
+            </Pressable>
+
+            <Text style={styles.sessionInfoLabel}>Session duration</Text>
+            <Pressable onPress={showDurationPicker} disabled={!editSession}>
+              <View style={editSession ? styles.sessionInfoEditBox : styles.sessionInfoBox}>
+                <Text style={styles.sessionInfoItem}>{sessionDuration}</Text>
+                {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
+              </View>
+            </Pressable>
+
+
+            <Text style={styles.sessionInfoLabel}>Number of climbs recorded</Text>
+            <Text style={styles.sessionInfoItem}>{
+              climbList.length > 1 ?
+                climbList.length + ' climbs' :
+                climbList.length + ' climb'}
+            </Text>
+
+            {editSession &&
+              <Pressable onPress={handleSessionSave}>
+                <View style={styles.saveButton}>
+                  <Text style={styles.sessionInfoLabel}>Save changes</Text>
+                </View>
+              </Pressable>}
+
+          </View>
+        </View >
+
+        <View style={styles.headerInfoBox}>
+          <Text style={appStyles.h3}>Climbs</Text>
+          <Pressable onPress={handlePressAddClimb} hitSlop={100}>
+            <Ionicons name="add-circle-outline" size={24} color="black" />
+          </Pressable>
+        </View>
+
+
+        <View style={styles.climbListContainer}>
+
+          <View style={styles.climbContainer}>
+            <Text style={styles.climbItem}>Climb type</Text>
+            <Text style={styles.climbItem}>Grade</Text>
+            <Text style={styles.climbItem}>Outcome</Text>
+          </View>
+
+          {climbList.map((climb) => (
+            <View style={styles.climbContainer} key={climb.climb_id}>
+              <Text style={styles.climbItem}>{climb.climb_type_label}</Text>
+              <Text style={styles.climbItem}>{climb.grade_label}</Text>
+              <Text style={styles.climbItem}>{climb.climb_outcome_label}</Text>
+            </View>
+          ))}
+        </View>
       </View>
-    </View>
+    </ScrollView>
+
   )
 }
