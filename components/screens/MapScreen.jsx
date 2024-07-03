@@ -1,54 +1,32 @@
-// import React from "react";
-// import Map from '../Map';
-// import { Text, View, StyleSheet} from "react-native";
+import React from "react";
+import Map from '../Map';
+import { Text, View } from "react-native";
+import mapStyles from '../../style-sheets/map-style';
+import appStyles from '../../style-sheets/app-style';
 
-// // UK centre, Southerness:
-// // lat 54.873699
-// // long -3.596840
+export default function MapScreen({ navigation }) {
 
-// const mapData = {
-//   userLocations: [
-//     { id: 1, latitude: 37.78825, longitude: -122.4324, number: 1 },
-//     { id: 2, latitude: 37.78925, longitude: -122.4314, number: 2 },
-//     { id: 3, latitude: 37.79025, longitude: -122.4304, number: 3 },
-//   ],
-//   gymLocations: [
-//     { id: 1, latitude: 37.78825, longitude: -122.4324, number: 1 },
-//     { id: 2, latitude: 37.78925, longitude: -122.4314, number: 2 },
-//     { id: 3, latitude: 37.79025, longitude: -122.4304, number: 3 },
-//   ],
-//   mapCentreLatitude: 54.873699,
-//   mapCentreLongitude: -3.596840,
-//   mapLarge: true
-// }
+  // TODO: temp data hard coded until BE is integrated
+  const mapData = {
+    userLocations: [
+      { id: 1, latitude: 53.98423, longitude: -1.43245, numOfSessions: 1 },
+      { id: 2, latitude: 52.28423, longitude: -1.83154, numOfSessions: 2 },
+      { id: 3, latitude: 52.98423, longitude: -2.45304, numOfSessions: 3 }
+    ],
+    gymLocations: [
+      { id: 1, latitude: 53.28423, longitude: -1.953013 },
+      { id: 2, latitude: 53.148291, longitude:-1.202161 }
+    ],
+    mapCentreLatitude: null, // TODO: set to user's location
+    mapCentreLongitude: null, // TODO: set to user's location
+    zoomed: false,
+    miniView: false
+  }
 
-// export default function MapScreen({ navigation }) {
-//   return (
-//     // <View style={styles.container}>
-//     //   <Map mapData={mapData} />
-//     // </View>
-//     <Text>sd test</Text>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   map: {
-//     width: '100%',
-//     height: '100%',
-//   },
-//   marker: {
-//     backgroundColor: 'red',
-//     padding: 5,
-//     borderRadius: 5,
-//   },
-//   markerText: {
-//     color: 'white',
-//     fontWeight: 'bold',
-//   },
-// });
+  return (
+    <View style={[mapStyles.container, appStyles.pageHeader]}>
+      <Text>Climbs & Sessions Map</Text>
+      <Map mapData={mapData} />
+    </View>
+  );
+}

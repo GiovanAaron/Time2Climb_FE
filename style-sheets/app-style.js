@@ -14,6 +14,10 @@ const appStyles = StyleSheet.create({
     h3: {
       fontSize: 24,
       fontWeight: 'bold'
+    },
+    pageHeader: {
+      fontWeight: 'bold',
+      fontSize: 'large'
     }
   });
 

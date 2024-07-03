@@ -1,82 +1,102 @@
-// import React from "react";
-// import { Button, View, Text, StyleSheet} from "react-native";
-// import MapView, { Marker } from 'react-native-maps';
+import React from "react";
+import { View, Text } from "react-native";
+import MapView, { Marker } from 'react-native-maps';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import { FontAwesome } from '@expo/vector-icons';
+import mapStyles from '../style-sheets/map-style';
 
-// const largeView = {
-//     latitudeDelta: 0.0922,
-//     longitudeDelta: 0.0421
-// }
+export default function Map({ mapData }) {
 
-// const smallView = {
-//     latitudeDelta: 0.0922,
-//     longitudeDelta: 0.0421
-// }
+    const centralUkLatitude = 54.473699;
+    const centralUkLongitude = -3.326840;
+    const zoomedDefaultLatitude = 53.266789;
+    const zoomedDefaultLongitude = -1.540730;
 
-// export default function Map({ mapData }) {
+    const userLocations = mapData.userLocations;
+    const gymLocations = mapData.gymLocations;
+    let mapCentreLatitude = mapData.mapCentreLatitude;
+    let mapCentreLongitude = mapData.mapCentreLongitude;
+    let latitudeDelta;
+    let longitudeDelta;
 
-//     const userLocations = mapData.userLocations;
-//     const gymLocations = mapData.gymLocations;
-//     const mapCentreLatitude = mapData.mapCentreLatitude;
-//     const mapCentreLongitude = mapData.mapCentreLongitude;
+    const largeView = {
+        latitudeDelta: 0.5,
+        longitudeDelta: 11
+    }
+    const smallView = {
+        latitudeDelta: 0.5,
+        longitudeDelta: 0.04
+    }
 
-//     let latitudeDelta;
-//     let longitudeDelta;
-//     if (mapData.mapLarge) {
-//         latitudeDelta = largeView.latitudeDelta;
-//         longitudeDelta = largeView.longitudeDelta;
-//     }
-//     else {
-//         latitudeDelta = smallView.latitudeDelta;
-//         longitudeDelta = smallView.longitudeDelta;
-//     }
+    if (mapData.zoomed) {
+        latitudeDelta = smallView.latitudeDelta;
+        longitudeDelta = smallView.longitudeDelta;
+    }
+    else {
+        latitudeDelta = largeView.latitudeDelta;
+        longitudeDelta = largeView.longitudeDelta;
+    }
 
-//     return (
-//         <View style={styles.container}>
-//             <Text>sd test</Text>
-//             {/* <MapView
-//                 style={styles.map}
-//                 initialRegion={{
-//                     mapCentreLatitude: mapCentreLatitude,
-//                     mapCentreLongitude: mapCentreLongitude,
-//                     latitudeDelta: latitudeDelta,
-//                     longitudeDelta: longitudeDelta
-//                 }}
-//             >
-//             {gymLocations.map(location => (
-//                 <Marker
-//                     key={location.id}
-//                     coordinate={{ latitude: location.latitude, longitude: location.longitude }}
-//                     title={`Location ${location.number}`}
-//                     description={`This is location number ${location.number}`}
-//                 >
-//                     <View style={styles.marker}>
-//                         <Text style={styles.markerText}>{location.number}</Text>
-//                     </View>
-//                 </Marker>
-//             ))}
-//             </MapView> */}
-//         </View>
-//     );
-// }
+    if (mapData.mapCentreLatitude && mapData.mapCentreLongitude) {
+        // Zoom to user's location
+        mapCentreLatitude = mapData.mapCentreLatitude;
+        mapCentreLongitude = mapData.mapCentreLongitude;
+    }
+    else {
+        if (mapData.zoomed) {
+            // Zoom to default location
+            mapCentreLatitude = zoomedDefaultLatitude;
+            mapCentreLongitude = zoomedDefaultLongitude;
+        }
+        else {
+            // Zoom out to display UK
+            mapCentreLatitude = centralUkLatitude;
+            mapCentreLongitude = centralUkLongitude;
+        }
+    }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   map: {
-//     width: '100%',
-//     height: '100%',
-//   },
-//   marker: {
-//     backgroundColor: 'red',
-//     padding: 5,
-//     borderRadius: 5,
-//   },
-//   markerText: {
-//     color: 'white',
-//     fontWeight: 'bold',
-//   },
-// });
+    function getView() {
+        if (mapData.miniView) {
+            return mapStyles.miniView;
+        }
+        else {
+            return mapStyles.largeView;
+        }
+    }
+
+    return (
+        <MapView
+            style={getView()}
+            initialRegion={{
+                latitude: mapCentreLatitude,
+                longitude: mapCentreLongitude,
+                latitudeDelta: latitudeDelta,
+                longitudeDelta: longitudeDelta
+            }}
+        >
+            {userLocations.map(location => (
+                <Marker
+                    key={location.id}
+                    coordinate={{ latitude: location.latitude, longitude: location.longitude }}
+                    title={`User Session`}
+                    description={`Number of sessions at this location: ${location.numOfSessions}`}
+                >
+                    <View style={mapStyles.userMarker}>
+                        <Text style={mapStyles.userMarkerText}>{location.numOfSessions}</Text>
+                    </View>
+                    <FontAwesome6 name="person-falling" color={'blue'} size={24} />
+                </Marker>
+            ))}
+            {gymLocations.map(location => (
+                <Marker
+                    key={location.id}
+                    coordinate={{ latitude: location.latitude, longitude: location.longitude }}
+                    title={`Location ${location.number}`}
+                    description={`This is location number ${location.text}`}
+                >
+                    <FontAwesome name="map-marker" size={26} color="red" />
+                </Marker>
+            ))}
+        </MapView>
+    );
+}
