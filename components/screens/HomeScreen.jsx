@@ -10,10 +10,10 @@ export default function HomeScreen({ navigation }) {
                 title="Stats"
                 onPress={() => navigation.navigate('Stats Screen')}
             />
-            <Button
+            {/* <Button
                 title="Map"
                 onPress={() => navigation.navigate('Map Screen')}
-            />
+            /> */}
             <Button
                 title="Session"
                 onPress={() => navigation.navigate('Session Screen')}
