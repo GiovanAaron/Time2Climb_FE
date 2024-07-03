@@ -2,8 +2,11 @@ import { useState } from 'react';
 
 import { Button, View, Text, FlatList, StyleSheet } from "react-native";
 import { Picker } from '@react-native-picker/picker';
-import DateTimePicker from 'react-native-ui-datepicker';
+
+// import DateTimePicker from 'react-native-ui-datepicker';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+
 import dayjs from 'dayjs';
 
 import styles from "../../style-sheets/session-style"
@@ -124,11 +127,9 @@ export default function SessionScreen({ navigation }) {
               return <Picker.Item key={wall} label={wall} value={wall} />
             })}
           </Picker>
-          {editSession ?
-            <Button title="Show Date Picker" onPress={showDatePicker} /> :
-            // <Button title={formattedDate} onPress={() => setDatePickerOpen(true)} /> :
+            <Button title="Show Date Picker" onPress={showDatePicker} /> 
+            <Button title={formattedDate} onPress={() => setDatePickerOpen(true)} /> :
             <Text style={styles.sessionInfoItem}>{formattedDate}</Text>
-          }
 
           <Text style={styles.sessionInfoItem}>{'2 hours'}</Text>
           <Text style={styles.sessionInfoItem}>{
@@ -144,22 +145,26 @@ export default function SessionScreen({ navigation }) {
   return (
     <View style={styles.screenContainer}>
 
+      {editSession && <RNDateTimePicker value={new Date()} />}
+
+      {editSession && <RNDateTimePicker mode="time" value={new Date()}/>}
+
       <Button title="Edit session" onPress={handlePressEditButton} />
 
-        <View style={styles.datePickerContainer}>
-          <DateTimePickerModal
-            isVisible={isDatePickerVisible}
-            mode="date"
-            onConfirm={handleConfirm}
-            onCancel={hideDatePicker}
-          />
+      <View style={styles.datePickerContainer}>
+        <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+          mode="date"
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
+        />
 
-          {/* <DateTimePicker
+        {/* <DateTimePicker
             mode="single"
             date={sessionDate}
             onChange={handleDateChange}
           /> */}
-        </View>
+      </View>
 
       {editSession ? <SessionInfoContainerForm /> : <SessionInfoContainer />}
 
