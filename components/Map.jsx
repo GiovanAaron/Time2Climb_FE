@@ -12,6 +12,8 @@ export default function Map({ mapData }) {
     const zoomedDefaultLatitude = 53.266789;
     const zoomedDefaultLongitude = -1.540730;
 
+    console.log(mapData, '--mapdata')
+
     const userLocations = mapData.userLocations;
     const gymLocations = mapData.gymLocations;
     let mapCentreLatitude = mapData.mapCentreLatitude;
@@ -94,7 +96,7 @@ export default function Map({ mapData }) {
                     title={`Location ${location.number}`}
                     description={`This is location number ${location.text}`}
                 >
-                    <FontAwesome name="map-marker" size={26} color="red" />
+                    <FontAwesome name="map-marker" size={30} color="red" />
                 </Marker>
             ))}
         </MapView>

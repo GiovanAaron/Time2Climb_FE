@@ -6,15 +6,23 @@ const mapStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginVertical: 20,
+        marginHorizontal: 20
     },
     userMarkerText: {
-        color: 'blue',
-        fontWeight: 'bold'
+        backgroundColor: 'blue',
+        color: 'white',
+        fontWeight: 'bold',
+        borderRadius: 20,
+        paddingLeft: 7,
+        paddingRight: 0,
+        paddingVertical: 1
     },
     miniView: {
         width: '80%',
-        height: '30%'
+        height: '30%',
+        marginVertical: 20
     },
     largeView: {
         width: '100%',
