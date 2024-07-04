@@ -9,31 +9,37 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginVertical: 50
     },
+    sectionContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderColor: 'white',
+        borderWidth: 1,
+        width: '75%'
+    },
     headerInfoBox: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingVertical: 10,
-        width: '75%',
         borderWidth: 1,
+        width: '100%',
         borderColor: 'white',
     },
     sessionInfoContainer: {
         alignItems: 'start',
         justifyContent: 'start',
-        width: '75%',
         borderColor: 'white',
         borderWidth: 1,
+        width: '100%',
     },
     climbListContainer: {
         alignItems: 'start',
         justifyContent: 'start',
-        width: '75%',
         borderColor: 'white',
         borderWidth: 1,
     },
     datePickerContainer: {
-        width: '75%',
         borderColor: 'green',
         borderWidth: 1,
     },
@@ -77,7 +83,6 @@ const styles = StyleSheet.create({
         borderColor: 'white',
         backgroundColor: 'lightgrey',
         paddingLeft: 15,
-        // borderRadius: 20,
     },
     sessionInfoItem: {
         padding: 5,
@@ -90,10 +95,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     saveSessionButton: {
-        paddingHorizontal: 10,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
         marginTop: 20,
         marginBottom: 20,
-        paddingBottom: 10,
         alignSelf: 'center',
         backgroundColor: 'white',
         borderWidth: 1,
@@ -108,6 +113,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderWidth: 1,
         borderRadius: 30,
+    },
+    saveButtonNull: {
+        backgroundColor: 'gainsboro',
+        borderColor: 'lightgrey',
+        color: 'silver'
     },
     optionContainerStyle: {
         backgroundColor: 'white',
