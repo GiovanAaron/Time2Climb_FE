@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, View, Text } from "react-native";
 import Map from '../Map';
 import { fetchMapData } from '../../utils/api';
+import Dashboard from '../Dashboard'
 
 export default function HomeScreen({ navigation }) {
 
@@ -56,8 +57,10 @@ export default function HomeScreen({ navigation }) {
 
             {/* // TODO: change from tempMapData to mapData once API integrated */}
             <Map mapData={tempMapData} /> 
+
+            <Dashboard navigation={navigation} />
             
-            <Button
+            {/* <Button
                 title="Stats"
                 onPress={() => navigation.navigate('Stats Screen')}
             />
@@ -72,7 +75,7 @@ export default function HomeScreen({ navigation }) {
             <Button
                 title="Sessions"
                 onPress={() => navigation.navigate('Sessions Screen')}
-            />
+            /> */}
 
         </View>
     );
