@@ -1,6 +1,8 @@
 import React from "react";
-import { Button, View, Text } from "react-native";
+import { Button, View, Text, StyleSheet } from "react-native";
 import Map from '../Map';
+import ButtonRedirect from '../ButtonRedirect';
+import SessionList from '../SessionList'
 
 export default function SessionListScreen({ navigation }) {
 
@@ -27,18 +29,24 @@ export default function SessionListScreen({ navigation }) {
   // mapData.zoomed = true;
   // mapData.miniView = true;
 
-  return (
+  return (<>
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <Text>Session List Screen</Text>
       <Map mapData={tempMapData} />
-      <Button
-        title="Session"
-        // TODO: update navigation object once map data also passed in after API integration
-        onPress={() => navigation.navigate('Session Screen')}
-      />
-
+      <View style={styles.container}>
+        <ButtonRedirect
+          navigation={navigation} 
+          screen="Session Screen"
+          btnText="Add Session"
+        />
+      </View>
+      <SessionList />
     </View>
-
-
-  )
+  </>)
 }
+
+const styles = StyleSheet.create({
+  container: {
+      marginBottom: 10,
+  },
+});

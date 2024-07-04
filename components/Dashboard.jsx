@@ -1,45 +1,45 @@
 import { View, StyleSheet, FlatList, Image } from "react-native";
-import CustomButton from './Button';
+import ButtonRedirect from './ButtonRedirect';
 
 export default function HomeScreen({ navigation }) {
 
     const btnData = [
         {
             key: 1,
-            txt: 'Add Session',
-            screen: 'Session Screen'
-        },
-        {
-            key: 2,
             txt: 'Sessions',
             screen: 'Sessions Screen'
         },
         {
-            key: 3,
-            txt: 'Stats',
-            screen: 'Stats Screen'
+            key: 2,
+            txt: 'Add Session',
+            screen: 'Session Screen'
         },
         {
-            key: 4,
+            key: 3,
             txt: 'Goals',
             screen: 'Goals Screen'
         },
         {
+            key: 4,
+            txt: 'Stats',
+            screen: 'Stats Screen'
+        },
+        {
             key: 5,
-            txt: 'Leaderboard',
-            screen: 'Leaderboard Screen'
+            txt: 'Map',
+            screen: 'Map Screen'
         },
         {
             key:6,
-            txt: 'Map',
-            screen: 'Map Screen'
+            txt: 'Leaderboard',
+            screen: 'Leaderboard Screen'
         }
     ];
 
     return (
-        <View style={styles.btnGrid}>
+        <View style={dashboardStyles.btnGrid}>
             {btnData.map((item) => {
-                return (<CustomButton 
+                return (<ButtonRedirect 
                     key={item.key}
                     navigation={navigation} 
                     screen={item.screen} 
@@ -50,12 +50,12 @@ export default function HomeScreen({ navigation }) {
     );
 }
 
-const styles = StyleSheet.create({
+const dashboardStyles = StyleSheet.create({
     btnGrid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'space-around', // or 'space-around' based on preference
-        flex: 1, // Adjust the flex property as needed
+        justifyContent: 'space-around',
+        flex: 1,
         maxWidth: '90%',
     },
     btn: {
