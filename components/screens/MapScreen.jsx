@@ -1,61 +1,38 @@
 import React from "react";
-import { Button, View, Text, StyleSheet} from "react-native";
-import MapView, { Marker } from 'react-native-maps';
+import Map from '../Map';
+import { Text, View } from "react-native";
+import mapStyles from '../../style-sheets/map-style';
+import appStyles from '../../style-sheets/app-style';
 
-const locations = [
-  { id: 1, latitude: 37.78825, longitude: -122.4324, number: 1 },
-  { id: 2, latitude: 37.78925, longitude: -122.4314, number: 2 },
-  { id: 3, latitude: 37.79025, longitude: -122.4304, number: 3 },
-];
+export default function MapScreen({ mapData }) {
 
-export default function MapScreen({ navigation }) {
+  // TODO: delete this temp hardcoded data once API is integrated
+  const tempMapData = {
+    userLocations: [
+        { id: 1, latitude: 53.98423, longitude: -1.43245, numOfSessions: 1 },
+        { id: 2, latitude: 52.28423, longitude: -1.83154, numOfSessions: 2 },
+        { id: 3, latitude: 52.98423, longitude: -2.45304, numOfSessions: 3 },
+        { id: 4, latitude: 53.347581, longitude: -1.459631, numOfSessions: 3 }
+    ],
+    gymLocations: [
+        { id: 1, latitude: 53.28423, longitude: -1.953013 },
+        { id: 2, latitude: 53.148291, longitude:-1.202161 }
+    ],
+    mapCentreLatitude: null, // TODO: set to user's location
+    mapCentreLongitude: null, // TODO: set to user's location
+    zoomed: false,
+    miniView: false
+  };
+
+  // TODO: reinstate this data once API integrated
+  // mapData.zoomed = false;
+  // mapData.miniView = false;
+
   return (
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      >
-        {locations.map(location => (
-          <Marker
-            key={location.id}
-            coordinate={{ latitude: location.latitude, longitude: location.longitude }}
-            title={`Location ${location.number}`}
-            description={`This is location number ${location.number}`}
-          >
-            <View style={styles.marker}>
-              <Text style={styles.markerText}>{location.number}</Text>
-            </View>
-          </Marker>
-        ))}
-      </MapView>
+    <View style={[mapStyles.container, appStyles.h3]}>
+      <Text>Climbs & Sessions Map</Text>
+      {/* // TODO: change from tempMapData to mapData once API integrated  */}
+      <Map mapData={tempMapData} /> 
     </View>
   );
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  map: {
-    width: '100%',
-    height: '100%',
-  },
-  marker: {
-    backgroundColor: 'red',
-    padding: 5,
-    borderRadius: 5,
-  },
-  markerText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-});
