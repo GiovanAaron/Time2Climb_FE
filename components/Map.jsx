@@ -12,8 +12,6 @@ export default function Map({ mapData }) {
     const zoomedDefaultLatitude = 53.266789;
     const zoomedDefaultLongitude = -1.540730;
 
-    console.log(mapData, '--mapdata')
-
     const userLocations = mapData.userLocations;
     const gymLocations = mapData.gymLocations;
     let mapCentreLatitude = mapData.mapCentreLatitude;
