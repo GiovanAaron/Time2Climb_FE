@@ -1,23 +1,6 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-    centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
-      modalView: {
-        backgroundColor: 'white',
-        padding: 35,
-        alignItems: 'center',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-      },
     screenContainer: {
         flex: 1,
         alignItems: 'center',
@@ -30,6 +13,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        paddingVertical: 10,
         width: '75%',
         borderWidth: 1,
         borderColor: 'white',
@@ -54,8 +38,22 @@ const styles = StyleSheet.create({
         borderWidth: 1,
     },
     climbContainer: {
-        borderColor: 'pink',
+        borderColor: 'white',
         borderWidth: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    climbIconBox: {
+        borderColor: 'white',
+        borderWidth: 1,
+        width: 90,
+        alignItems: 'center',
+    },
+    climbItem: {
+        padding: 5,
+        fontSize: 18,
+        textAlign: 'center'
     },
     sessionInfoEditBox: {
         flexDirection: 'row',
@@ -66,6 +64,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderWidth: 1,
         borderColor: 'black',
+        borderRadius: 20,
+        paddingLeft: 15
     },
     sessionInfoBox: {
         flexDirection: 'row',
@@ -75,6 +75,9 @@ const styles = StyleSheet.create({
         paddingVertical: 1,
         borderWidth: 1,
         borderColor: 'white',
+        backgroundColor: 'lightgrey',
+        paddingLeft: 15,
+        // borderRadius: 20,
     },
     sessionInfoItem: {
         padding: 5,
@@ -86,11 +89,7 @@ const styles = StyleSheet.create({
         color: 'black',
         fontWeight: 'bold'
     },
-    climbItem: {
-        padding: 5,
-        fontSize: 12,
-    },
-    saveButton: {
+    saveSessionButton: {
         paddingHorizontal: 10,
         marginTop: 20,
         marginBottom: 20,
@@ -98,7 +97,46 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         backgroundColor: 'white',
         borderWidth: 1,
-    }
+        borderRadius: 30,
+    },
+    saveClimbButton: {
+        paddingHorizontal: 10,
+        marginTop: 15,
+        marginBottom: 10,
+        paddingVertical: 5,
+        alignSelf: 'center',
+        backgroundColor: 'white',
+        borderWidth: 1,
+        borderRadius: 30,
+    },
+    optionContainerStyle: {
+        backgroundColor: 'white',
+        padding: 0,
+    },
+    optionTextStyle: {
+        fontSize: 18,
+        color: 'black',
+        margin: 0,
+        padding: 0,
+    },
+    sectionStyle: {
+        padding: 10,
+        backgroundColor: 'white',
+    },
+    sectionTextStyle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#007AFF',
+    },
+    cancelContainerStyle: {
+        backgroundColor: 'white',
+        borderRadius: 5
+    },
+    cancelTextStyle: {
+        color: '#007AFF',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
 });
 
 export default styles;

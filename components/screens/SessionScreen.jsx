@@ -1,53 +1,20 @@
 import { useState } from 'react';
 
-import { Button, Alert, View, Text, Pressable, StatusBar, ScrollView, Modal } from "react-native";
+import { View, Text, Pressable, StatusBar, ScrollView, ActivityIndicator } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { TimerPickerModal } from "react-native-timer-picker";
-import ModalSelector from 'react-native-modal-selector'
+
+import SelectorWrapper from '../SelectorWrapper'
 
 import dayjs from 'dayjs';
 
 import styles from "../../style-sheets/session-style"
 import appStyles from "../../style-sheets/app-style"
 
-let climbingWallIndex = 0;
-const climbingWallData = [
-  { key: climbingWallIndex++, section: true, label: 'Walls' },
-  { key: climbingWallIndex++, label: 'Climbing Works' },
-  { key: climbingWallIndex++, label: 'Sheffield Depot' },
-  { key: climbingWallIndex++, label: 'Sheffield Hanger' },
-  { key: climbingWallIndex++, label: 'Nottingham Depot' }
-];
-
-const climbList = [
-  {
-    climb_id: 1,
-    session_id: 1,
-    grade_id: 51,
-    grade_label: '6b+',
-    grade_system_id: 3,
-    grade_system_label: 'Font',
-    climb_type_id: 2,
-    climb_type_label: 'Boulder (font)',
-    climb_outcome_id: 1,
-    climb_outcome_label: 'Onsight (first attempt - no beta)'
-  },
-  {
-    climb_id: 2,
-    session_id: 1,
-    grade_id: 34,
-    grade_label: 'V6',
-    grade_system_id: 2,
-    grade_system_label: 'V',
-    climb_type_id: 1,
-    climb_type_label: 'Boulder (V)',
-    climb_outcome_id: 2,
-    climb_outcome_label: 'Flash (first attempt - with beta)'
-  }
-]
+import { climbList, climbTypeList, outcomesList, gradesList } from './screenSessionData'
 
 export default function SessionScreen({ navigation }) {
 
@@ -62,12 +29,43 @@ export default function SessionScreen({ navigation }) {
   const [datePickerOpen, setDatePickerOpen] = useState(false);
   const [timePickerOpen, setTimePickerOpen] = useState(false);
   const [durationPickerOpen, setDurationPickerOpen] = useState(false);
+  const [addClimbOpen, setAddClimbOpen] = useState(false);
+
+  const [climbType, setClimbType] = useState(null);
+  const [climbGrade, setClimbGrade] = useState(null);
+  const [climbOutcome, setClimbOutcome] = useState(null);
+
+  const [newClimb, setNewClimb] = useState({})
+
+  const [savingSession, setSavingSession] = useState(false)
+  const [savingClimb, setSavingClimb] = useState(false)
+
+  const climbOutcomeLookup = {
+    "Onsight (first attempt - no beta)": "Onsight",
+    "Flash (first attempt - with beta)": "Flash",
+    "Redpoint (multiple attempts)": "Redpoint",
+    "Repeat ascent": "Repeat",
+    "Still working on it": "Working"
+  }
+
+  const climbTypeToGradeSystemLookup = {
+    1: 2,
+    2: 3,
+    3: 1,
+    4: 1,
+    5: 1
+  }
 
   let formattedDate, formattedTime;
   sessionDate ? formattedDate = dayjs(sessionDate).format('DD/MM/YYYY') : formattedDate = "-";
   sessionTime ? formattedTime = dayjs(sessionTime).format('HH:mm:ss') : formattedTime = "-";
 
-  const [addClimbOpen, setAddClimbOpen] = useState(false);
+  let filteredGradesList = gradesList;
+  if(climbType) {
+    filteredGradesList = gradesList.filter(grade => {
+      return grade.category === climbTypeToGradeSystemLookup[climbType.value];
+    })
+  }
 
   const handlePressEditButton = () => {
     setEditSession(!editSession)
@@ -117,19 +115,20 @@ export default function SessionScreen({ navigation }) {
   };
 
   const handleDurationConfirmation = (pickedDuration) => {
-    console.log(formatTime(pickedDuration))
     setSessionDuration(formatTime(pickedDuration));
     setDurationPickerOpen(false);
   }
 
   const handleWallChange = (wall) => {
-    console.log(wall.label)
-    console.log(sessionWall)
     setSessionWall(wall.label)
   }
 
   const handleSessionSave = () => {
-    console.log("save the data!!!")
+    setSavingSession(true);
+  }
+
+  const handleClimbSave = () => {
+    setSavingClimb(true);
   }
 
   const handlePressAddClimb = () => {
@@ -140,26 +139,92 @@ export default function SessionScreen({ navigation }) {
     setAddClimbOpen(false);
   }
 
+  const handleSelectClimbType = (type) => {
+    setClimbType(type)
+    setNewClimb({ ...newClimb, climb_id: type.value })
+  }
+
+  const handleSelectClimbGrade = (grade) => {
+    setClimbGrade(grade.label)
+    setNewClimb({ ...newClimb, grade_id: grade.value })
+  }
+
+  const handleSelectClimbOutcome = (outcome) => {
+    setClimbOutcome(outcome.label)
+    setNewClimb({ ...newClimb, climb_outcome_id: outcome.value })
+  }
+
+  let climbingWallIndex = 0;
+  const climbingWallData = [
+    { key: climbingWallIndex++, section: true, label: 'Walls' },
+    { key: climbingWallIndex++, label: 'Climbing Works', value: 1 },
+    { key: climbingWallIndex++, label: 'Sheffield Depot', value: 2 },
+    { key: climbingWallIndex++, label: 'Sheffield Hanger', value: 3 },
+    { key: climbingWallIndex++, label: 'Nottingham Depot', value: 4 }
+  ];
+
+  let climbTypeData = climbTypeList.map(climbType => {
+    return { key: climbType.id, label: climbType.description, value: climbType.id }
+  })
+  climbTypeData.unshift({ key: 0, section: true, label: 'Type of climbing' })
+
+  let climbGradesData = filteredGradesList.map(grade => {
+    return { key: grade.id, label: grade.grade, value: grade.id }
+  })
+  climbGradesData.unshift({ key: 0, section: true, label: 'Grade' })
+
+  let climbOutcomesData = outcomesList.map(outcome => {
+    return { key: outcome.id, label: outcome.description, value: outcome.id }
+  })
+  climbOutcomesData.unshift({ key: 0, section: true, label: 'Outcome' })
+
+  let climbTypeBox =
+    <View style={styles.climbIconBox}>
+      <MaterialCommunityIcons name="carabiner" size={32} color="grey" />
+      <Text style={styles.climbItem}>Type</Text>
+      <Ionicons name="caret-down-outline" size={15} color="black" />
+    </View>
+
+  if (climbType) {
+    climbTypeBox =
+      <View style={styles.climbIconBox}>
+        <Text style={[styles.climbItem, { color: 'red', fontWeight: 'bold' }]}>{climbType.label}</Text>
+        <Ionicons name="caret-down-outline" size={15} color="black" />
+      </View>
+  }
+
+  let climbGradeBox =
+    <View style={styles.climbIconBox}>
+      <MaterialCommunityIcons name="arm-flex-outline" size={32} color={climbType ? "orange" : 'lightgrey'} />
+      <Text style={[styles.climbItem, { color: climbType ? "black" : 'lightgrey' }]}>Grade</Text>
+      <Ionicons name="caret-down-outline" size={15} color={climbType ? "black" : 'lightgrey'} />
+    </View>
+
+  if (climbGrade) {
+    climbGradeBox =
+      <View style={styles.climbIconBox}>
+        <Text style={[styles.climbItem, { color: 'orange', fontWeight: 'bold' }]}>{climbGrade}</Text>
+        <Ionicons name="caret-down-outline" size={15} color="black" />
+      </View>
+  }
+
+  let climbOutcomeBox =
+    <View style={styles.climbIconBox}>
+      <MaterialCommunityIcons name="check-bold" size={32} color={climbType ? "green" : 'lightgrey'} />
+      <Text style={[styles.climbItem, { color: climbType ? "black" : 'lightgrey' }]}>Outcome</Text>
+      <Ionicons name="caret-down-outline" size={15} color={climbType ? "black" : 'lightgrey'} />
+    </View>
+
+  if (climbOutcome) {
+    climbOutcomeBox =
+      <View style={styles.climbIconBox}>
+        <Text style={[styles.climbItem, { color: 'green', fontWeight: 'bold' }]}>{climbOutcomeLookup[climbOutcome]}</Text>
+        <Ionicons name="caret-down-outline" size={15} color="black" />
+      </View>
+  }
+
   return (
     <ScrollView>
-
-      {/* <Modal
-        animationType="fade"
-        transparent={true}
-        visible={addClimbOpen}
-        onRequestClose={handleCloseAddClimb}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => handleCloseAddClimb(!modalVisible)}>
-              <Text style={styles.textStyle}>Cancel</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal> */}
 
       <View style={styles.screenContainer}>
         <StatusBar hidden={true} />
@@ -204,24 +269,15 @@ export default function SessionScreen({ navigation }) {
           <View>
 
             <Text style={styles.sessionInfoLabel}>Climbing Wall</Text>
-            <ModalSelector
-              data={climbingWallData}
-              disabled={!editSession}
-              cancelText="Cancel"
-              initValue="Climbing Works"
-              supportedOrientations={['landscape']}
-              accessible={true}
-              scrollViewAccessibilityLabel={'Scrollable options'}
-              cancelButtonAccessibilityLabel={'Cancel Button'}
-              onChange={handleWallChange}
-            >
+
+            <SelectorWrapper data={climbingWallData} disabled={!editSession} handler={handleWallChange}>
               <View style={editSession ? styles.sessionInfoEditBox : styles.sessionInfoBox}>
                 <Text style={styles.sessionInfoItem}>
                   {sessionWall}
                 </Text>
                 {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
               </View>
-            </ModalSelector>
+            </SelectorWrapper>
 
             <Text style={styles.sessionInfoLabel}>Session date</Text>
             <Pressable onPress={showDatePicker} disabled={!editSession}>
@@ -247,7 +303,6 @@ export default function SessionScreen({ navigation }) {
               </View>
             </Pressable>
 
-
             <Text style={styles.sessionInfoLabel}>Number of climbs recorded</Text>
             <Text style={styles.sessionInfoItem}>{
               climbList.length > 1 ?
@@ -256,41 +311,81 @@ export default function SessionScreen({ navigation }) {
             </Text>
 
             {editSession &&
+              savingSession ?
+              <ActivityIndicator size={"large"} color={"#007AFF"} style={{ marginVertical: 10 }
+              } /> :
               <Pressable onPress={handleSessionSave}>
-                <View style={styles.saveButton}>
+                <View style={styles.saveSessionButton}>
                   <Text style={styles.sessionInfoLabel}>Save changes</Text>
                 </View>
-              </Pressable>}
+              </Pressable>
+            }
 
           </View>
         </View >
 
         <View style={styles.headerInfoBox}>
           <Text style={appStyles.h3}>Climbs</Text>
-          <Pressable onPress={handlePressAddClimb} hitSlop={100}>
-            <Ionicons name="add-circle-outline" size={24} color="black" />
-          </Pressable>
+          {addClimbOpen ?
+            < Pressable onPress={handleCloseAddClimb} hitSlop={100}>
+              <Ionicons name="remove-circle-outline" size={24} color="black" />
+            </Pressable> :
+            < Pressable onPress={handlePressAddClimb} hitSlop={100}>
+              <Ionicons name="add-circle-outline" size={24} color="black" />
+            </Pressable>
+          }
         </View>
-
 
         <View style={styles.climbListContainer}>
 
-          <View style={styles.climbContainer}>
-            <Text style={styles.climbItem}>Climb type</Text>
-            <Text style={styles.climbItem}>Grade</Text>
-            <Text style={styles.climbItem}>Outcome</Text>
-          </View>
+          {addClimbOpen &&
+            <View>
+              <View style={styles.climbContainer}>
+
+                <SelectorWrapper data={climbTypeData} disabled={false} handler={handleSelectClimbType}>
+                  {climbTypeBox}
+                </SelectorWrapper>
+
+                <SelectorWrapper data={climbGradesData} disabled={!climbType} handler={handleSelectClimbGrade}>
+                  {climbGradeBox}
+                </SelectorWrapper>
+
+                <SelectorWrapper data={climbOutcomesData} disabled={!climbType} handler={handleSelectClimbOutcome}>
+                  {climbOutcomeBox}
+                </SelectorWrapper>
+
+              </View>
+
+              {savingClimb ?
+                <ActivityIndicator size={"large"} color={"#007AFF"} style={{ marginVertical: 10 }} /> :
+                <Pressable onPress={handleClimbSave}>
+                  <Text style={styles.saveClimbButton}>Save climb</Text>
+                </Pressable>
+              }
+
+
+            </View>
+          }
 
           {climbList.map((climb) => (
             <View style={styles.climbContainer} key={climb.climb_id}>
-              <Text style={styles.climbItem}>{climb.climb_type_label}</Text>
-              <Text style={styles.climbItem}>{climb.grade_label}</Text>
-              <Text style={styles.climbItem}>{climb.climb_outcome_label}</Text>
+              <View style={styles.climbIconBox}>
+                <Text style={styles.climbItem}>{climb.climb_type_label}</Text>
+              </View>
+
+              <View style={styles.climbIconBox}>
+                <Text style={styles.climbItem}>{climb.grade_label}</Text>
+              </View>
+
+              <View style={styles.climbIconBox}>
+                <Text style={styles.climbItem}>{climbOutcomeLookup[climb.climb_outcome_label]}</Text>
+              </View>
+
             </View>
           ))}
         </View>
       </View>
-    </ScrollView>
+    </ScrollView >
 
   )
 }
