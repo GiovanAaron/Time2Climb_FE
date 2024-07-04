@@ -7,6 +7,7 @@ export default function Session({ sessionData }) {
 
     const handleDelete = () => {
         // TODO: update when BE APIs integrated
+        // TODO: add confirmation of deletion
     };
 
     const handleEdit = () => {
