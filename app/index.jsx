@@ -57,7 +57,7 @@ function ProfileStack() {
 
 function TabNavigator() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <Tab.Navigator>
       <Tab.Screen
         name="Home"
         component={HomeStack}
@@ -105,7 +105,7 @@ function LandingNavigator() {
 
 function Index() {
   return (
-    <LandingNavigator />
+    <LandingNavigator/>
   )
 }
 
