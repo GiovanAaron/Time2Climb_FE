@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, FlatList, Image } from "react-native";
 import CustomButton from './Button';
 
 export default function HomeScreen({ navigation }) {
@@ -52,19 +52,33 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     btnGrid: {
-        marginHorizontal: '"auto"',
-        width: '90%',
-        flexDirection: "row",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        borderColor: 'black',
-        borderWidth: 4,
-        borderRadius: 15,
-        height: 'auto',
-        padding: 3
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around', // or 'space-around' based on preference
+        flex: 1, // Adjust the flex property as needed
+        maxWidth: '90%',
     },
     btn: {
-        maxWidth: '33%',
-        marginVertical: 80
+        maxWidth: '30%',
+        alignItems: "center"
     }
 });
+
+// const borderStyles = StyleSheet.create({
+//     btnGrid: {
+//         marginHorizontal: '"auto"',
+//         width: '90%',
+//         flexDirection: "row",
+//         flexWrap: "wrap",
+//         justifyContent: "center",
+//         borderColor: 'black',
+//         borderWidth: 4,
+//         borderRadius: 15,
+//         height: 'auto',
+//         padding: 3
+//     },
+//     btn: {
+//         maxWidth: '33%',
+//         // marginVertical: 80
+//     }
+// });

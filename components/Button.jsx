@@ -22,17 +22,17 @@ const customBtnStyles = StyleSheet.create({
     button: {
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 20,
-        borderRadius: 20,
+        paddingVertical: 5,
+        paddingHorizontal: 0,
+        borderRadius: 12,
         elevation: 3,
         backgroundColor: 'cornflowerblue',
         marginVertical: 3,
-        marginHorizontal: 2
+        minWidth: '30%'
     },
     text: {
-        fontSize: 16,
-        lineHeight: 21,
+        fontSize: 14,
+        lineHeight: 20,
         fontWeight: 'bold',
         letterSpacing: 0.25,
         color: 'black',
