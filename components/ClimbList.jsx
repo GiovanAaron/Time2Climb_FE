@@ -1,7 +1,7 @@
 import { climbList, climbTypeList, outcomesList, gradesList } from './screens/screenSessionData'
-import { Alert, View, Text, Pressable, ActivityIndicator } from "react-native";
+import { Modal, Alert, View, Text, Pressable, ActivityIndicator } from "react-native";
 import { useState } from 'react';
-
+import _ from 'lodash';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -11,15 +11,19 @@ import appStyles from "../style-sheets/app-style"
 
 import SelectorWrapper from './SelectorWrapper'
 
-export default function ClimbList({ }) {
+export default function ClimbList({ editSession }) {
 
     const [climbType, setClimbType] = useState(null);
     const [climbGrade, setClimbGrade] = useState(null);
     const [climbOutcome, setClimbOutcome] = useState(null);
+    const [climbListLocal, setClimbListLocal] = useState(climbList);
 
     const [newClimb, setNewClimb] = useState({})
     const [savingClimb, setSavingClimb] = useState(false)
     const [addClimbOpen, setAddClimbOpen] = useState(false);
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+
+    const [deleteClimbId, setDeleteClimbId] = useState(null);
 
     const climbOutcomeShortLabelLookup = {
         "Onsight (first attempt - no beta)": "Onsight",
@@ -112,40 +116,96 @@ export default function ClimbList({ }) {
         }
     }
 
-    const handlePressAddClimb = () => {
-        setAddClimbOpen(true);
+    const handlePressDeleteClimbButton = (climb_id) => {
+        setDeleteModalVisible(true)
+        setDeleteClimbId(climb_id)
     }
 
-    const handleCloseAddClimb = () => {
-        setAddClimbOpen(false);
+    const handleConfirmDelete = () => {
+        Alert.alert('Climb deleted!', '')
+        setDeleteModalVisible(false);
     }
 
-    const handleSelectClimbType = (type) => {
-        setClimbType(type)
-        setNewClimb({ ...newClimb, climb_type_id: type.value })
+    const handleToggleAddClimb = () => {
+        setAddClimbOpen(!addClimbOpen);
     }
 
-    const handleSelectClimbGrade = (grade) => {
-        setClimbGrade(grade.label)
-        setNewClimb({ ...newClimb, grade_id: grade.value })
+
+    const handleSelectClimbType = (type, climb_id) => {
+        if (climb_id) {
+            const climbListLocalCopy = _.cloneDeep(climbListLocal);
+            const selectedClimb = climbListLocalCopy.find(climbItem => {
+                return climbItem.climb_id === climb_id
+            })
+            selectedClimb.climb_type_label = type.label
+            selectedClimb.climb_type_id = type.value
+
+            setClimbListLocal(climbListLocalCopy)
+
+        } else {
+            setClimbType(type)
+            setNewClimb({ ...newClimb, climb_type_id: type.value })
+        }
     }
 
-    const handleSelectClimbOutcome = (outcome) => {
-        setClimbOutcome(outcome.label)
-        setNewClimb({ ...newClimb, climb_outcome_id: outcome.value })
+    const handleSelectClimbGrade = (grade, climb_id) => {
+        if (climb_id) {
+            const climbListLocalCopy = _.cloneDeep(climbListLocal);
+            const selectedClimb = climbListLocalCopy.find(climbItem => {
+                return climbItem.climb_id === climb_id
+            })
+            selectedClimb.grade_label = grade.label
+            selectedClimb.grade_id = grade.value
+
+            setClimbListLocal(climbListLocalCopy)
+
+        } else {
+            setClimbGrade(grade.label)
+            setNewClimb({ ...newClimb, grade_id: grade.value })
+        }
+    }
+
+    const handleSelectClimbOutcome = (outcome, climb_id) => {
+        if (climb_id) {
+            const climbListLocalCopy = _.cloneDeep(climbListLocal);
+            const selectedClimb = climbListLocalCopy.find(climbItem => {
+                return climbItem.climb_id === climb_id
+            })
+            selectedClimb.climb_outcome_label = outcome.label
+            selectedClimb.climb_outcome_id = outcome.value
+
+            setClimbListLocal(climbListLocalCopy)
+
+        } else {
+            setClimbOutcome(outcome.label)
+            setNewClimb({ ...newClimb, climb_outcome_id: outcome.value })
+        }
+
     }
 
     return (
+
         <View style={styles.sectionContainer}>
+
             <View style={styles.headerInfoBox}>
                 <Text style={appStyles.h3}>Climbs</Text>
-                {addClimbOpen ?
-                    < Pressable onPress={handleCloseAddClimb} hitSlop={50}>
-                        <Ionicons name="remove-circle-outline" size={24} color="black" />
-                    </Pressable> :
-                    < Pressable onPress={handlePressAddClimb} hitSlop={50}>
-                        <Ionicons name="add-circle-outline" size={24} color="black" />
-                    </Pressable>
+                {editSession &&
+                    <View>
+                        {addClimbOpen ?
+                            <View style={{ flexDirection: 'row', columnGap: 5, alignItems: 'center' }}>
+                                <Text>Hide</Text>
+                                < Pressable onPress={handleToggleAddClimb} hitSlop={50}>
+                                    <Ionicons name="remove-circle-outline" size={24} color="black" />
+                                </Pressable>
+                            </View> :
+                            <View style={{ flexDirection: 'row', columnGap: 5, alignItems: 'center' }}>
+                                <Text>Add climb</Text>
+                                <Pressable onPress={handleToggleAddClimb} hitSlop={50}>
+                                    <Ionicons name="add-circle-outline" size={24} color="black" />
+                                </Pressable>
+                            </View>
+                        }
+                    </View>
                 }
             </View>
 
@@ -179,7 +239,7 @@ export default function ClimbList({ }) {
                                         [styles.saveClimbButton, styles.saveButtonNull]
                                     }
                                 >
-                                    Save climb
+                                    Add climb
                                 </Text>
                             </Pressable>
                         }
@@ -188,21 +248,60 @@ export default function ClimbList({ }) {
                     </View>
                 }
 
-                {climbList.map((climb) => (
+                {climbListLocal.map((climb) => (
+
                     <View style={styles.climbContainer} key={climb.climb_id}>
+
                         <View style={styles.climbIconBox}>
-                            <Text style={styles.climbItem}>{climb.climb_type_label}</Text>
+                            <SelectorWrapper data={climbTypeData} disabled={!editSession} handler={(type) => handleSelectClimbType(type, climb.climb_id)}>
+                                <Text style={[styles.climbItem, { minHeight: 55 }]}>{climb.climb_type_label}</Text>
+                            </SelectorWrapper>
+                            {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
                         </View>
 
                         <View style={styles.climbIconBox}>
-                            <Text style={styles.climbItem}>{climb.grade_label}</Text>
+                            <SelectorWrapper data={climbGradesData} disabled={!editSession} handler={(grade) => handleSelectClimbGrade(grade, climb.climb_id)}>
+                                <Text style={[styles.climbItem, { minHeight: 55 }]}>{climb.grade_label}</Text>
+                            </SelectorWrapper>
+                            {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
                         </View>
 
                         <View style={styles.climbIconBox}>
-                            <Text style={styles.climbItem}>{climbOutcomeShortLabelLookup[climb.climb_outcome_label]}</Text>
+                            <SelectorWrapper data={climbOutcomesData} disabled={!editSession} handler={(outcome) => handleSelectClimbOutcome(outcome, climb.climb_id)}>
+                                <Text style={[styles.climbItem, { minHeight: 55 }]}>{climbOutcomeShortLabelLookup[climb.climb_outcome_label]}</Text>
+                            </SelectorWrapper>
+                            {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
                         </View>
+                        {editSession &&
+                            <Pressable onPress={() => handlePressDeleteClimbButton(climb.climb_id)} hitSlop={10}>
+                                <Ionicons name="trash-sharp" size={24} color="red" />
+                            </Pressable>
+                        }
 
+                        <Modal
+                            animationType="slide"
+                            transparent={true}
+                            visible={deleteModalVisible}
+                            onRequestClose={() => setDeleteModalVisible(false)}
+                        >
+                            <View style={styles.modalOverlay}>
+                                <View style={styles.modalContainer}>
+                                    <Text style={[styles.modalText, { color: 'red', fontSize: 20 }]}>Confirm delete climb?</Text>
+                                    <Text style={[styles.modalText, { fontSize: 16 }]}>This cannot be undone</Text>
+                                    <View style={styles.modalOptions}>
+                                        <Pressable onPress={() => setDeleteModalVisible(false)} hitSlop={50}>
+                                            <Text style={styles.modalOptionsText}>Cancel</Text>
+                                        </Pressable>
+                                        <Pressable onPress={handleConfirmDelete} hitSlop={50}>
+                                            <Text style={styles.modalOptionsText}>Confirm</Text>
+                                        </Pressable>
+                                    </View>
+                                </View>
+                            </View>
+
+                        </Modal>
                     </View>
+
                 ))}
             </View>
         </View>

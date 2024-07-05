@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Alert, View, Text, Pressable, StatusBar, ActivityIndicator } from "react-native";
+import { Modal, Alert, View, Text, Pressable, ActivityIndicator } from "react-native";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -16,10 +16,9 @@ import styles from "../style-sheets/session-style"
 import appStyles from "../style-sheets/app-style"
 
 
-export default function SessionInfo() {
+export default function SessionInfo({ editSession, setEditSession }) {
 
     const [sessionWall, setSessionWall] = useState(null)
-    const [editSession, setEditSession] = useState(false);
 
     const [sessionDate, setSessionDate] = useState(null);
     const [sessionTime, setSessionTime] = useState(null);
@@ -30,6 +29,7 @@ export default function SessionInfo() {
     const [durationPickerOpen, setDurationPickerOpen] = useState(false);
 
     const [savingSession, setSavingSession] = useState(false)
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
     const formatTime = ({
         hours,
@@ -49,12 +49,21 @@ export default function SessionInfo() {
     let formattedDate, formattedTime, formattedWall, formattedDuration;
     sessionDate ? formattedDate = dayjs(sessionDate).format('DD/MM/YYYY') : formattedDate = "-";
     sessionTime ? formattedTime = dayjs(sessionTime).format('HH:mm:ss') : formattedTime = "-";
-    sessionWall ? formattedWall =  sessionWall: formattedWall = "-";
+    sessionWall ? formattedWall = sessionWall : formattedWall = "-";
     sessionDuration ? formattedDuration = sessionDuration : formattedDuration = "-";
 
 
     const handlePressEditButton = () => {
         setEditSession(!editSession)
+    }
+
+    const handlePressDeleteButton = () => {
+        setDeleteModalVisible(true);
+    }
+
+    const handleConfirmDelete = () => {
+        Alert.alert('Session deleted!', '')
+        setDeleteModalVisible(false);
     }
 
     const showDatePicker = () => {
@@ -125,6 +134,30 @@ export default function SessionInfo() {
                 hideSeconds={true}
             />
 
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={deleteModalVisible}
+                onRequestClose={() => setDeleteModalVisible(false)}
+            >
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContainer}>
+                        <Text style={[styles.modalText, { color: 'red', fontSize: 20 }]}>Confirm delete session?</Text>
+                        <Text style={[styles.modalText, { fontSize: 16 }]}>This cannot be undone</Text>
+                        <View style={styles.modalOptions}>
+                            <Pressable onPress={() => setDeleteModalVisible(false)} hitSlop={50}>
+                                <Text style={styles.modalOptionsText}>Cancel</Text>
+                            </Pressable>
+                            <Pressable onPress={handleConfirmDelete} hitSlop={50}>
+                                <Text style={styles.modalOptionsText}>Confirm</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </View>
+
+            </Modal>
+
+
             {datePickerOpen && <
                 RNDateTimePicker
                 value={new Date()}
@@ -139,12 +172,22 @@ export default function SessionInfo() {
             />}
 
             <View style={styles.headerInfoBox}>
-                <Text style={appStyles.h3}>Session Info</Text>
+                <View style={{ flexDirection: 'row', columnGap: 5, alignItems: 'center' }}>
+                    <Text style={appStyles.h3}>Session Info
+                    </Text>
+                    {editSession &&
+                        <Pressable onPress={handlePressDeleteButton} hitSlop={50}>
+                            <Ionicons name="trash-sharp" size={24} color="red" />
+                        </Pressable>
+                    }
+                </View>
                 {editSession ?
-                    <Pressable onPress={handlePressEditButton} hitSlop={100}>
-                        <MaterialCommunityIcons name="pencil-off-outline" size={24} color="black" />
-                    </Pressable> :
-                    <Pressable onPress={handlePressEditButton} hitSlop={100}>
+                    <View>
+                        <Pressable onPress={handlePressEditButton} hitSlop={50}>
+                            <MaterialCommunityIcons name="pencil-off-outline" size={24} color="black" />
+                        </Pressable>
+                    </View> :
+                    <Pressable onPress={handlePressEditButton} hitSlop={50}>
                         <MaterialCommunityIcons name="pencil-outline" size={24} color="black" />
                     </Pressable>
                 }
@@ -216,6 +259,7 @@ export default function SessionInfo() {
                             Save session
                         </Text>
                     </Pressable>}
+
 
             </View >
         </View >
