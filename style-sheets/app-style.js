@@ -12,7 +12,7 @@ const appStyles = StyleSheet.create({
       textAlign: 'center'
     },
     h3: {
-      fontSize: 24,
+      fontSize: 28,
       fontWeight: 'bold'
     }
   });
