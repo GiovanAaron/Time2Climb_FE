@@ -11,7 +11,7 @@ const appStyles = StyleSheet.create({
       width: '50%',
       textAlign: 'center'
     },
-    h3: {
+    h2: {
       fontSize: 28,
       fontWeight: 'bold'
     }

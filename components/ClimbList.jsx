@@ -189,7 +189,7 @@ export default function ClimbList({ editSession }) {
         <View style={styles.sectionContainer}>
 
             <View style={styles.headerInfoBox}>
-                <Text style={appStyles.h3}>Climbs</Text>
+                <Text style={appStyles.h2}>Climbs</Text>
                 {editSession &&
                     <View>
                         {addClimbOpen ?

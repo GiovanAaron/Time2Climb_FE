@@ -173,7 +173,7 @@ export default function SessionInfo({ editSession, setEditSession }) {
             />}
 
             <View style={styles.headerInfoBox}>
-                <Text style={appStyles.h3}>Session Info
+                <Text style={appStyles.h2}>Session Info
                 </Text>
 
                 {editSession ?
