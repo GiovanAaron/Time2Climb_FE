@@ -5,7 +5,7 @@ export default function ButtonAction(props) {
     const { onPress, icon } = props;
 
     return (
-        <Pressable style={customBtnStyles.button} onPress={onPress}>
+        <Pressable style={customBtnStyles.button} onPress={onPress} hitSlop={25}>
             <View style={customBtnStyles.iconContainer}>
                 {icon}
             </View>

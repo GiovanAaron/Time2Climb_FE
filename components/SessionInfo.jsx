@@ -4,6 +4,7 @@ import { Modal, Alert, View, Text, Pressable, ActivityIndicator } from "react-na
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import ButtonAction from './ButtonAction';
 
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { TimerPickerModal } from "react-native-timer-picker";
@@ -172,24 +173,24 @@ export default function SessionInfo({ editSession, setEditSession }) {
             />}
 
             <View style={styles.headerInfoBox}>
-                <View style={{ flexDirection: 'row', columnGap: 5, alignItems: 'center' }}>
-                    <Text style={appStyles.h3}>Session Info
-                    </Text>
-                    {editSession &&
-                        <Pressable onPress={handlePressDeleteButton} hitSlop={50}>
-                            <Ionicons name="trash-sharp" size={24} color="red" />
-                        </Pressable>
-                    }
-                </View>
+                <Text style={appStyles.h3}>Session Info
+                </Text>
+
                 {editSession ?
-                    <View>
-                        <Pressable onPress={handlePressEditButton} hitSlop={50}>
-                            <MaterialCommunityIcons name="pencil-off-outline" size={24} color="black" />
-                        </Pressable>
-                    </View> :
-                    <Pressable onPress={handlePressEditButton} hitSlop={50}>
-                        <MaterialCommunityIcons name="pencil-outline" size={24} color="black" />
-                    </Pressable>
+                    <View style={{ flexDirection: 'row', columnGap: 5, alignItems: 'center' }}>
+                        <ButtonAction
+                            icon={<Ionicons name="trash-sharp" size={24} color="red" />}
+                            onPress={handlePressDeleteButton}
+                        />
+                        <ButtonAction
+                            icon={<MaterialCommunityIcons name="pencil-off-outline" size={24} color="blue" />}
+                            onPress={handlePressEditButton} />
+                    </View>
+                    :
+                    <ButtonAction
+                        icon={<MaterialCommunityIcons name="pencil-outline" size={24} color="blue" />}
+                        onPress={handlePressEditButton}
+                    />
                 }
             </View>
 
@@ -198,7 +199,7 @@ export default function SessionInfo({ editSession, setEditSession }) {
                 <Text style={styles.sessionInfoLabel}>Climbing Wall</Text>
 
                 <SelectorWrapper data={climbingWallData} disabled={!editSession} handler={handleWallChange}>
-                    <View style={editSession ? styles.sessionInfoEditBox : styles.sessionInfoBox}>
+                    <View style={editSession ? styles.sessionInfoBox : styles.sessionInfoBox}>
                         <Text style={styles.sessionInfoItem}>
                             {formattedWall}
                         </Text>
@@ -208,7 +209,7 @@ export default function SessionInfo({ editSession, setEditSession }) {
 
                 <Text style={styles.sessionInfoLabel}>Session date</Text>
                 <Pressable onPress={showDatePicker} disabled={!editSession}>
-                    <View style={editSession ? styles.sessionInfoEditBox : styles.sessionInfoBox}>
+                    <View style={editSession ? styles.sessionInfoBox : styles.sessionInfoBox}>
                         <Text style={styles.sessionInfoItem}>
                             {formattedDate}
                         </Text>
@@ -218,7 +219,7 @@ export default function SessionInfo({ editSession, setEditSession }) {
 
                 <Text style={styles.sessionInfoLabel}>Session start time</Text>
                 <Pressable onPress={showTimePicker} disabled={!editSession}>
-                    <View style={editSession ? styles.sessionInfoEditBox : styles.sessionInfoBox}>
+                    <View style={editSession ? styles.sessionInfoBox : styles.sessionInfoBox}>
                         <Text style={styles.sessionInfoItem}>
                             {formattedTime}
                         </Text>
@@ -228,7 +229,7 @@ export default function SessionInfo({ editSession, setEditSession }) {
 
                 <Text style={styles.sessionInfoLabel}>Session duration</Text>
                 <Pressable onPress={showDurationPicker} disabled={!editSession}>
-                    <View style={editSession ? styles.sessionInfoEditBox : styles.sessionInfoBox}>
+                    <View style={editSession ? styles.sessionInfoBox : styles.sessionInfoBox}>
                         <Text style={styles.sessionInfoItem}>
                             {formattedDuration}
                         </Text>

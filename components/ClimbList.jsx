@@ -2,6 +2,7 @@ import { climbList, climbTypeList, outcomesList, gradesList } from './screens/sc
 import { Modal, Alert, View, Text, Pressable, ActivityIndicator } from "react-native";
 import { useState } from 'react';
 import _ from 'lodash';
+import ButtonAction from './ButtonAction';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -64,7 +65,7 @@ export default function ClimbList({ editSession }) {
     climbOutcomesData.unshift({ key: 0, section: true, label: 'Outcome' })
 
     let climbTypeBox =
-        <View style={styles.climbIconBox}>
+        <View style={[styles.climbIconBox, { borderColor: 'red' }]}>
             <MaterialCommunityIcons name="carabiner" size={32} color="grey" />
             <Text style={styles.climbItem}>Type</Text>
             <Ionicons name="caret-down-outline" size={15} color="black" />
@@ -72,14 +73,14 @@ export default function ClimbList({ editSession }) {
 
     if (climbType) {
         climbTypeBox =
-            <View style={styles.climbIconBox}>
+            <View style={[styles.climbIconBox, { borderColor: 'red' }]}>
                 <Text style={[styles.climbItem, { color: 'red', fontWeight: 'bold' }]}>{climbType.label}</Text>
                 <Ionicons name="caret-down-outline" size={15} color="black" />
             </View>
     }
 
     let climbGradeBox =
-        <View style={styles.climbIconBox}>
+        <View style={[styles.climbIconBox, { borderColor: 'orange' }]}>
             <MaterialCommunityIcons name="arm-flex-outline" size={32} color={climbType ? "orange" : 'lightgrey'} />
             <Text style={[styles.climbItem, { color: climbType ? "black" : 'lightgrey' }]}>Grade</Text>
             <Ionicons name="caret-down-outline" size={15} color={climbType ? "black" : 'lightgrey'} />
@@ -87,7 +88,7 @@ export default function ClimbList({ editSession }) {
 
     if (climbGrade) {
         climbGradeBox =
-            <View style={styles.climbIconBox}>
+            <View style={[styles.climbIconBox, { borderColor: 'orange' }]}>
                 <Text style={[styles.climbItem, { color: 'orange', fontWeight: 'bold' }]}>{climbGrade}</Text>
                 <Ionicons name="caret-down-outline" size={15} color="black" />
             </View>
@@ -194,15 +195,17 @@ export default function ClimbList({ editSession }) {
                         {addClimbOpen ?
                             <View style={{ flexDirection: 'row', columnGap: 5, alignItems: 'center' }}>
                                 <Text>Hide</Text>
-                                < Pressable onPress={handleToggleAddClimb} hitSlop={50}>
-                                    <Ionicons name="remove-circle-outline" size={24} color="black" />
-                                </Pressable>
+                                <ButtonAction
+                                    icon={<Ionicons name="remove-circle-outline" size={24} color="black" />}
+                                    onPress={handleToggleAddClimb}
+                                />
                             </View> :
                             <View style={{ flexDirection: 'row', columnGap: 5, alignItems: 'center' }}>
                                 <Text>Add climb</Text>
-                                <Pressable onPress={handleToggleAddClimb} hitSlop={50}>
-                                    <Ionicons name="add-circle-outline" size={24} color="black" />
-                                </Pressable>
+                                <ButtonAction
+                                    icon={<Ionicons name="add-circle-outline" size={24} color="black" />}
+                                    onPress={handleToggleAddClimb}
+                                />
                             </View>
                         }
                     </View>
@@ -250,56 +253,63 @@ export default function ClimbList({ editSession }) {
 
                 {climbListLocal.map((climb) => (
 
-                    <View style={styles.climbContainer} key={climb.climb_id}>
+                    <View>
 
-                        <View style={styles.climbIconBox}>
-                            <SelectorWrapper data={climbTypeData} disabled={!editSession} handler={(type) => handleSelectClimbType(type, climb.climb_id)}>
-                                <Text style={[styles.climbItem, { minHeight: 55 }]}>{climb.climb_type_label}</Text>
-                            </SelectorWrapper>
-                            {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
-                        </View>
+                        <View style={styles.climbContainer} key={climb.climb_id}>
 
-                        <View style={styles.climbIconBox}>
-                            <SelectorWrapper data={climbGradesData} disabled={!editSession} handler={(grade) => handleSelectClimbGrade(grade, climb.climb_id)}>
-                                <Text style={[styles.climbItem, { minHeight: 55 }]}>{climb.grade_label}</Text>
-                            </SelectorWrapper>
-                            {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
-                        </View>
-
-                        <View style={styles.climbIconBox}>
-                            <SelectorWrapper data={climbOutcomesData} disabled={!editSession} handler={(outcome) => handleSelectClimbOutcome(outcome, climb.climb_id)}>
-                                <Text style={[styles.climbItem, { minHeight: 55 }]}>{climbOutcomeShortLabelLookup[climb.climb_outcome_label]}</Text>
-                            </SelectorWrapper>
-                            {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
-                        </View>
-                        {editSession &&
-                            <Pressable onPress={() => handlePressDeleteClimbButton(climb.climb_id)} hitSlop={10}>
-                                <Ionicons name="trash-sharp" size={24} color="red" />
-                            </Pressable>
-                        }
-
-                        <Modal
-                            animationType="slide"
-                            transparent={true}
-                            visible={deleteModalVisible}
-                            onRequestClose={() => setDeleteModalVisible(false)}
-                        >
-                            <View style={styles.modalOverlay}>
-                                <View style={styles.modalContainer}>
-                                    <Text style={[styles.modalText, { color: 'red', fontSize: 20 }]}>Confirm delete climb?</Text>
-                                    <Text style={[styles.modalText, { fontSize: 16 }]}>This cannot be undone</Text>
-                                    <View style={styles.modalOptions}>
-                                        <Pressable onPress={() => setDeleteModalVisible(false)} hitSlop={50}>
-                                            <Text style={styles.modalOptionsText}>Cancel</Text>
-                                        </Pressable>
-                                        <Pressable onPress={handleConfirmDelete} hitSlop={50}>
-                                            <Text style={styles.modalOptionsText}>Confirm</Text>
-                                        </Pressable>
-                                    </View>
-                                </View>
+                            <View style={[styles.climbIconBox, { borderColor: 'red' }]}>
+                                <SelectorWrapper data={climbTypeData} disabled={!editSession} handler={(type) => handleSelectClimbType(type, climb.climb_id)}>
+                                    <Text style={styles.climbItem}>{climb.climb_type_label}</Text>
+                                </SelectorWrapper>
+                                {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
                             </View>
 
-                        </Modal>
+                            <View style={[styles.climbIconBox, { borderColor: 'orange' }]}>
+                                <SelectorWrapper data={climbGradesData} disabled={!editSession} handler={(grade) => handleSelectClimbGrade(grade, climb.climb_id)}>
+                                    <Text style={styles.climbItem}>{climb.grade_label}</Text>
+                                </SelectorWrapper>
+                                {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
+                            </View>
+
+                            <View style={[styles.climbIconBox, { borderColor: 'green' }]}>
+                                <SelectorWrapper data={climbOutcomesData} disabled={!editSession} handler={(outcome) => handleSelectClimbOutcome(outcome, climb.climb_id)}>
+                                    <Text style={styles.climbItem}>{climbOutcomeShortLabelLookup[climb.climb_outcome_label]}</Text>
+                                </SelectorWrapper>
+                                {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
+                            </View>
+                    
+
+                            <Modal
+                                animationType="slide"
+                                transparent={true}
+                                visible={deleteModalVisible}
+                                onRequestClose={() => setDeleteModalVisible(false)}
+                            >
+                                <View style={styles.modalOverlay}>
+                                    <View style={styles.modalContainer}>
+                                        <Text style={[styles.modalText, { color: 'red', fontSize: 20 }]}>Confirm delete climb?</Text>
+                                        <Text style={[styles.modalText, { fontSize: 16 }]}>This cannot be undone</Text>
+                                        <View style={styles.modalOptions}>
+                                            <Pressable onPress={() => setDeleteModalVisible(false)} hitSlop={50}>
+                                                <Text style={styles.modalOptionsText}>Cancel</Text>
+                                            </Pressable>
+                                            <Pressable onPress={handleConfirmDelete} hitSlop={50}>
+                                                <Text style={styles.modalOptionsText}>Confirm</Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                </View>
+
+                            </Modal>
+                        </View>
+                        <View style={{flexDirection: 'row', justifyContent: 'center', marginVertical: 5}}>
+                        {editSession &&
+                                <ButtonAction
+                                    icon={<Ionicons name="trash-sharp" size={24} color="red" />}
+                                    onPress={() => handlePressDeleteClimbButton(climb.climb_id)}
+                                />
+                            }
+                        </View>
                     </View>
 
                 ))}
