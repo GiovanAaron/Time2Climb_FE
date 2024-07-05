@@ -39,27 +39,32 @@ const styles = StyleSheet.create({
         borderColor: 'white',
         borderWidth: 1,
     },
-    datePickerContainer: {
-        borderColor: 'green',
-        borderWidth: 1,
-    },
     climbContainer: {
         borderColor: 'white',
         borderWidth: 1,
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        columnGap: 15
     },
     climbIconBox: {
-        borderColor: 'white',
+        borderColor: 'red',
         borderWidth: 1,
-        width: 90,
+        flex: 1,
+        flexBasis: 90,
+        minWidth: 90,
+        minHeight: 80,
         alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 20,
+        marginVertical: 5,
     },
     climbItem: {
         padding: 5,
         fontSize: 18,
-        textAlign: 'center'
+        textAlign: 'center',
+        borderColor: 'white',
+        borderWidth: 1,
     },
     sessionInfoEditBox: {
         flexDirection: 'row',
@@ -71,7 +76,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 20,
-        paddingLeft: 15
+        paddingHorizontal: 15
     },
     sessionInfoBox: {
         flexDirection: 'row',
@@ -146,6 +151,43 @@ const styles = StyleSheet.create({
         color: '#007AFF',
         fontSize: 18,
         fontWeight: 'bold',
+    },
+    datePickerContainer: {
+        borderColor: 'green',
+        borderWidth: 1,
+    },
+    modalOverlay: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.25)',
+        borderColor: 'white',
+        borderWidth: 1,
+    },
+    modalContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        borderColor: 'red',
+        borderWidth: 1,
+        padding: 35,
+        width: 300,
+    },
+    modalText: {
+        borderColor: 'white',
+        borderWidth: 1,
+    },
+    modalOptionsText: {
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    modalOptions: {
+        flexDirection: 'row',
+        borderColor: 'white',
+        borderWidth: 1,
+        justifyContent: 'space-around',
+        width: '100%',
+        marginTop: 50,
     },
 });
 
