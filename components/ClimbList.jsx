@@ -253,9 +253,9 @@ export default function ClimbList({ editSession }) {
 
                 {climbListLocal.map((climb) => (
 
-                    <View>
+                    <View key={climb.climb_id}>
 
-                        <View style={styles.climbContainer} key={climb.climb_id}>
+                        <View style={styles.climbContainer}>
 
                             <View style={[styles.climbIconBox, { borderColor: 'red' }]}>
                                 <SelectorWrapper data={climbTypeData} disabled={!editSession} handler={(type) => handleSelectClimbType(type, climb.climb_id)}>

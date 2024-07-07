@@ -29,10 +29,11 @@ export default function MapScreen({ mapData }) {
   // mapData.miniView = false;
 
   return (
-    <View style={[mapStyles.container, appStyles.h3]}>
-      <Text>Climbs & Sessions Map</Text>
+    <View style={appStyles.screenContainer}>
       {/* // TODO: change from tempMapData to mapData once API integrated  */}
+      <View style ={mapStyles.mapContainer}>
       <Map mapData={tempMapData} /> 
+      </View>
     </View>
   );
 }

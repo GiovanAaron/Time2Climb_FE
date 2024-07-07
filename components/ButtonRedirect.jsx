@@ -27,7 +27,7 @@ const customBtnStyles = StyleSheet.create({
         borderRadius: 7,
         elevation: 2,
         backgroundColor: 'white',
-        borderColor: 'blue',
+        borderColor: '#007AFF',
         borderWidth: 2,
         marginVertical: 3,
         marginHorizontal: 1,

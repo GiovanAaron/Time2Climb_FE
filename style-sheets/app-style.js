@@ -1,20 +1,27 @@
 import { StyleSheet } from "react-native";
 
 const appStyles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignContent: 'center',
-      justifyContent: 'center',
-      borderColor: 'red',
-      borderWidth: 1,
-      height: '50%',
-      width: '50%',
-      textAlign: 'center'
-    },
-    h2: {
-      fontSize: 28,
-      fontWeight: 'bold'
-    }
-  });
+  screenContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: 'red',
+    borderWidth: 0,
+    marginTop: 30
+  },
+  h1: {
+    fontSize: 36,
+    fontWeight: 'bold',
+    marginBottom: 15
+  },
+  h2: {
+    fontSize: 28,
+    fontWeight: 'bold'
+  },
+  h3: {
+    fontSize: 22,
+    fontWeight: 'bold'
+  }
+});
 
-  export default appStyles;
+export default appStyles;

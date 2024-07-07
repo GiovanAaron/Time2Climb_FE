@@ -25,7 +25,7 @@ export default function Session({ sessionData }) {
                     />
                     <ButtonAction 
                         onPress={handleDelete} 
-                        icon={<Ionicons name="trash" color={'cornflowerblue'} size={20} />} 
+                        icon={<Ionicons name="trash" color={'red'} size={20} />} 
                     />
                 </View>
             </View>
@@ -40,12 +40,14 @@ export default function Session({ sessionData }) {
 
 const styles = StyleSheet.create({
     sessionContainer: {
-        padding: 10,
+        padding: 15,
         marginBottom: 10,
-        borderColor: 'lightgray',
-        borderWidth: 1,
-        borderRadius: 5,
-        backgroundColor: 'white'
+        borderColor: 'orange',
+        borderWidth: 2,
+        borderRadius: 20,
+        backgroundColor: 'white',
+        width: 250,
+        marginBottom: 15,
     },
     header: {
         flexDirection: 'row',

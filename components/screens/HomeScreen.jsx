@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Button, View, Text } from "react-native";
+import { ScrollView, View, Text, Pressable } from "react-native";
 import Map from '../Map';
 import { fetchMapData } from '../../utils/api';
 import Dashboard from '../Dashboard'
+import styles from '../../style-sheets/home-style'
+import appStyles from "../../style-sheets/app-style"
 
 export default function HomeScreen({ navigation }) {
 
     const [isLoading, setIsLoading] = useState(true);
     const [mapData, setMapData] = useState({});
     const [errStatus, setErrStatus] = useState(null);
-    
+
     // TODO: delete this temp hardcoded data once API is integrated
     const tempMapData = {
         userLocations: [
@@ -20,7 +22,7 @@ export default function HomeScreen({ navigation }) {
         ],
         gymLocations: [
             { id: 1, latitude: 53.28423, longitude: -1.953013 },
-            { id: 2, latitude: 53.148291, longitude:-1.202161 }
+            { id: 2, latitude: 53.148291, longitude: -1.202161 }
         ],
         mapCentreLatitude: null, // TODO: set to user's location
         mapCentreLongitude: null, // TODO: set to user's location
@@ -51,16 +53,42 @@ export default function HomeScreen({ navigation }) {
 
     // TODO: display loading icon
     return (
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ScrollView>
+            <View style={styles.screenContainer}>
 
-        <Text>Home Screen</Text>
+                <Text style={appStyles.h1}>Time to Climb</Text>
 
-            {/* // TODO: change from tempMapData to mapData once API integrated */}
-            <Map mapData={tempMapData} /> 
 
-            <Dashboard navigation={navigation} />
-            
-            {/* <Button
+                <Pressable style={styles.mapContainer} onPress={() => navigation.navigate('Map Screen')}>
+                    <Map mapData={tempMapData} />
+                </Pressable>
+
+                <Dashboard navigation={navigation} />
+                {/* // TODO: change from tempMapData to mapData once API integrated */}
+
+
+                <View style={styles.keyStatsContainer}>
+                    <Text style={[appStyles.h3, { color: 'black' }]}>Last session</Text>
+                    <Text style={styles.stat}>
+                        <Text style={{ fontWeight: 'bold' }}> 6/7/2024</Text> -
+                        2 hours and 15 minutes
+                    </Text>
+                    <Text style={styles.stat}>At
+                        <Text style={{ fontWeight: 'bold' }}> The Climbing Works</Text>
+                    </Text>
+                    <Text style={styles.stat}>You climbed
+                        <Text style={{ fontWeight: 'bold' }}> 3 boulders </Text>
+                        and
+                        <Text style={{ fontWeight: 'bold' }}> 6 routes</Text>
+                    </Text>
+                </View>
+
+  
+
+           
+
+
+                {/* <Button
                 title="Stats"
                 onPress={() => navigation.navigate('Stats Screen')}
             />
@@ -77,6 +105,23 @@ export default function HomeScreen({ navigation }) {
                 onPress={() => navigation.navigate('Sessions Screen')}
             /> */}
 
-        </View>
+                <View style={styles.keyStatsContainer}>
+                    <Text style={[appStyles.h3, { color: 'black' }]}>Key stats</Text>
+                    <Text style={styles.stat}>
+                        <Text style={{ fontWeight: 'bold' }}> Stat 1: </Text>
+                        Statistic one
+                    </Text>
+                    <Text style={styles.stat}>
+                        <Text style={{ fontWeight: 'bold' }}> Stat 2: </Text>
+                        Statistic two
+                    </Text>
+                    <Text style={styles.stat}>
+                        <Text style={{ fontWeight: 'bold' }}> Stat 3: </Text>
+                        Statistic three
+                    </Text>
+                </View>
+
+            </View>
+        </ScrollView>
     );
 }
