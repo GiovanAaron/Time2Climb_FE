@@ -65,38 +65,38 @@ export default function Map({ mapData }) {
     }
 
     return (
-        <MapView
-            style={getView()}
-            initialRegion={{
-                latitude: mapCentreLatitude,
-                longitude: mapCentreLongitude,
-                latitudeDelta: latitudeDelta,
-                longitudeDelta: longitudeDelta
-            }}
-        >
-            {userLocations.map(location => (
-                <Marker
-                    key={location.id}
-                    coordinate={{ latitude: location.latitude, longitude: location.longitude }}
-                    title={`User Session`}
-                    description={`Number of sessions at this location: ${location.numOfSessions}`}
-                >
-                    <View style={mapStyles.userMarker}>
-                        <Text style={mapStyles.userMarkerText}>{location.numOfSessions}</Text>
-                    </View>
-                    <FontAwesome6 name="person-falling" color={'blue'} size={24} />
-                </Marker>
-            ))}
-            {gymLocations.map(location => (
-                <Marker
-                    key={location.id}
-                    coordinate={{ latitude: location.latitude, longitude: location.longitude }}
-                    title={`Location ${location.number}`}
-                    description={`This is location number ${location.text}`}
-                >
-                    <FontAwesome name="map-marker" size={30} color="red" />
-                </Marker>
-            ))}
-        </MapView>
+            <MapView
+                style={getView()}
+                initialRegion={{
+                    latitude: mapCentreLatitude,
+                    longitude: mapCentreLongitude,
+                    latitudeDelta: latitudeDelta,
+                    longitudeDelta: longitudeDelta
+                }}
+            >
+                {userLocations.map(location => (
+                    <Marker
+                        key={location.id}
+                        coordinate={{ latitude: location.latitude, longitude: location.longitude }}
+                        title={`User Session`}
+                        description={`Number of sessions at this location: ${location.numOfSessions}`}
+                    >
+                        <View style={mapStyles.userMarker}>
+                            <Text style={mapStyles.userMarkerText}>{location.numOfSessions}</Text>
+                        </View>
+                        <FontAwesome6 name="person-falling" color={'blue'} size={24} />
+                    </Marker>
+                ))}
+                {gymLocations.map(location => (
+                    <Marker
+                        key={location.id}
+                        coordinate={{ latitude: location.latitude, longitude: location.longitude }}
+                        title={`Location ${location.number}`}
+                        description={`This is location number ${location.text}`}
+                    >
+                        <FontAwesome name="map-marker" size={30} color="red" />
+                    </Marker>
+                ))}
+            </MapView>
     );
 }

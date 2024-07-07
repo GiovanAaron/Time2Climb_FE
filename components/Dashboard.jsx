@@ -14,21 +14,21 @@ export default function HomeScreen({ navigation }) {
             txt: 'Add Session',
             screen: 'Session Screen'
         },
-        {
-            key: 3,
-            txt: 'Goals',
-            screen: 'Goals Screen'
-        },
+        // {
+        //     key: 3,
+        //     txt: 'Goals',
+        //     screen: 'Goals Screen'
+        // },
         {
             key: 4,
             txt: 'Stats',
             screen: 'Stats Screen'
         },
-        {
-            key: 5,
-            txt: 'Map',
-            screen: 'Map Screen'
-        },
+        // {
+        //     key: 5,
+        //     txt: 'Map',
+        //     screen: 'Map Screen'
+        // },
         {
             key:6,
             txt: 'Leaderboard',
@@ -56,7 +56,8 @@ const dashboardStyles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'space-around',
         flex: 1,
-        maxWidth: '90%',
+        rowGap: 10,
+        maxWidth: '70%',
     },
     btn: {
         maxWidth: '30%',

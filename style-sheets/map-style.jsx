@@ -8,7 +8,7 @@ const mapStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginVertical: 20,
-        marginHorizontal: 20
+        marginHorizontal: 20,
     },
     userMarkerText: {
         backgroundColor: 'blue',
@@ -20,14 +20,31 @@ const mapStyles = StyleSheet.create({
         paddingVertical: 1
     },
     miniView: {
-        width: '80%',
-        height: '30%',
-        marginVertical: 20
+        width: '100%',
+        height: '100%',
     },
     largeView: {
         width: '100%',
         height: '100%'
-    }
+    },
+    screenContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderColor: 'red',
+        borderWidth: 0,
+        marginTop: 30
+    },
+    mapContainer: {
+        width: '85%',
+        marginBottom: 20,
+        padding: 0,
+        borderWidth: 2,
+        borderColor: 'green',
+        borderRadius: 30,
+        elevation: 5,
+        overflow: 'hidden'
+    },
   });
 
   export default mapStyles;

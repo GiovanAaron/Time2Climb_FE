@@ -87,7 +87,7 @@ function TabNavigator() {
         component={ProfileStack}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person" color={'blue'} size={24} />
+            <Ionicons name="person" color={'#007AFF'} size={24} />
           )
         }} />    
         </Tab.Navigator>

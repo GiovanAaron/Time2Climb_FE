@@ -62,11 +62,11 @@ export default function SessionList () {
     ];
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.container}>
             {sessions.map((sess) => {
                 return <Session key={sess.session_id} sessionData={sess} />;
             })}
-        </ScrollView>
+        </View>
     );
 };
 

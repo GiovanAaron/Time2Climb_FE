@@ -1,8 +1,10 @@
 import React from "react";
-import { Button, View, Text, StyleSheet } from "react-native";
+import { Button, View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import Map from '../Map';
 import ButtonRedirect from '../ButtonRedirect';
 import SessionList from '../SessionList'
+import appStyles from '../../style-sheets/app-style';
+import sessionListStyles from '../../style-sheets/session-list-style';
 
 export default function SessionListScreen({ navigation }) {
 
@@ -16,7 +18,7 @@ export default function SessionListScreen({ navigation }) {
     ],
     gymLocations: [
       { id: 1, latitude: 53.28423, longitude: -1.953013 },
-      { id: 2, latitude: 53.148291, longitude:-1.202161 }
+      { id: 2, latitude: 53.148291, longitude: -1.202161 }
     ],
     mapCentreLatitude: null, // TODO: set to user's location
     mapCentreLongitude: null, // TODO: set to user's location
@@ -29,24 +31,37 @@ export default function SessionListScreen({ navigation }) {
   // mapData.zoomed = true;
   // mapData.miniView = true;
 
-  return (<>
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Session List Screen</Text>
-      <Map mapData={tempMapData} />
-      <View style={styles.container}>
-        <ButtonRedirect
-          navigation={navigation} 
-          screen="Session Screen"
-          btnText="Add Session"
-        />
+  return (
+    <ScrollView>
+
+      <View style={appStyles.screenContainer}>
+
+        <Text style={[appStyles.h2, { marginBottom: 20 }]}>Your sessions</Text>
+
+        <View style={styles.container}>
+          <ButtonRedirect
+            navigation={navigation}
+            screen="Session Screen"
+            btnText="Add Session"
+          />
+        </View>
+
+        <Text style={[appStyles.h3, { marginBottom: 20 }]}>Map view</Text>
+
+        <Pressable style={sessionListStyles.mapContainer} onPress={() => navigation.navigate('Map Screen')}>
+          <Map mapData={tempMapData} />
+        </Pressable>
+
+        <Text style={[appStyles.h3, { marginBottom: 20 }]}>List view</Text>
+
+        <SessionList />
       </View>
-      <SessionList />
-    </View>
-  </>)
+    </ScrollView>
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
-      marginBottom: 10,
+    marginBottom: 10,
   },
 });
