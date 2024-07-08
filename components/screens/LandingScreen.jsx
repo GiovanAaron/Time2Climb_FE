@@ -1,71 +1,229 @@
 import React from "react";
-import { TextInput, StyleSheet, ImageBackground, Button, View, Text, Pressable } from "react-native";
-import ButtonRedirect from "../ButtonRedirect";
+import { useState, useContext, useCallback } from "react";
+import { TextInput, ImageBackground, ScrollView, View, Text, Pressable } from "react-native";
+import landingStyles from "../../style-sheets/landing-style";
+import { useFocusEffect } from '@react-navigation/native';
+
+import app from '../../firebaseConfig'
+import { getAuth, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+
+import { UserContext } from '../../app/authListener';
 
 const image = require('../../assets/images/bady-abbas-VmYZe_yqxL0-unsplash.jpg')
 
 export default function LandingScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1 }}>
-      <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-        <View style={styles.overlay}>
 
-          <TextInput
-            style={[styles.textInput]}
-            placeholder="Your email address"
-          // onChangeText={onChangeText}
-          // value={text}
-          />
-          <TextInput
-            style={[styles.textInput, {marginBottom: 50}]}
-            placeholder="Your password"
-          // onChangeText={onChangeText}
-          // value={text}
-          />
-          <Pressable style={styles.button} onPress={() => navigation.navigate('Main')}>
-            <Text style={styles.buttonText}>Log in</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => navigation.navigate('Main')}>
-            <Text style={styles.buttonText}>Register</Text>
-          </Pressable>
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [registerScreen, setRegisterScreen] = useState(false);
+
+  const { user } = useContext(UserContext)
+
+  const [emailError, setEmailError] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
+  const [logInError, setLogInError] = useState(false);
+  const [logInErrorMessage, setLogInErrorMessage] = useState("");
+
+  useFocusEffect(
+    useCallback(() => {
+      setRegisterScreen(false);
+      setLogInError(false);
+      setEmailError(false);
+      setPasswordError(false);
+      setEmail("");
+      setPassword("");
+    }, [])
+  );
+
+  const auth = getAuth(app)
+
+  const createUser = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        setRegisterScreen(false);
+        setEmailError(false);
+        navigation.navigate('Main');
+      })
+      .catch((error) => {
+        console.log(error);
+        switch (error.code) {
+          case "auth/missing-email":
+            {
+              setEmailErrorMessage("Missing email address");
+              setEmailError(true);
+            };
+            break;
+          case "auth/email-already-in-use":
+            {
+              setEmailErrorMessage("Email address is already in use by another account");
+              setEmailError(true);
+            };
+            break;
+          case "auth/invalid-email":
+            {
+              setEmailErrorMessage("This email address is invalid");
+              setEmailError(true);
+            };
+            break;
+          case "auth/weak-password":
+            {
+              setPasswordErrorMessage("Password should be at least 6 characters");
+              setPasswordError(true)
+            };
+            break;
+          case "auth/missing-password":
+            {
+              setPasswordErrorMessage("Missing password");
+              setPasswordError(true);
+            };
+            break;
+          case "auth/operation-not-allowed":
+            setEmailErrorMessage("Email/password accounts are not enabled");
+            setEmailError(true);
+            break;
+          default:
+            setEmailErrorMessage(error.code);
+            break;
+        }
+
+      });
+  };
+
+  const handleLogIn = () => {
+    login()
+  };
+
+  const login = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        navigation.navigate('Main')
+      })
+      .catch((error) => {
+        console.log(error.code, error.message);
+        switch (error.code) {
+          case "auth/invalid-email":
+            {
+              setLogInErrorMessage("Email address or password not recognised");
+              setLogInError(true);
+            };
+            break;
+          case "auth/invalid-credential":
+            {
+              setLogInErrorMessage("Email address or password not recognised");
+              setLogInError(true);
+            };
+            break;
+          case "auth/missing-password":
+            {
+              setLogInErrorMessage("Missing password");
+              setLogInError(true);
+            };
+            break;
+        }
+      });
+  };
+
+  const logOut = () => {
+    signOut(auth)
+      .then((result) => {
+      })
+      .catch((error) => {
+        console.log(error.code, error.message)
+      });
+  };
+
+  return (
+
+    <View style={landingStyles.screenContainer}>
+      <ImageBackground source={image} resizeMode="cover" style={landingStyles.image}>
+        <View style={landingStyles.overlay}>
+
+          {!registerScreen ?
+            <View style={landingStyles.logInSection}>
+
+              <Text style={landingStyles.loginPrompt}>Log in</Text>
+
+              <TextInput
+                style={[landingStyles.textInput]}
+                placeholder="Your email address"
+                onChangeText={setEmail}
+                value={email}
+                autoCorrect={false}
+              />
+              <TextInput
+                style={[landingStyles.textInput, { marginBottom: 20 }]}
+                placeholder="Your password"
+                onChangeText={setPassword}
+                value={password}
+                secureTextEntry={true}
+                autoCorrect={false}
+              />
+
+              {logInError && <Text style={landingStyles.logInError}>{logInErrorMessage}</Text>}
+
+              <Pressable style={landingStyles.button} onPress={handleLogIn}>
+                <Text style={landingStyles.buttonText}>Log in</Text>
+              </Pressable>
+
+              <Pressable onPress={() => setRegisterScreen(!registerScreen)} >
+                <Text style={landingStyles.signUpPrompt}>Or register a new account</Text>
+              </Pressable>
+
+              <Pressable style={landingStyles.button} onPress={() => navigation.navigate('Main')}>
+                <Text style={landingStyles.buttonText}>Skip</Text>
+              </Pressable>
+              <Pressable style={landingStyles.button} onPress={logOut}>
+                <Text style={landingStyles.buttonText}>Log out</Text>
+              </Pressable>
+
+              <Pressable style={landingStyles.button} onPress={() => console.log(user)}>
+                <Text style={landingStyles.buttonText}>Log user</Text>
+              </Pressable>
+
+            </View> :
+
+            <View style={landingStyles.registerSection}>
+
+              <Text style={landingStyles.loginPrompt}>Please provide a valid email address</Text>
+
+              <TextInput
+                style={[landingStyles.textInput]}
+                placeholder="Your email address"
+                onChangeText={setEmail}
+                value={email}
+              />
+
+              {emailError && <Text style={landingStyles.registerError}>{emailErrorMessage}</Text>}
+
+              <Text style={landingStyles.loginPrompt}>Please create a password at least 8 characters long</Text>
+
+              <TextInput
+                style={[landingStyles.textInput, { marginBottom: 20 }]}
+                placeholder="Your password"
+                onChangeText={setPassword}
+                value={password}
+              />
+
+              {passwordError && <Text style={landingStyles.registerError}>{passwordErrorMessage}</Text>}
+
+              <Pressable onPress={createUser} style={[landingStyles.button, { marginTop: 10 }]}>
+                <Text style={[landingStyles.buttonText]}>Register</Text>
+              </Pressable>
+
+              <Pressable style={landingStyles.button} onPress={() => setRegisterScreen(false)}>
+                <Text style={landingStyles.buttonText}>Back</Text>
+              </Pressable>
+            </View>
+          }
+
         </View>
+
+
       </ImageBackground>
+
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  image: {
-    flex: 1,
-  },
-  overlay: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.65)',
-    width: '100%',
-    height: '100%'
-  },
-  textInput: {
-    height: 50,
-    width: '60%',
-    borderWidth: 1,
-    backgroundColor: 'lightgrey',
-    paddingHorizontal: 15,
-    borderRadius: 30,
-    marginBottom: 10,
-    textAlign: 'center',
-    fontSize: 18,
-  },
-  button: {
-    backgroundColor: '#007AFF',
-    padding: 10,
-    marginBottom: 10,
-    width: 100,
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
-  buttonText: {
-    fontSize: 16,
-    color: 'white'
-  }
-});

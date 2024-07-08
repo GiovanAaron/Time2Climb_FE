@@ -65,7 +65,19 @@ const profileStyles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginVertical: 5
-    }
+    },
+    signOutButton: {
+        backgroundColor: '#007AFF',
+        padding: 10,
+        marginVertical: 20,
+        width: 100,
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+    signOutButtonText: {
+        fontSize: 16,
+        color: 'white',
+    },
 });
 
 export default profileStyles
