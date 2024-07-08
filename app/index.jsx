@@ -1,6 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
 
+import UserProvider from './authListener.js';
+
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
@@ -105,7 +107,9 @@ function LandingNavigator() {
 
 function Index() {
   return (
+    <UserProvider>
     <LandingNavigator/>
+    </UserProvider>
   )
 }
 

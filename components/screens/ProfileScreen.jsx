@@ -1,9 +1,30 @@
-import React from "react";
-import { ScrollView, Image, View, Text } from "react-native";
+import React, {useContext} from "react";
+import { ScrollView, Pressable, Image, View, Text } from "react-native";
 import profileStyles from '../../style-sheets/profile-style'
 import appStyles from "../../style-sheets/app-style"
 
+import { UserContext } from '../../app/authListener';
+
+import { getAuth, signOut } from "firebase/auth";
+import app from '../../firebaseConfig'
+
 export default function ProfileScreen({ navigation }) {
+  
+  const auth = getAuth(app)
+
+  const logOut = () => {
+    console.log(user)
+    signOut(auth)
+      .then((result) => {
+        navigation.navigate('Landing');
+      })
+      .catch((error) => {
+        console.log(error.code, error.message)
+      });
+  };
+
+  const { user } = useContext(UserContext)
+
   return (
     <ScrollView>
       <View style={profileStyles.screenContainer}>
@@ -34,8 +55,11 @@ export default function ProfileScreen({ navigation }) {
             <Text style={profileStyles.profileStat}>The Climbing Works</Text>
           </View>
 
-
         </View>
+
+        <Pressable style={profileStyles.signOutButton} onPress={logOut}>
+          <Text style={profileStyles.signOutButtonText}>Sign Out</Text>
+        </Pressable>
       </View>
     </ScrollView>
   );
