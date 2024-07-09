@@ -2,7 +2,6 @@ import React from "react";
 import { ScrollView, View, Text } from "react-native";
 import BarChartTypes from '../BarChartTypes';
 import BarChartOutcomes from '../BarChartOutcomes';
-import PieChart from '../PieChart';
 
 import statStyles from '../../style-sheets/stats-style'
 import appStyles from "../../style-sheets/app-style"
