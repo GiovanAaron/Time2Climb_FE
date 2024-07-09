@@ -1,5 +1,4 @@
 import React from "react";
-import { useRef } from 'react';
 import { View, Text, Alert, Pressable } from "react-native";
 
 import styles from '../../style-sheets/goals-style'
