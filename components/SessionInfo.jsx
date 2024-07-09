@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import { getSessionById } from './screens/screenSessionData'
 
 import { Modal, Alert, View, Text, Pressable, ActivityIndicator } from "react-native";
 
@@ -16,9 +18,9 @@ import dayjs from 'dayjs';
 import styles from "../style-sheets/session-style"
 import appStyles from "../style-sheets/app-style"
 
-
 export default function SessionInfo({ editSession, setEditSession }) {
 
+    const [sessionId, setSessionId] = useState(1);
     const [sessionWall, setSessionWall] = useState(null)
 
     const [sessionDate, setSessionDate] = useState(null);
@@ -31,6 +33,16 @@ export default function SessionInfo({ editSession, setEditSession }) {
 
     const [savingSession, setSavingSession] = useState(false)
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+
+    useEffect(() => {
+        // getSessionById(sessionId)
+        // .then((data) => {
+        //     console.log("all climbs", data);
+        // })
+        // .catch((err) => {
+        //     // console.log("component err", err)
+        // })
+    }, [])
 
     const formatTime = ({
         hours,
