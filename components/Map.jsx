@@ -64,6 +64,14 @@ export default function Map({ mapData }) {
         }
     }
 
+    const onSessionMarkerPress = (id) => {
+        // TODO: redirect to list of sessions for this wall
+    };
+
+    const onWallMarkerPress = (id) => {
+        // TODO: redirect to add session to this wall
+    };
+
     return (
             <MapView
                 style={getView()}
@@ -78,8 +86,9 @@ export default function Map({ mapData }) {
                     <Marker
                         key={location.id}
                         coordinate={{ latitude: location.latitude, longitude: location.longitude }}
-                        title={`User Session`}
+                        title={location.wall_name}
                         description={`Number of sessions at this location: ${location.numOfSessions}`}
+                        onPress={(e) => onSessionMarkerPress(location.id)}
                     >
                         <View style={mapStyles.userMarker}>
                             <Text style={mapStyles.userMarkerText}>{location.numOfSessions}</Text>
@@ -91,8 +100,8 @@ export default function Map({ mapData }) {
                     <Marker
                         key={location.id}
                         coordinate={{ latitude: location.latitude, longitude: location.longitude }}
-                        title={`Location ${location.number}`}
-                        description={`This is location number ${location.text}`}
+                        title={location.wall_name}
+                        onPress={(e) => onWallMarkerPress(location.id)}
                     >
                         <FontAwesome name="map-marker" size={30} color="red" />
                     </Marker>
