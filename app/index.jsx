@@ -18,7 +18,9 @@ import GoalsScreen from '../components/screens/GoalsScreen';
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
+
 function HomeStack() {
+
   return (
     <Stack.Navigator>
       <Stack.Screen name="Home Screen" component={HomeScreen} />
@@ -39,19 +41,6 @@ function SessionListStack() {
       <Stack.Screen name="Home Screen" component={HomeScreen} />
       <Stack.Screen name="Map Screen" component={MapScreen} />
       <Stack.Screen name="Session Screen" component={SessionScreen} />
-      <Stack.Screen name="Stats Screen" component={StatsScreen} />
-    </Stack.Navigator>
-  );
-}
-
-function ProfileStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Profile Screen" component={ProfileScreen} />
-      <Stack.Screen name="Home Screen" component={HomeScreen} />
-      <Stack.Screen name="Map Screen" component={MapScreen} />
-      <Stack.Screen name="Session Screen" component={SessionScreen} />
-      <Stack.Screen name="Sessions Screen" component={SessionListScreen} />
       <Stack.Screen name="Stats Screen" component={StatsScreen} />
     </Stack.Navigator>
   );
@@ -86,7 +75,7 @@ function TabNavigator() {
         }} />
      <Tab.Screen
         name="Profile"
-        component={ProfileStack}
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person" color={'#007AFF'} size={24} />
