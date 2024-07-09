@@ -3,11 +3,11 @@ import { Text, StyleSheet, Pressable } from 'react-native';
 
 export default function ButtonRedirect(props) {
 
-    const { navigation, screen, btnText } = props;
+    const { navigation, screen, btnText, mapData } = props;
 
     const handlePress = () => {
         if (navigation && screen) {
-            navigation.navigate(screen);
+            navigation.navigate(screen, { mapData });
         }
     };
   
