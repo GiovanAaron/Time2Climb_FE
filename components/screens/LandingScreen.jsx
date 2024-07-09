@@ -1,11 +1,11 @@
 import React from "react";
 import { useState, useContext, useCallback } from "react";
-import { TextInput, ImageBackground, ScrollView, View, Text, Pressable } from "react-native";
+import { TextInput, ImageBackground, View, Text, Pressable } from "react-native";
 import landingStyles from "../../style-sheets/landing-style";
 import { useFocusEffect } from '@react-navigation/native';
 
 import app from '../../firebaseConfig'
-import { getAuth, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 import { UserContext } from '../../app/authListener';
 
@@ -44,10 +44,9 @@ export default function LandingScreen({ navigation }) {
       .then(() => {
         setRegisterScreen(false);
         setEmailError(false);
-        navigation.navigate('Main');
+        navigation.replace('Main');
       })
       .catch((error) => {
-        console.log(error);
         switch (error.code) {
           case "auth/missing-email":
             {
@@ -98,10 +97,9 @@ export default function LandingScreen({ navigation }) {
   const login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        navigation.navigate('Main')
+        navigation.replace('Main')
       })
       .catch((error) => {
-        console.log(error.code, error.message);
         switch (error.code) {
           case "auth/invalid-email":
             {
@@ -122,15 +120,6 @@ export default function LandingScreen({ navigation }) {
             };
             break;
         }
-      });
-  };
-
-  const logOut = () => {
-    signOut(auth)
-      .then((result) => {
-      })
-      .catch((error) => {
-        console.log(error.code, error.message)
       });
   };
 
@@ -168,19 +157,16 @@ export default function LandingScreen({ navigation }) {
               </Pressable>
 
               <Pressable onPress={() => setRegisterScreen(!registerScreen)} >
-                <Text style={landingStyles.signUpPrompt}>Or register a new account</Text>
+                <Text style={landingStyles.signUpPrompt}>Or <Text style={{textDecorationLine: 'underline'}}>register</Text> a new account</Text>
               </Pressable>
 
-              <Pressable style={landingStyles.button} onPress={() => navigation.navigate('Main')}>
+              <Pressable style={landingStyles.button} onPress={() => navigation.replace('Main')}>
                 <Text style={landingStyles.buttonText}>Skip</Text>
               </Pressable>
-              <Pressable style={landingStyles.button} onPress={logOut}>
-                <Text style={landingStyles.buttonText}>Log out</Text>
-              </Pressable>
-
-              <Pressable style={landingStyles.button} onPress={() => console.log(user)}>
+    
+              {/* <Pressable style={landingStyles.button} onPress={() => console.log(user.uid)}>
                 <Text style={landingStyles.buttonText}>Log user</Text>
-              </Pressable>
+              </Pressable> */}
 
             </View> :
 

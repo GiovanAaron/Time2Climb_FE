@@ -27,20 +27,26 @@ const styles = StyleSheet.create({
     },
     awardListContainer: {
         borderColor: 'white',
-        borderWidth: 1,
+        borderWidth: 0,
         flexDirection: 'row',
         justifyContent: 'space-between',
         rowGap: 20,
         flexWrap: 'wrap'
     },
+    acheivementPressable: {
+        borderWidth: 0,
+        borderColor: 'red',
+        width: '40%',
+    },
     awardContainer: {
         marginTop: 10,
-        borderColor: 'white',
-        borderWidth: 1,
+        borderColor: 'green',
+        borderWidth: 0,
         flexWrap: 'wrap',
         alignItems: 'center',
         justifyContent: 'center',
-        maxWidth: '50%',
+        flexDirection: 'row',
+        width: '40%',
     },
     trophyFrame: {
         borderColor: 'lightgrey',
@@ -61,6 +67,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         fontWeight: 'bold',
         fontSize: 18,
+        textAlign: 'center',
     },
     lottie: {
         position: 'absolute',

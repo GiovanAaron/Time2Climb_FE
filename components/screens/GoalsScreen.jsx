@@ -1,6 +1,6 @@
 import React from "react";
 import { useRef } from 'react';
-import { View, Text, Button, Pressable } from "react-native";
+import { View, Text, Alert, Pressable } from "react-native";
 
 import styles from '../../style-sheets/goals-style'
 import appStyles from "../../style-sheets/app-style"
@@ -11,6 +11,18 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Stars, Balloons, Hearts } from 'react-native-fiesta';
 
 import { useState } from 'react';
+
+const AchievementAlertWrapper = ({ children, name, description }) => {
+
+  return (
+    <Pressable onPress={() => {
+      Alert.alert(name, description,
+        [{ text: 'OK' }])
+    }}>
+      {children}
+    </Pressable>
+  )
+}
 
 export default function Goals({ navigation }) {
 
@@ -41,16 +53,20 @@ export default function Goals({ navigation }) {
                 size={52}
                 color={achievements.first_steps ? "orange" : "lightgrey"} />
             </View>
-            <Text style={[styles.awardFrame, { color: achievements.first_steps ? "orange" : "lightgrey" }]}>First steps</Text>
+            <AchievementAlertWrapper name="First-steps" description="You logged your first climb">
+              <Text style={[styles.awardFrame, { color: achievements.first_steps ? "orange" : "lightgrey" }]}>First steps</Text>
+            </AchievementAlertWrapper>
           </View>
 
           <View style={styles.awardContainer}>
-            <View style={[styles.trophyFrame, { borderColor: achievements.traveller ? "green" : "lightgrey" }]}>
-              <FontAwesome name="ticket"
-                size={52}
-                color={achievements.traveller ? "green" : "lightgrey"} />
-            </View>
-            <Text style={[styles.awardFrame, { color: achievements.traveller ? "green" : "lightgrey" }]}>Traveller</Text>
+            <AchievementAlertWrapper name="Traveller" description="You visited 5 different climbing walls">
+              <View style={[styles.trophyFrame, { borderColor: achievements.traveller ? "green" : "lightgrey" }]}>
+                <FontAwesome name="ticket"
+                  size={52}
+                  color={achievements.traveller ? "green" : "lightgrey"} />
+              </View>
+              <Text style={[styles.awardFrame, { color: achievements.traveller ? "green" : "lightgrey" }]}>Traveller</Text>
+            </AchievementAlertWrapper>
           </View>
 
           <View style={styles.awardContainer}>
@@ -83,6 +99,6 @@ export default function Goals({ navigation }) {
 
         </View>
       </View>
-    </View>
+    </View >
   )
 }
