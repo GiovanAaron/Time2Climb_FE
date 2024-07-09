@@ -9,11 +9,11 @@ export default function Map({ mapData }) {
 
     const centralUkLatitude = 54.473699;
     const centralUkLongitude = -3.326840;
-    const zoomedDefaultLatitude = 53.266789;
-    const zoomedDefaultLongitude = -1.540730;
+    const zoomedDefaultLatitude = 53.380618;
+    const zoomedDefaultLongitude = -1.472019;
 
-    const userLocations = mapData.userLocations;
-    const gymLocations = mapData.gymLocations;
+    const userSessionWalls = mapData.walls.userSessionWalls;
+    const filteredWalls = mapData.walls.filteredWalls;
     let mapCentreLatitude = mapData.mapCentreLatitude;
     let mapCentreLongitude = mapData.mapCentreLongitude;
     let latitudeDelta;
@@ -44,7 +44,7 @@ export default function Map({ mapData }) {
     }
     else {
         if (mapData.zoomed) {
-            // Zoom to default location
+            // Zoom to default location (Sheffield)
             mapCentreLatitude = zoomedDefaultLatitude;
             mapCentreLongitude = zoomedDefaultLongitude;
         }
@@ -82,25 +82,25 @@ export default function Map({ mapData }) {
                     longitudeDelta: longitudeDelta
                 }}
             >
-                {userLocations.map(location => (
+                {userSessionWalls.map(location => (
                     <Marker
                         key={location.id}
-                        coordinate={{ latitude: location.latitude, longitude: location.longitude }}
-                        title={location.wall_name}
-                        description={`Number of sessions at this location: ${location.numOfSessions}`}
+                        coordinate={{ latitude: Number(location.lat), longitude: Number(location.long) }}
+                        title={location.name}
+                        description={`Number of sessions at this location: ${location.session_count}`}
                         onPress={(e) => onSessionMarkerPress(location.id)}
                     >
                         <View style={mapStyles.userMarker}>
-                            <Text style={mapStyles.userMarkerText}>{location.numOfSessions}</Text>
+                            <Text style={mapStyles.userMarkerText}>{location.session_count}</Text>
                         </View>
                         <FontAwesome6 name="person-falling" color={'blue'} size={24} />
                     </Marker>
                 ))}
-                {gymLocations.map(location => (
+                {filteredWalls.map(location => (
                     <Marker
                         key={location.id}
-                        coordinate={{ latitude: location.latitude, longitude: location.longitude }}
-                        title={location.wall_name}
+                        coordinate={{ latitude: Number(location.lat), longitude: Number(location.long) }}
+                        title={location.name}
                         onPress={(e) => onWallMarkerPress(location.id)}
                     >
                         <FontAwesome name="map-marker" size={30} color="red" />
