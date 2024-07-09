@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     },
     climbItem: {
         padding: 5,
-        fontSize: 18,
+        fontSize: 17,
         textAlign: 'center',
         borderColor: 'white',
         borderWidth: 0,

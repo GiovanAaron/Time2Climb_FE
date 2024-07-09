@@ -1,6 +1,6 @@
-import { climbList, climbTypeList, outcomesList, gradesList } from './screens/screenSessionData'
+import { getClimbsBySessionId, climbTypeList, outcomesList, gradesList } from './screens/screenSessionData'
 import { Modal, Alert, View, Text, Pressable, ActivityIndicator } from "react-native";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import _ from 'lodash';
 import ButtonAction from './ButtonAction';
 
@@ -14,10 +14,13 @@ import SelectorWrapper from './SelectorWrapper'
 
 export default function ClimbList({ editSession }) {
 
+    const sessionID = 7;
+
+    const [climbList, setClimbList] = useState([]);
+
     const [climbType, setClimbType] = useState(null);
     const [climbGrade, setClimbGrade] = useState(null);
     const [climbOutcome, setClimbOutcome] = useState(null);
-    const [climbListLocal, setClimbListLocal] = useState(climbList);
 
     const [newClimb, setNewClimb] = useState({})
     const [savingClimb, setSavingClimb] = useState(false)
@@ -25,6 +28,16 @@ export default function ClimbList({ editSession }) {
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
     const [deleteClimbId, setDeleteClimbId] = useState(null);
+
+    useEffect(() => {
+        getClimbsBySessionId(sessionID)
+        .then((data) => {
+            setClimbList(data.climbs)
+        })
+        .catch((err) => {
+            // console.log("component err", err)
+        })
+    }, [])
 
     const climbOutcomeShortLabelLookup = {
         "Onsight (first attempt - no beta)": "Onsight",
@@ -117,9 +130,9 @@ export default function ClimbList({ editSession }) {
         }
     }
 
-    const handlePressDeleteClimbButton = (climb_id) => {
+    const handlePressDeleteClimbButton = (id) => {
         setDeleteModalVisible(true)
-        setDeleteClimbId(climb_id)
+        setDeleteClimbId(id)
     }
 
     const handleConfirmDelete = () => {
@@ -132,33 +145,33 @@ export default function ClimbList({ editSession }) {
     }
 
 
-    const handleSelectClimbType = (type, climb_id) => {
-        if (climb_id) {
-            const climbListLocalCopy = _.cloneDeep(climbListLocal);
+    const handleSelectClimbType = (type, id) => {
+        if (id) {
+            const climbListLocalCopy = _.cloneDeep(climbList);
             const selectedClimb = climbListLocalCopy.find(climbItem => {
-                return climbItem.climb_id === climb_id
+                return climbItem.id === id
             })
-            selectedClimb.climb_type_label = type.label
-            selectedClimb.climb_type_id = type.value
+            selectedClimb.type_label = type.label
+            selectedClimb.type_id = type.value
 
-            setClimbListLocal(climbListLocalCopy)
+            setClimbList(climbListLocalCopy)
 
         } else {
             setClimbType(type)
-            setNewClimb({ ...newClimb, climb_type_id: type.value })
+            setNewClimb({ ...newClimb, type_id: type.value })
         }
     }
 
-    const handleSelectClimbGrade = (grade, climb_id) => {
-        if (climb_id) {
-            const climbListLocalCopy = _.cloneDeep(climbListLocal);
+    const handleSelectClimbGrade = (grade, id) => {
+        if (id) {
+            const climbListLocalCopy = _.cloneDeep(climbList);
             const selectedClimb = climbListLocalCopy.find(climbItem => {
-                return climbItem.climb_id === climb_id
+                return climbItem.id === id
             })
             selectedClimb.grade_label = grade.label
             selectedClimb.grade_id = grade.value
 
-            setClimbListLocal(climbListLocalCopy)
+            setClimbList(climbListLocalCopy)
 
         } else {
             setClimbGrade(grade.label)
@@ -166,16 +179,16 @@ export default function ClimbList({ editSession }) {
         }
     }
 
-    const handleSelectClimbOutcome = (outcome, climb_id) => {
-        if (climb_id) {
-            const climbListLocalCopy = _.cloneDeep(climbListLocal);
+    const handleSelectClimbOutcome = (outcome, id) => {
+        if (id) {
+            const climbListLocalCopy = _.cloneDeep(climbList);
             const selectedClimb = climbListLocalCopy.find(climbItem => {
-                return climbItem.climb_id === climb_id
+                return climbItem.id === id
             })
-            selectedClimb.climb_outcome_label = outcome.label
+            selectedClimb.outcome_label = outcome.label
             selectedClimb.climb_outcome_id = outcome.value
 
-            setClimbListLocal(climbListLocalCopy)
+            setClimbList(climbListLocalCopy)
 
         } else {
             setClimbOutcome(outcome.label)
@@ -251,33 +264,32 @@ export default function ClimbList({ editSession }) {
                     </View>
                 }
 
-                {climbListLocal.map((climb) => (
+                {climbList.map((climb) => (
 
-                    <View key={climb.climb_id}>
+                    <View key={climb.id}>
 
                         <View style={styles.climbContainer}>
 
                             <View style={[styles.climbIconBox, { borderColor: 'red' }]}>
-                                <SelectorWrapper data={climbTypeData} disabled={!editSession} handler={(type) => handleSelectClimbType(type, climb.climb_id)}>
-                                    <Text style={styles.climbItem}>{climb.climb_type_label}</Text>
+                                <SelectorWrapper data={climbTypeData} disabled={!editSession} handler={(type) => handleSelectClimbType(type, climb.id)}>
+                                    <Text style={styles.climbItem}>{climb.type_label}</Text>
                                 </SelectorWrapper>
                                 {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
                             </View>
 
                             <View style={[styles.climbIconBox, { borderColor: 'orange' }]}>
-                                <SelectorWrapper data={climbGradesData} disabled={!editSession} handler={(grade) => handleSelectClimbGrade(grade, climb.climb_id)}>
+                                <SelectorWrapper data={climbGradesData} disabled={!editSession} handler={(grade) => handleSelectClimbGrade(grade, climb.id)}>
                                     <Text style={styles.climbItem}>{climb.grade_label}</Text>
                                 </SelectorWrapper>
                                 {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
                             </View>
 
                             <View style={[styles.climbIconBox, { borderColor: 'green' }]}>
-                                <SelectorWrapper data={climbOutcomesData} disabled={!editSession} handler={(outcome) => handleSelectClimbOutcome(outcome, climb.climb_id)}>
-                                    <Text style={styles.climbItem}>{climbOutcomeShortLabelLookup[climb.climb_outcome_label]}</Text>
+                                <SelectorWrapper data={climbOutcomesData} disabled={!editSession} handler={(outcome) => handleSelectClimbOutcome(outcome, climb.id)}>
+                                    <Text style={styles.climbItem}>{climbOutcomeShortLabelLookup[climb.outcome_label]}</Text>
                                 </SelectorWrapper>
                                 {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
                             </View>
-                    
 
                             <Modal
                                 animationType="slide"
@@ -306,7 +318,7 @@ export default function ClimbList({ editSession }) {
                         {editSession &&
                                 <ButtonAction
                                     icon={<Ionicons name="trash-sharp" size={24} color="red" />}
-                                    onPress={() => handlePressDeleteClimbButton(climb.climb_id)}
+                                    onPress={() => handlePressDeleteClimbButton(climb.id)}
                                 />
                             }
                         </View>
