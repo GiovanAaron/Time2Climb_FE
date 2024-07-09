@@ -10,7 +10,7 @@ const landingStyles = StyleSheet.create({
         borderWidth: 0,
     },
     image: {
-        flex: 1,
+        flex: 1
     },
     overlay: {
         justifyContent: 'center',
@@ -49,7 +49,8 @@ const landingStyles = StyleSheet.create({
         marginBottom: 20,
         width: 100,
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRadius: 20
     },
     buttonText: {
         fontSize: 16,

@@ -2,6 +2,9 @@ import React from 'react';
 import { View, Text, StyleSheet } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ButtonAction from './ButtonAction';
+import appStyles from '../style-sheets/app-style';
+
+const moment = require('moment');
 
 export default function Session({ sessionData }) {
 
@@ -30,9 +33,11 @@ export default function Session({ sessionData }) {
                 </View>
             </View>
             <View style={styles.details}>
-                <Text>{sessionData.date}</Text>
-                <Text>{sessionData.duration_minutes} mins</Text>
-                <Text>Climbs: {sessionData.climb_count}</Text>
+                <Text style={appStyles.standardFont}>{moment(new Date(sessionData.date)).format('DD-MM-YYYY')}</Text>
+                <Text style={appStyles.standardFont}>
+                    <Text style={appStyles.standardFont}>{sessionData.duration_minutes} mins</Text>
+                    <Text style={appStyles.standardFont}>   Climbs: {sessionData.climb_count}</Text>
+                </Text>
             </View>
         </View>
     );
@@ -57,6 +62,7 @@ const styles = StyleSheet.create({
     wallText: {
         fontSize: 16,
         fontWeight: 'bold',
+        color: 'darkblue'
     },
     icons: {
         flexDirection: 'row',

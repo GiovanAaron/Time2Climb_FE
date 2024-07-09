@@ -24,9 +24,9 @@ const customBtnStyles = StyleSheet.create({
         justifyContent: 'center',
         paddingVertical: 5,
         paddingHorizontal: 0,
-        borderRadius: 7,
+        borderRadius: 10,
         elevation: 2,
-        backgroundColor: 'white',
+        backgroundColor: 'lightblue',
         borderColor: '#007AFF',
         borderWidth: 2,
         marginVertical: 3,
@@ -38,6 +38,6 @@ const customBtnStyles = StyleSheet.create({
         lineHeight: 20,
         fontWeight: 'bold',
         letterSpacing: 0.25,
-        color: 'black',
+        color: 'darkblue',
     }
 });

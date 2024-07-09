@@ -1,8 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
-
 import UserProvider from './authListener.js';
-
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
@@ -15,9 +13,9 @@ import SessionScreen from '../components/screens/SessionScreen';
 import StatsScreen from '../components/screens/StatsScreen';
 import GoalsScreen from '../components/screens/GoalsScreen';
 
+global.backgroundImage = require('../assets/images/bady-abbas-VmYZe_yqxL0-unsplash.jpg');
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
-
 
 function HomeStack() {
 

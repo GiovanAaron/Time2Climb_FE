@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
         width: '75%',
         borderColor: 'orange',
         borderWidth: 2,
-        marginBottom: 15,
-        marginTop: 15,
+        marginBottom: 5,
+        marginTop: 20,
         padding: 20,
         backgroundColor: 'white',
         borderRadius: 30,
@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     stat: {
         paddingVertical: 5,
         fontSize: 16,
+        color: 'darkblue'
     },
     dashboardContainer: {
         width: '75%',

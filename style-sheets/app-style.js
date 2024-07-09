@@ -20,7 +20,17 @@ const appStyles = StyleSheet.create({
   },
   h3: {
     fontSize: 22,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: 'darkblue'
+  },
+  standardFont: {
+    color: 'darkblue'
+  },
+  backgroundStyle: {
+    flex: 1
+  },
+  backgroundImg: {
+    opacity: 0.45
   }
 });
 
