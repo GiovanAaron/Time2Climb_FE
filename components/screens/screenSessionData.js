@@ -8,7 +8,47 @@ export const getClimbsBySessionId = (sessionId) => {
     return data
   })
   .catch((error) => {
-    // console.log(error)
+    console.log("get all climbs error", error)
+  })
+}
+
+export const getSessionById = (sessionId) => {
+  return axios
+  .get(`https://time2climb-be.onrender.com/api/sessions/${sessionId}`)
+  .then(({ data }) => {
+    return data
+  })
+  .catch((error) => {
+    console.log("get session info", error)
+  })
+}
+
+export const postClimb = (newClimb) => {
+  return axios
+  .post(`https://time2climb-be.onrender.com/api/climbs`,
+    {
+        session_id: newClimb.session_id,
+        grade_id: newClimb.grade_id,
+        type_id: newClimb.type_id,
+        climb_outcome_id: newClimb.climb_outcome_id,
+    }
+  )
+  .then(({ data }) => {
+    return data
+  })
+  .catch((error) => {
+    console.log("post a climb error", error)
+  })
+}
+
+export const deleteClimb = (climbId) => {
+  return axios
+  .delete(`https://time2climb-be.onrender.com/api/climbs`)
+  .then((response) => {
+    console.log(data)
+  })
+  .catch((error) => {
+    console.log("delete a climb error", error)
   })
 }
 

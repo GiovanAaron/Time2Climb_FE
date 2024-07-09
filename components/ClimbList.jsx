@@ -1,4 +1,4 @@
-import { getClimbsBySessionId, climbTypeList, outcomesList, gradesList } from './screens/screenSessionData'
+import { getClimbsBySessionId, postClimb, climbTypeList, outcomesList, gradesList } from './screens/screenSessionData'
 import { Modal, Alert, View, Text, Pressable, ActivityIndicator } from "react-native";
 import { useEffect, useState } from 'react';
 import _ from 'lodash';
@@ -14,8 +14,7 @@ import SelectorWrapper from './SelectorWrapper'
 
 export default function ClimbList({ editSession }) {
 
-    const sessionID = 7;
-
+    const [sessionId, setSessionId] = useState(1);
     const [climbList, setClimbList] = useState([]);
 
     const [climbType, setClimbType] = useState(null);
@@ -27,17 +26,21 @@ export default function ClimbList({ editSession }) {
     const [addClimbOpen, setAddClimbOpen] = useState(false);
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
+    const [newClimbPosted, setNewClimbPosted] = useState(0);
     const [deleteClimbId, setDeleteClimbId] = useState(null);
 
     useEffect(() => {
-        getClimbsBySessionId(sessionID)
+        // console.log("useEffect activated")
+        getClimbsBySessionId(sessionId)
         .then((data) => {
             setClimbList(data.climbs)
         })
         .catch((err) => {
-            // console.log("component err", err)
+            console.log("component err", err)
         })
-    }, [])
+
+        setNewClimb({ ...newClimb, session_id: sessionId })
+    }, [newClimbPosted])
 
     const climbOutcomeShortLabelLookup = {
         "Onsight (first attempt - no beta)": "Onsight",
@@ -125,6 +128,21 @@ export default function ClimbList({ editSession }) {
     const handleClimbSave = () => {
         if (climbType && climbGrade && climbOutcome) {
             setSavingClimb(true);
+            postClimb(newClimb)
+            .then((response) => {
+                setSavingClimb(false);
+                setNewClimbPosted(newClimbPosted + 1)
+
+                setClimbType(null);
+                setClimbGrade(null);
+                setClimbOutcome(null);
+
+                Alert.alert('Success!', 'Your new climb has been added')
+                
+            })
+            .catch((err) => {
+                console.log(err)
+            })
         } else {
             Alert.alert('Missing data', 'Please complete all fields before saving')
         }
@@ -158,7 +176,7 @@ export default function ClimbList({ editSession }) {
 
         } else {
             setClimbType(type)
-            setNewClimb({ ...newClimb, type_id: type.value })
+            setNewClimb({ ...newClimb, type_id: type.value, type_label: type.label })
         }
     }
 
@@ -175,7 +193,7 @@ export default function ClimbList({ editSession }) {
 
         } else {
             setClimbGrade(grade.label)
-            setNewClimb({ ...newClimb, grade_id: grade.value })
+            setNewClimb({ ...newClimb, grade_id: grade.value, grade_label: grade.label })
         }
     }
 
@@ -192,7 +210,7 @@ export default function ClimbList({ editSession }) {
 
         } else {
             setClimbOutcome(outcome.label)
-            setNewClimb({ ...newClimb, climb_outcome_id: outcome.value })
+            setNewClimb({ ...newClimb, climb_outcome_id: outcome.value, outcome_label: outcome.label })
         }
 
     }
@@ -214,7 +232,7 @@ export default function ClimbList({ editSession }) {
                                 />
                             </View> :
                             <View style={{ flexDirection: 'row', columnGap: 5, alignItems: 'center' }}>
-                                <Text>Add climb</Text>
+                                <Text>Save climb</Text>
                                 <ButtonAction
                                     icon={<Ionicons name="add-circle-outline" size={24} color="black" />}
                                     onPress={handleToggleAddClimb}
