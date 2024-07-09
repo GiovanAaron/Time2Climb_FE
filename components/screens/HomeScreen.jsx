@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, View, Text, Pressable } from "react-native";
+import { ScrollView, View, Text, Pressable, ImageBackground } from "react-native";
 import Map from '../Map';
 import { fetchMapData } from '../../utils/api';
 import Dashboard from '../Dashboard'
@@ -53,75 +53,52 @@ export default function HomeScreen({ navigation }) {
 
     // TODO: display loading icon
     return (
-        <ScrollView>
-            <View style={styles.screenContainer}>
+        <ImageBackground source={global.backgroundImage} resizeMode="cover" style={appStyles.backgroundStyle} imageStyle={appStyles.backgroundImg}>
+            <ScrollView>
+                <View style={styles.screenContainer}>
 
-                <Text style={appStyles.h1}>Time to Climb</Text>
+                    <Text style={appStyles.h1}>(Time To Climb Logo)</Text>
 
+                    <Pressable style={styles.mapContainer} onPress={() => navigation.navigate('Map Screen')}>
+                        <Map mapData={tempMapData} />
+                    </Pressable>
 
-                <Pressable style={styles.mapContainer} onPress={() => navigation.navigate('Map Screen')}>
-                    <Map mapData={tempMapData} />
-                </Pressable>
+                    <Dashboard navigation={navigation} />
+                    {/* // TODO: change from tempMapData to mapData once API integrated */}
 
-                <Dashboard navigation={navigation} />
-                {/* // TODO: change from tempMapData to mapData once API integrated */}
+                    <View style={styles.keyStatsContainer}>
+                        <Text style={[appStyles.h3, appStyles.lightModeFont, { marginBottom: 10 }]}>Latest Session</Text>
+                        <Text style={styles.stat}>
+                            <Text style={{ fontWeight: 'bold' }}> 6/7/2024</Text> -
+                            2 hours and 15 minutes
+                        </Text>
+                        <Text style={styles.stat}>At
+                            <Text style={{ fontWeight: 'bold' }}> The Climbing Works</Text>
+                        </Text>
+                        <Text style={styles.stat}>You climbed
+                            <Text style={{ fontWeight: 'bold' }}> 3 boulders </Text>
+                            and
+                            <Text style={{ fontWeight: 'bold' }}> 6 routes</Text>
+                        </Text>
+                    </View>
 
-
-                <View style={styles.keyStatsContainer}>
-                    <Text style={[appStyles.h3, { color: 'black' }]}>Last session</Text>
-                    <Text style={styles.stat}>
-                        <Text style={{ fontWeight: 'bold' }}> 6/7/2024</Text> -
-                        2 hours and 15 minutes
-                    </Text>
-                    <Text style={styles.stat}>At
-                        <Text style={{ fontWeight: 'bold' }}> The Climbing Works</Text>
-                    </Text>
-                    <Text style={styles.stat}>You climbed
-                        <Text style={{ fontWeight: 'bold' }}> 3 boulders </Text>
-                        and
-                        <Text style={{ fontWeight: 'bold' }}> 6 routes</Text>
-                    </Text>
+                    <View style={styles.keyStatsContainer}>
+                        <Text style={[appStyles.h3, appStyles.lightModeFont, {marginBottom:10}]}>Key Stats</Text>
+                        <Text style={styles.stat}>
+                            <Text style={{ fontWeight: 'bold' }}> Stat 1: </Text>
+                            Statistic one
+                        </Text>
+                        <Text style={styles.stat}>
+                            <Text style={{ fontWeight: 'bold' }}> Stat 2: </Text>
+                            Statistic two
+                        </Text>
+                        <Text style={styles.stat}>
+                            <Text style={{ fontWeight: 'bold' }}> Stat 3: </Text>
+                            Statistic three
+                        </Text>
+                    </View>
                 </View>
-
-  
-
-           
-
-
-                {/* <Button
-                title="Stats"
-                onPress={() => navigation.navigate('Stats Screen')}
-            />
-            <Button
-                title="Map"
-                onPress={() => navigation.navigate('Map Screen', { tempMapData })} // TODO: change from tempMapData to mapData once API integrated
-            />
-            <Button
-                title="Session"
-                onPress={() => navigation.navigate('Session Screen')}
-            />
-            <Button
-                title="Sessions"
-                onPress={() => navigation.navigate('Sessions Screen')}
-            /> */}
-
-                <View style={styles.keyStatsContainer}>
-                    <Text style={[appStyles.h3, { color: 'black' }]}>Key stats</Text>
-                    <Text style={styles.stat}>
-                        <Text style={{ fontWeight: 'bold' }}> Stat 1: </Text>
-                        Statistic one
-                    </Text>
-                    <Text style={styles.stat}>
-                        <Text style={{ fontWeight: 'bold' }}> Stat 2: </Text>
-                        Statistic two
-                    </Text>
-                    <Text style={styles.stat}>
-                        <Text style={{ fontWeight: 'bold' }}> Stat 3: </Text>
-                        Statistic three
-                    </Text>
-                </View>
-
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </ImageBackground>
     );
 }

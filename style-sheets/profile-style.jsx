@@ -16,7 +16,8 @@ const profileStyles = StyleSheet.create({
         justifyContent: 'flex-start',
         borderColor: 'white',
         borderWidth: 0,
-        width: '75%'
+        width: '75%',
+        marginTop: 40
     },
     photoFrame: {
         width: 125,
@@ -36,7 +37,7 @@ const profileStyles = StyleSheet.create({
     profileBio: {
         fontSize: 16,
         marginBottom: 20,
-        marginTop: 10,
+        marginTop: 20,
         backgroundColor: 'white',
         borderColor: '#93C572',
         borderWidth: 2,
@@ -47,6 +48,7 @@ const profileStyles = StyleSheet.create({
     },
     profileStat: {
         fontSize: 18,
+        marginBottom: 10
     },
     profileBioHeading: {
         fontWeight: 'bold',
@@ -69,14 +71,15 @@ const profileStyles = StyleSheet.create({
     signOutButton: {
         backgroundColor: '#007AFF',
         padding: 10,
-        marginVertical: 20,
+        marginVertical: 30,
         width: 100,
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRadius: 15
     },
     signOutButtonText: {
         fontSize: 16,
-        color: 'white',
+        color: 'white'
     },
 });
 

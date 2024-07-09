@@ -1,6 +1,6 @@
 import React from "react";
 import Map from '../Map';
-import { Text, View } from "react-native";
+import { Text, View, ImageBackground } from "react-native";
 import mapStyles from '../../style-sheets/map-style';
 import appStyles from '../../style-sheets/app-style';
 
@@ -29,11 +29,13 @@ export default function MapScreen({ mapData }) {
   // mapData.miniView = false;
 
   return (
-    <View style={appStyles.screenContainer}>
-      {/* // TODO: change from tempMapData to mapData once API integrated  */}
-      <View style ={mapStyles.mapContainer}>
-      <Map mapData={tempMapData} /> 
+    <ImageBackground source={global.backgroundImage} resizeMode="cover" style={appStyles.backgroundStyle} imageStyle={appStyles.backgroundImg}>
+      <View style={appStyles.screenContainer}>
+        {/* // TODO: change from tempMapData to mapData once API integrated  */}
+        <View style ={mapStyles.mapContainer}>
+        <Map mapData={tempMapData} /> 
+        </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 }

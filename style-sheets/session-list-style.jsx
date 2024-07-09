@@ -5,7 +5,7 @@ const sessionListStyles = StyleSheet.create({
     mapContainer: {
         width: '75%',
         height: 200,
-        marginBottom: 20,
+        marginBottom: 15,
         padding: 0,
         borderWidth: 2,
         borderColor: 'green',

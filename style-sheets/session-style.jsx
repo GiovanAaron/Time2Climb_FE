@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderColor: 'white',
         borderWidth: 0,
-        marginVertical: 50
+        marginVertical: 25
     },
     sectionContainer: {
         flex: 1,
@@ -21,10 +21,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingVertical: 10,
+        marginBottom: 20,
         borderWidth: 0,
         width: '100%',
-        borderColor: 'white',
+        borderColor: 'white'
     },
     sessionInfoContainer: {
         alignItems: 'start',
