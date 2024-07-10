@@ -19,10 +19,15 @@ export default function Map({ mapData }) {
     let latitudeDelta;
     let longitudeDelta;
 
-    const largeView = {
+    let largeView = { //TODO: change to const once all UK wall data exists in the DB
         latitudeDelta: 0.5,
         longitudeDelta: 11
     }
+    // TODO: line below is temp code due to only having wall data for a small section of the UK
+    largeView = {
+        latitudeDelta: 0.5,
+        longitudeDelta: 1.2
+    } //TODO: delete this line once all UK wall data exists in the DB
     const smallView = {
         latitudeDelta: 0.5,
         longitudeDelta: 0.04
@@ -49,9 +54,13 @@ export default function Map({ mapData }) {
             mapCentreLongitude = zoomedDefaultLongitude;
         }
         else {
-            // Zoom out to display UK
+            // Zoom out to display entire UK
             mapCentreLatitude = centralUkLatitude;
             mapCentreLongitude = centralUkLongitude;
+
+            // TODO: below is temp code due to only having wall data for a small section of the UK
+            mapCentreLatitude = zoomedDefaultLatitude; //TODO: delete this line once all UK wall data exists in the DB
+            mapCentreLongitude = zoomedDefaultLongitude; //TODO: delete this line once all UK wall data exists in the DB
         }
     }
 
