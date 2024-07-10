@@ -42,11 +42,24 @@ export const postClimb = (newClimb) => {
 }
 
 export const deleteClimb = (climbId) => {
-  console.log("in axios", climbId)
   return axios
   .delete(`https://time2climb-be.onrender.com/api/climbs/${climbId}`)
   .catch((error) => {
     console.log("delete a climb error", error)
+  })
+}
+
+export const patchClimb = (climbId, patchBody) => {
+  console.log(patchBody, climbId);
+  return axios
+  .patch(`https://time2climb-be.onrender.com/api/climbs/${climbId}`,
+    patchBody
+  )
+  .then(({ data }) => {
+    return data
+  })
+  .catch((error) => {
+    console.log("patch a climb error", error)
   })
 }
 
