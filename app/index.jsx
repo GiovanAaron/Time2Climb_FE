@@ -21,7 +21,7 @@ const Tab = createMaterialBottomTabNavigator();
 
 function HomeStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home Screen" component={HomeScreen} />
       <Stack.Screen name="Map Screen" component={MapScreen} />
       <Stack.Screen name="Session Screen" component={SessionScreen} />
@@ -34,7 +34,7 @@ function HomeStack() {
 
 function SessionListStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Sessions Screen" component={SessionListScreen} />
       <Stack.Screen name="Profile Screen" component={ProfileScreen} />
       <Stack.Screen name="Home Screen" component={HomeScreen} />

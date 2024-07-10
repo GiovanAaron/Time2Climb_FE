@@ -249,7 +249,7 @@ export default function ClimbList({ editSession, sessionId }) {
     }
 
     return (
-        <View style={styles.sectionContainer}>
+        <View style={styles.subSectionContainer}>
             {sessionId &&
                 <View style={styles.headerInfoBox}>
                     <Text style={appStyles.h2}>Climbs</Text>

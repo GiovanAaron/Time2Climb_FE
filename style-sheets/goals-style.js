@@ -4,26 +4,24 @@ const styles = StyleSheet.create({
     screenContainer: {
         flex: 1,
         alignItems: 'center',
-        borderColor: 'white',
-        borderWidth: 1,
-        marginVertical: 30,
-    },
-    headerInfoBox: {
-        flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center',
-        paddingVertical: 20,
+        borderColor: 'red',
         borderWidth: 0,
-        width: '100%',
-        borderColor: 'white',
     },
     sectionContainer: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        borderColor: 'white',
+        borderColor: 'green',
         borderWidth: 1,
-        width: '75%'
+        backgroundColor: 'white',
+        width: '85%',
+        height: '100%',
+        paddingHorizontal: 30,
+        borderRadius: 20,
+        marginBottom: 40,
+        marginTop: 90,
+        paddingVertical: 20,
     },
     awardListContainer: {
         borderColor: 'white',
@@ -31,7 +29,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         rowGap: 20,
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        width: '85%',
     },
     acheivementPressable: {
         borderWidth: 0,

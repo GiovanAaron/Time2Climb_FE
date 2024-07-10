@@ -177,7 +177,7 @@ export default function SessionInfo({ editSession, setEditSession, sessionData, 
 
     return (
 
-        <View style={styles.sectionContainer}>
+        <View style={styles.subSectionContainer}>
 
             <TimerPickerModal
                 visible={durationPickerOpen}

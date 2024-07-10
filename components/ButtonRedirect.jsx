@@ -26,12 +26,13 @@ const customBtnStyles = StyleSheet.create({
         paddingHorizontal: 0,
         borderRadius: 10,
         elevation: 2,
-        backgroundColor: 'lightblue',
+        backgroundColor: 'white',
         borderColor: '#007AFF',
         borderWidth: 2,
         marginVertical: 3,
         marginHorizontal: 1,
-        minWidth: '30%'
+        minWidth: '30%',
+        height: 50,
     },
     text: {
         fontSize: 14,

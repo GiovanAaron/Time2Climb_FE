@@ -6,18 +6,22 @@ const profileStyles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        borderColor: 'white',
+        borderColor: 'red',
         borderWidth: 0,
-        marginVertical: 30,
     },
     sectionContainer: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'flex-start',
-        borderColor: 'white',
-        borderWidth: 0,
-        width: '75%',
-        marginTop: 40
+        justifyContent: 'center',
+        borderColor: 'green',
+        borderWidth: 1,
+        backgroundColor: 'white',
+        width: '85%',
+        paddingHorizontal: 30,
+        borderRadius: 20,
+        marginBottom: 40,
+        marginTop: 90,
+        paddingVertical: 20,
     },
     photoFrame: {
         width: 125,
@@ -45,6 +49,7 @@ const profileStyles = StyleSheet.create({
         padding: 15,
         lineHeight: 22,
         elevation: 2,
+        width: '90%'
     },
     profileStat: {
         fontSize: 18,
@@ -62,6 +67,7 @@ const profileStyles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: 'white',
         elevation: 2,
+        width: '90%'
     },
     profileStatLabel: {
         fontSize: 18,

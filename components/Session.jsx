@@ -19,17 +19,8 @@ export default function Session({ navigation, sessionData }) {
 
     return (
         <View style={styles.sessionContainer}>
-            <Pressable onPress={() => navigation.navigate('Session Screen', { sessionData })}>
-                <View style={styles.icons}>
-                    <ButtonAction 
-                        onPress={handleDelete} 
-                        icon={<Ionicons name="trash" color={'red'} size={20} />} 
-                    />
-                    <ButtonAction 
-                        onPress={handleEdit} 
-                        icon={<Ionicons name="create" color={'cornflowerblue'} size={20} />} 
-                    />
-                </View>
+            <Pressable style={{ alignItems: 'center' }} onPress={() => navigation.navigate('Session Screen', { sessionData })}>
+
                 <Text style={styles.header}>{sessionData.wall_name}</Text>
                 <View style={styles.details}>
                     <Text style={appStyles.standardFont}>{moment(new Date(sessionData.date)).format('DD-MM-YYYY')}</Text>
@@ -38,7 +29,17 @@ export default function Session({ navigation, sessionData }) {
                         <Text style={appStyles.standardFont}>   Climbs: {sessionData.climb_count}</Text>
                     </Text>
                 </View>
-            </Pressable>  
+                <View style={styles.icons}>
+                    <ButtonAction
+                        onPress={handleDelete}
+                        icon={<Ionicons name="trash" color={'red'} size={20} />}
+                    />
+                    <ButtonAction
+                        onPress={handleEdit}
+                        icon={<Ionicons name="create" color={'cornflowerblue'} size={20} />}
+                    />
+                </View>
+            </Pressable>
         </View>
     );
 }
@@ -52,8 +53,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 20,
         backgroundColor: 'white',
-        minWidth: '80%',
-        maxWidth: '80%',
+        width: '100%',
         marginBottom: 15,
     },
     header: {
@@ -62,12 +62,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         fontSize: 16,
         fontWeight: 'bold',
-        color: 'darkblue'
+        color: 'darkblue',
+        textAlign: 'center',
     },
     icons: {
         flexDirection: 'row-reverse'
     },
     details: {
         marginTop: 5,
+        alignItems: 'center'
     }
 });
