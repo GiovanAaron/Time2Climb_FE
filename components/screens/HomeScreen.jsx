@@ -21,7 +21,7 @@ export default function HomeScreen({ navigation }) {
 
                     <Text style={appStyles.h1}>(Time To Climb Logo)</Text>
 
-                    <Pressable style={styles.mapContainer} onPress={() => navigation.navigate('Map Screen')}>
+                    <Pressable style={styles.mapContainer} onPress={() => navigation.navigate('Map Screen', navigation={navigation})}>
                         <Map />
                     </Pressable>
 

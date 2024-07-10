@@ -1,12 +1,12 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import MapView, { Marker } from 'react-native-maps';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { FontAwesome } from '@expo/vector-icons';
 import mapStyles from '../style-sheets/map-style';
 import { useMapData } from '../contexts/map-context';
 
-export default function Map() {
+export default function Map({ navigation }) {
 
     const { mapData } = useMapData();
     const centralUkLatitude = 54.473699;
@@ -76,7 +76,7 @@ export default function Map() {
     }
 
     const onSessionMarkerPress = (id) => {
-        // TODO: redirect to list of sessions for this wall
+        navigation.navigate('Wall Sessions Screen');
     };
 
     const onWallMarkerPress = (id) => {
