@@ -29,13 +29,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     headerInfoBox: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 20,
+        marginVertical: 10,
         borderWidth: 0,
         width: '100%',
-        borderColor: 'white'
+        borderColor: 'red'
     },
     sessionInfoContainer: {
         alignItems: 'start',
