@@ -12,9 +12,8 @@ import appStyles from "../style-sheets/app-style"
 
 import SelectorWrapper from './SelectorWrapper'
 
-export default function ClimbList({ editSession }) {
+export default function ClimbList({ editSession, sessionId }) {
 
-    const [sessionId, setSessionId] = useState(1);
     const [climbList, setClimbList] = useState([]);
 
     const [climbType, setClimbType] = useState(null);
@@ -32,19 +31,21 @@ export default function ClimbList({ editSession }) {
     const [deleteClimbId, setDeleteClimbId] = useState(null);
 
     useEffect(() => {
-        // console.log("useEffect activated")
-        setLoadingClimbs(true);
-        getClimbsBySessionId(sessionId)
-            .then((data) => {
-                setClimbList(data.climbs)
-                setLoadingClimbs(false);
-            })
-            .catch((err) => {
-                console.log("component err", err)
-                setLoadingClimbs(false);
-            })
+        if (sessionId) {
+            setLoadingClimbs(true);
+            getClimbsBySessionId(sessionId)
+                .then((data) => {
+                    setClimbList(data.climbs)
+                    setLoadingClimbs(false);
+                })
+                .catch((err) => {
+                    console.log("component err", err)
+                    setLoadingClimbs(false);
+                })
 
-        setNewClimb({ ...newClimb, session_id: sessionId })
+            setNewClimb({ ...newClimb, session_id: sessionId })
+        }
+
     }, [newClimbsPosted, climbsDeleted])
 
     const climbOutcomeShortLabelLookup = {
@@ -130,8 +131,6 @@ export default function ClimbList({ editSession }) {
 
     const handleClimbSave = (climbId) => {
 
-        console.log(climbId)
-
         const editedClimb = climbList.find(climbItem => {
             return climbItem.id === climbId
         })
@@ -153,7 +152,7 @@ export default function ClimbList({ editSession }) {
     const handleNewClimbSave = () => {
         if (climbType && climbGrade && climbOutcome) {
             setSavingClimb(true);
-            postClimb(newClimb)
+            postClimb({...newClimb, session_id: sessionId})
                 .then((response) => {
                     setSavingClimb(false);
                     setNewClimbsPosted(newClimbsPosted + 1)
@@ -166,7 +165,7 @@ export default function ClimbList({ editSession }) {
 
                 })
                 .catch((err) => {
-                    console.log(err)
+                    console.log("post a climb error", err)
                 })
         } else {
             Alert.alert('Missing data', 'Please complete all fields before saving')
@@ -181,11 +180,12 @@ export default function ClimbList({ editSession }) {
     const handleConfirmDelete = () => {
         Alert.alert('Climb deleted!', '')
         setDeleteModalVisible(false);
-        console.log(deleteClimbId)
         deleteClimb(deleteClimbId)
             .then(() => {
-                console.log("climb deleted")
                 setClimbsDeleted(climbsDeleted + 1)
+            })
+            .catch((err) => {
+                console.log(err)
             })
     }
 
@@ -250,42 +250,31 @@ export default function ClimbList({ editSession }) {
 
     return (
         <View style={styles.sectionContainer}>
-
-            <View style={styles.climbCountContainer}>
-                <Text style={styles.sessionInfoLabel}>Number of climbs recorded</Text>
-                <Text style={styles.sessionInfoItem}>
-                    {
-                        climbList.length > 1 ?
-                            climbList.length + ' climbs' :
-                            climbList.length + ' climb'
+            {sessionId &&
+                <View style={styles.headerInfoBox}>
+                    <Text style={appStyles.h2}>Climbs</Text>
+                    {editSession &&
+                        <View>
+                            {addClimbOpen ?
+                                <View style={{ flexDirection: 'row', columnGap: 5, alignItems: 'center' }}>
+                                    <Text>Hide</Text>
+                                    <ButtonAction
+                                        icon={<Ionicons name="remove-circle-outline" size={24} color="black" />}
+                                        onPress={handleToggleAddClimb}
+                                    />
+                                </View> :
+                                <View style={{ flexDirection: 'row', columnGap: 5, alignItems: 'center' }}>
+                                    <Text>Add climb</Text>
+                                    <ButtonAction
+                                        icon={<Ionicons name="add-circle-outline" size={24} color="black" />}
+                                        onPress={handleToggleAddClimb}
+                                    />
+                                </View>
+                            }
+                        </View>
                     }
-                </Text>
-            </View>
-
-            <View style={styles.headerInfoBox}>
-                <Text style={appStyles.h2}>Climbs</Text>
-                {editSession &&
-                    <View>
-                        {addClimbOpen ?
-                            <View style={{ flexDirection: 'row', columnGap: 5, alignItems: 'center' }}>
-                                <Text>Hide</Text>
-                                <ButtonAction
-                                    icon={<Ionicons name="remove-circle-outline" size={24} color="black" />}
-                                    onPress={handleToggleAddClimb}
-                                />
-                            </View> :
-                            <View style={{ flexDirection: 'row', columnGap: 5, alignItems: 'center' }}>
-                                <Text>Save climb</Text>
-                                <ButtonAction
-                                    icon={<Ionicons name="add-circle-outline" size={24} color="black" />}
-                                    onPress={handleToggleAddClimb}
-                                />
-                            </View>
-                        }
-                    </View>
-                }
-            </View>
-
+                </View>
+            }
             {loadingClimbs && <Text style={styles.loadingMsg}>Loading Climbs</Text>}
             {loadingClimbs && <ActivityIndicator size={"large"} color={"#007AFF"} style={{ marginVertical: 10 }} />}
 
@@ -334,7 +323,6 @@ export default function ClimbList({ editSession }) {
 
                     < View key={climb.id} >
 
-
                         <View style={styles.climbContainer}>
 
                             <View style={[styles.climbIconBox, { borderColor: 'red' }]}>
@@ -343,7 +331,7 @@ export default function ClimbList({ editSession }) {
                                 </SelectorWrapper>
                                 {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
                             </View>
-          
+
                             <View style={[styles.climbIconBox, { borderColor: 'orange' }]}>
                                 <SelectorWrapper data={climbGradesData} disabled={!editSession} handler={(grade) => handleSelectClimbGrade(grade, climb.id)}>
                                     {climb.grade_label ?
