@@ -3,58 +3,67 @@ import axios from 'axios';
 
 export const getClimbsBySessionId = (sessionId) => {
   return axios
-  .get(`https://time2climb-be.onrender.com/api/climbs/${sessionId}`)
-  .then(({ data }) => {
-    return data
-  })
+    .get(`https://time2climb-be.onrender.com/api/climbs/${sessionId}`)
+    .then(({ data }) => {
+      return data
+    })
 }
 
 export const postClimb = (newClimb) => {
   return axios
-  .post(`https://time2climb-be.onrender.com/api/climbs`,
-    {
+    .post(`https://time2climb-be.onrender.com/api/climbs`,
+      {
         session_id: newClimb.session_id,
         grade_id: newClimb.grade_id,
         type_id: newClimb.type_id,
         climb_outcome_id: newClimb.climb_outcome_id,
-    }
-  )
-  .then(({ data }) => {
-    return data
-  })
+      }
+    )
+    .then(({ data }) => {
+      console.log("posted")
+      return data
+    })
 }
 
 export const deleteClimb = (climbId) => {
   return axios
-  .delete(`https://time2climb-be.onrender.com/api/climbs/${climbId}`)
+    .delete(`https://time2climb-be.onrender.com/api/climbs/${climbId}`)
+}
+
+export const deleteSession = (sessionId) => {
+  return axios
+    .delete(`https://time2climb-be.onrender.com/api/sessions/${sessionId}`)
+    .then((response) => {
+      console.log(response.status)
+    })
 }
 
 export const patchClimb = (climbId, patchBody) => {
   return axios
-  .patch(`https://time2climb-be.onrender.com/api/climbs/${climbId}`,
-    patchBody
-  )
-  .then(({ data }) => {
-    return data
-  })
+    .patch(`https://time2climb-be.onrender.com/api/climbs/${climbId}`,
+      patchBody
+    )
+    .then(({ data }) => {
+      return data
+    })
 }
 
 export const postSession = (newSession) => {
   return axios
-  .post(`https://time2climb-be.onrender.com/api/sessions`, newSession
-  )
-  .then(({ data }) => {
-    return data
-  })
+    .post(`https://time2climb-be.onrender.com/api/sessions`, newSession
+    )
+    .then(({ data }) => {
+      return data
+    })
 }
 
 export const patchSession = (newSession, sessionId) => {
   return axios
-  .patch(`https://time2climb-be.onrender.com/api/sessions/${sessionId}`, newSession
-  )
-  .then(({ data }) => {
-    return data
-  })
+    .patch(`https://time2climb-be.onrender.com/api/sessions/${sessionId}`, newSession
+    )
+    .then(({ data }) => {
+      return data
+    })
 }
 
 export const gradesList = [
