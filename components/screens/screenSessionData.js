@@ -50,7 +50,6 @@ export const deleteClimb = (climbId) => {
 }
 
 export const patchClimb = (climbId, patchBody) => {
-  console.log(patchBody, climbId);
   return axios
   .patch(`https://time2climb-be.onrender.com/api/climbs/${climbId}`,
     patchBody
@@ -60,6 +59,17 @@ export const patchClimb = (climbId, patchBody) => {
   })
   .catch((error) => {
     console.log("patch a climb error", error)
+  })
+}
+
+export const getSession = (sessionId) => {
+  return axios
+  .get(`https://time2climb-be.onrender.com/api/sessions/${sessionId}`)
+  .then(({ data }) => {
+    return data.userSession[0];
+  })
+  .catch((error) => {
+    console.log("get a session error", error)
   })
 }
 

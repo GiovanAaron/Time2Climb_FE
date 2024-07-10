@@ -2,15 +2,13 @@ import ClimbList from '../ClimbList'
 import SessionInfo from '../SessionInfo'
 import { View, ScrollView, ImageBackground } from "react-native";
 import styles from "../../style-sheets/session-style"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import appStyles from '../../style-sheets/app-style';
 
 export default function SessionScreen({ navigation }) {
 
   const [editSession, setEditSession] = useState(false);
-
-
-
+ 
   return (
     <ImageBackground source={global.backgroundImage} resizeMode="cover" style={appStyles.backgroundStyle} imageStyle={appStyles.backgroundImg}>
       <ScrollView>
