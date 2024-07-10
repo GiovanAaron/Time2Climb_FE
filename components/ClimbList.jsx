@@ -1,4 +1,4 @@
-import { getClimbsBySessionId, postClimb, deleteClimb, climbTypeList, outcomesList, gradesList } from './screens/screenSessionData'
+import { getClimbsBySessionId, postClimb, deleteClimb, patchClimb, climbTypeList, outcomesList, gradesList } from './screens/screenSessionData'
 import { Modal, Alert, View, Text, Pressable, ActivityIndicator } from "react-native";
 import { useEffect, useState } from 'react';
 import _ from 'lodash';
@@ -23,6 +23,7 @@ export default function ClimbList({ editSession }) {
 
     const [newClimb, setNewClimb] = useState({})
     const [savingClimb, setSavingClimb] = useState(false)
+    const [loadingClimbs, setLoadingClimbs] = useState(false)
     const [addClimbOpen, setAddClimbOpen] = useState(false);
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
@@ -32,12 +33,15 @@ export default function ClimbList({ editSession }) {
 
     useEffect(() => {
         // console.log("useEffect activated")
+        setLoadingClimbs(true);
         getClimbsBySessionId(sessionId)
             .then((data) => {
                 setClimbList(data.climbs)
+                setLoadingClimbs(false);
             })
             .catch((err) => {
                 console.log("component err", err)
+                setLoadingClimbs(false);
             })
 
         setNewClimb({ ...newClimb, session_id: sessionId })
@@ -85,6 +89,7 @@ export default function ClimbList({ editSession }) {
         <View style={[styles.climbIconBox, { borderColor: 'red' }]}>
             {climbType ?
                 <Text style={[styles.climbItem, { color: 'red', fontWeight: 'bold' }]}>{climbType.label}</Text> :
+
                 <View style={{ alignItems: 'center' }}>
                     <MaterialCommunityIcons name="carabiner" size={32} color="grey" />
                     <Text style={styles.climbItem}>Type</Text>
@@ -123,7 +128,29 @@ export default function ClimbList({ editSession }) {
             </View>
     }
 
-    const handleClimbSave = () => {
+    const handleClimbSave = (climbId) => {
+
+        console.log(climbId)
+
+        const editedClimb = climbList.find(climbItem => {
+            return climbItem.id === climbId
+        })
+        const patchBody = {
+            climb_outcome_id: editedClimb.climb_outcome_id,
+            grade_id: editedClimb.grade_id,
+            type_id: editedClimb.type_id,
+        }
+
+        patchClimb(climbId, patchBody)
+            .then((response) => {
+                Alert.alert('Success!', 'Your climb has been updated')
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    const handleNewClimbSave = () => {
         if (climbType && climbGrade && climbOutcome) {
             setSavingClimb(true);
             postClimb(newClimb)
@@ -175,6 +202,8 @@ export default function ClimbList({ editSession }) {
             })
             selectedClimb.type_label = type.label
             selectedClimb.type_id = type.value
+            selectedClimb.grade_id = null
+            selectedClimb.grade_label = null
 
             setClimbList(climbListLocalCopy)
 
@@ -257,6 +286,10 @@ export default function ClimbList({ editSession }) {
                 }
             </View>
 
+            {loadingClimbs && <Text style={styles.loadingMsg}>Loading Climbs</Text>}
+            {loadingClimbs && <ActivityIndicator size={"large"} color={"#007AFF"} style={{ marginVertical: 10 }} />}
+
+
             <View style={styles.climbListContainer}>
 
                 {addClimbOpen &&
@@ -280,7 +313,7 @@ export default function ClimbList({ editSession }) {
 
                         {savingClimb ?
                             <ActivityIndicator size={"large"} color={"#007AFF"} style={{ marginVertical: 10 }} /> :
-                            <Pressable onPress={handleClimbSave}>
+                            <Pressable onPress={handleNewClimbSave}>
                                 <Text
                                     style={climbType && climbOutcome && climbGrade ?
                                         styles.saveClimbButton :
@@ -298,7 +331,9 @@ export default function ClimbList({ editSession }) {
 
                 {climbList.map((climb) => (
 
-                    <View key={climb.id}>
+
+                    < View key={climb.id} >
+
 
                         <View style={styles.climbContainer}>
 
@@ -308,10 +343,16 @@ export default function ClimbList({ editSession }) {
                                 </SelectorWrapper>
                                 {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
                             </View>
-
+          
                             <View style={[styles.climbIconBox, { borderColor: 'orange' }]}>
                                 <SelectorWrapper data={climbGradesData} disabled={!editSession} handler={(grade) => handleSelectClimbGrade(grade, climb.id)}>
-                                    <Text style={styles.climbItem}>{climb.grade_label}</Text>
+                                    {climb.grade_label ?
+                                        <Text style={styles.climbItem}>{climb.grade_label}</Text> :
+                                        <View style={{ alignItems: 'center' }}>
+                                            <MaterialCommunityIcons name="arm-flex-outline" size={32} color={climbType ? "orange" : 'lightgrey'} />
+                                            <Text style={[styles.climbItem, { color: climbType ? "black" : 'lightgrey' }]}>Grade</Text>
+                                        </View>
+                                    }
                                 </SelectorWrapper>
                                 {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
                             </View>
@@ -346,11 +387,17 @@ export default function ClimbList({ editSession }) {
 
                             </Modal>
                         </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginVertical: 5 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginVertical: 5, columnGap: 20 }}>
                             {editSession &&
                                 <ButtonAction
                                     icon={<Ionicons name="trash-sharp" size={24} color="red" />}
                                     onPress={() => handlePressDeleteClimbButton(climb.id)}
+                                />
+                            }
+                            {editSession &&
+                                <ButtonAction
+                                    icon={<MaterialCommunityIcons name="content-save" size={24} color="blue" />}
+                                    onPress={() => handleClimbSave(climb.id)}
                                 />
                             }
                         </View>
@@ -358,7 +405,7 @@ export default function ClimbList({ editSession }) {
 
                 ))}
             </View>
-        </View>
+        </View >
     )
 
 }
