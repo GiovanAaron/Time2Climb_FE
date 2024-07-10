@@ -42,11 +42,9 @@ export const postClimb = (newClimb) => {
 }
 
 export const deleteClimb = (climbId) => {
+  console.log("in axios", climbId)
   return axios
-  .delete(`https://time2climb-be.onrender.com/api/climbs`)
-  .then((response) => {
-    console.log(data)
-  })
+  .delete(`https://time2climb-be.onrender.com/api/climbs/${climbId}`)
   .catch((error) => {
     console.log("delete a climb error", error)
   })

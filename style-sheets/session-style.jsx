@@ -9,13 +9,24 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         marginVertical: 25
     },
+    middleBackground: {
+        borderRadius: 20,
+        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+        padding: 15,
+        borderColor: 'white',
+        borderWidth: 0,
+        width: '80%',
+    },
     sectionContainer: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         borderColor: 'white',
         borderWidth: 0,
-        width: '75%'
+    },
+    climbCountContainer: {
+        alignSelf: 'flex-start',
+        fontFamily: 'bold'
     },
     headerInfoBox: {
         flexDirection: 'row',
@@ -159,9 +170,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.25)',
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
         borderColor: 'white',
-        borderWidth: 1,
+        borderWidth: 0,
     },
     modalContainer: {
         justifyContent: 'center',

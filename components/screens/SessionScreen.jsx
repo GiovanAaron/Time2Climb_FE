@@ -9,13 +9,19 @@ export default function SessionScreen({ navigation }) {
 
   const [editSession, setEditSession] = useState(false);
 
+
+
   return (
     <ImageBackground source={global.backgroundImage} resizeMode="cover" style={appStyles.backgroundStyle} imageStyle={appStyles.backgroundImg}>
       <ScrollView>
         <View style={styles.screenContainer}>
+
+          <View style={styles.middleBackground}> 
         
           <SessionInfo editSession={editSession} setEditSession={setEditSession}/>
           <ClimbList editSession={editSession}/>
+
+          </View>
           
         </View>
       </ScrollView >
