@@ -38,7 +38,7 @@ export default function SessionInfo({ editSession, setEditSession }) {
                 setSessionInfo({
                     ...sessionInfo,
                     wall_id: userSession.wall_id,
-                    wall_name: "Climbing Works",
+                    wall_name: userSession.wall_name,
                     date: userSession.date,
                     duration_minutes: userSession.duration_minutes
                 })
