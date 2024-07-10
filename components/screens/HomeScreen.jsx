@@ -30,9 +30,7 @@ export default function HomeScreen({ navigation }) {
                     <View style={styles.keyStatsContainer}>
                         <Text style={[appStyles.h3, appStyles.lightModeFont, { marginBottom: 10 }]}>Latest Session</Text>
                         <Text style={styles.stat}>
-                            <Text style={{ fontWeight: 'bold' }}> 6/7/2024</Text> -
-                            2 hours and 15 minutes
-                        </Text>
+                            <Text style={{ fontWeight: 'bold' }}>6/7/2024</Text> - 2 hours and 15 minutes</Text>
                         <Text style={styles.stat}>At
                             <Text style={{ fontWeight: 'bold' }}> The Climbing Works</Text>
                         </Text>
@@ -44,18 +42,18 @@ export default function HomeScreen({ navigation }) {
                     </View>
 
                     <View style={styles.keyStatsContainer}>
-                        <Text style={[appStyles.h3, appStyles.lightModeFont, {marginBottom:10}]}>Key Stats</Text>
+                        <Text style={[appStyles.h3, appStyles.lightModeFont, {marginBottom:10}]}>My Key Stats</Text>
                         <Text style={styles.stat}>
-                            <Text style={{ fontWeight: 'bold' }}> Stat 1: </Text>
-                            Statistic one
+                            <Text style={{ fontWeight: 'bold' }}>Your most visited wall:{"\n"}</Text>
+                            The Climbing Works
                         </Text>
                         <Text style={styles.stat}>
-                            <Text style={{ fontWeight: 'bold' }}> Stat 2: </Text>
-                            Statistic two
+                            <Text style={{ fontWeight: 'bold' }}>Your longest session:{"\n"}</Text>
+                            200 minutes
                         </Text>
                         <Text style={styles.stat}>
-                            <Text style={{ fontWeight: 'bold' }}> Stat 3: </Text>
-                            Statistic three
+                            <Text style={{ fontWeight: 'bold' }}>Total climbs:{"\n"}</Text>
+                            27
                         </Text>
                     </View>
                 </View>
