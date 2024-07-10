@@ -3,10 +3,11 @@ import Map from '../Map';
 import { Text, View, ImageBackground } from "react-native";
 import mapStyles from '../../style-sheets/map-style';
 import appStyles from '../../style-sheets/app-style';
+import { useMapData } from '../../contexts/map-context';
 
-export default function MapScreen({ route, navigation }) {
+export default function MapScreen() {
   
-  const { mapData } = route.params;
+  const { mapData } = useMapData();
   mapData.zoomed = false;
   mapData.miniView = false;
 
@@ -14,7 +15,7 @@ export default function MapScreen({ route, navigation }) {
     <ImageBackground source={global.backgroundImage} resizeMode="cover" style={appStyles.backgroundStyle} imageStyle={appStyles.backgroundImg}>
       <View style={appStyles.screenContainer}>
         <View style ={mapStyles.mapContainer}>
-        <Map mapData={mapData} /> 
+        <Map /> 
         </View>
       </View>
     </ImageBackground>

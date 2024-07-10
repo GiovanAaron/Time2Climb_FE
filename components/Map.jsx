@@ -4,9 +4,11 @@ import MapView, { Marker } from 'react-native-maps';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { FontAwesome } from '@expo/vector-icons';
 import mapStyles from '../style-sheets/map-style';
+import { useMapData } from '../contexts/map-context';
 
-export default function Map({ mapData }) {
+export default function Map() {
 
+    const { mapData } = useMapData();
     const centralUkLatitude = 54.473699;
     const centralUkLongitude = -3.326840;
     const zoomedDefaultLatitude = 53.380618;

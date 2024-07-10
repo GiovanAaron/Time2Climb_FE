@@ -13,20 +13,19 @@ import SessionListScreen from '../components/screens/SessionListScreen';
 import SessionScreen from '../components/screens/SessionScreen';
 import StatsScreen from '../components/screens/StatsScreen';
 import GoalsScreen from '../components/screens/GoalsScreen';
-import { MapDataProvider, useMapData } from '../contexts/map-context.js';
+import { MapDataProvider } from '../contexts/map-context.js';
 
 global.backgroundImage = require('../assets/images/bady-abbas-VmYZe_yqxL0-unsplash.jpg');
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
 function HomeStack() {
-  const { mapData } = useMapData();
   return (
     <Stack.Navigator>
       <Stack.Screen name="Home Screen" component={HomeScreen} />
       <Stack.Screen name="Map Screen" component={MapScreen} />
       <Stack.Screen name="Session Screen" component={SessionScreen} />
-      <Stack.Screen name="Sessions Screen" component={SessionListScreen} initialParams={{ mapData }} />
+      <Stack.Screen name="Sessions Screen" component={SessionListScreen} />
       <Stack.Screen name="Stats Screen" component={StatsScreen} />
       <Stack.Screen name="Profile Screen" component={ProfileScreen} />
     </Stack.Navigator>
@@ -34,10 +33,9 @@ function HomeStack() {
 }
 
 function SessionListStack() {
-  const { mapData } = useMapData();
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Sessions Screen" component={SessionListScreen} initialParams={{ mapData }} />
+      <Stack.Screen name="Sessions Screen" component={SessionListScreen} />
       <Stack.Screen name="Profile Screen" component={ProfileScreen} />
       <Stack.Screen name="Home Screen" component={HomeScreen} />
       <Stack.Screen name="Map Screen" component={MapScreen} />
@@ -48,7 +46,6 @@ function SessionListStack() {
 }
 
 function TabNavigator() {
-  const { mapData } = useMapData();
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -66,8 +63,7 @@ function TabNavigator() {
           tabBarIcon: ({ color, size }) => (
             <FontAwesome6 name="person-falling" color={'orange'} size={24} />
           )
-        }}
-        initialParams={{ mapData }} />
+        }} />
       <Tab.Screen
         name="Goals"
         component={GoalsScreen}

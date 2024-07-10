@@ -1,14 +1,13 @@
 import { Text, View, StyleSheet, FlatList, Image } from "react-native";
 import ButtonRedirect from './ButtonRedirect';
 
-export default function HomeScreen({ navigation, mapData }) {
+export default function Dashboard({ navigation }) {
 
     const btnData = [
         {
             key: 1,
             txt: 'Sessions',
-            screen: 'Sessions Screen',
-            mapData
+            screen: 'Sessions Screen'
         },
         {
             key: 2,
@@ -46,7 +45,6 @@ export default function HomeScreen({ navigation, mapData }) {
                         navigation={navigation} 
                         screen={item.screen} 
                         btnText={item.txt}
-                        mapData={item.mapData}
                 />);
             })}
         </View>

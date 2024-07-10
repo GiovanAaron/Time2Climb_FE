@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     },
     climbCountContainer: {
         alignSelf: 'flex-start',
-        fontFamily: 'bold'
+        fontWeight: 'bold'
     },
     headerInfoBox: {
         flexDirection: 'row',
