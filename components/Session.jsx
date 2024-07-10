@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import ButtonAction from './ButtonAction';
 import appStyles from '../style-sheets/app-style';
 
 const moment = require('moment');
 
-export default function Session({ sessionData }) {
+export default function Session({ navigation, sessionData }) {
 
     const handleDelete = () => {
         // TODO: update when BE APIs integrated
@@ -19,53 +19,53 @@ export default function Session({ sessionData }) {
 
     return (
         <View style={styles.sessionContainer}>
-            <View style={styles.header}>
-                <Text style={styles.wallText}>{sessionData.wall}</Text>
+            <Pressable onPress={() => navigation.navigate('Session Screen', { sessionData })}>
                 <View style={styles.icons}>
-                    <ButtonAction 
-                        onPress={handleEdit} 
-                        icon={<Ionicons name="create" color={'cornflowerblue'} size={20} />} 
-                    />
                     <ButtonAction 
                         onPress={handleDelete} 
                         icon={<Ionicons name="trash" color={'red'} size={20} />} 
                     />
+                    <ButtonAction 
+                        onPress={handleEdit} 
+                        icon={<Ionicons name="create" color={'cornflowerblue'} size={20} />} 
+                    />
                 </View>
-            </View>
-            <View style={styles.details}>
-                <Text style={appStyles.standardFont}>{moment(new Date(sessionData.date)).format('DD-MM-YYYY')}</Text>
-                <Text style={appStyles.standardFont}>
-                    <Text style={appStyles.standardFont}>{sessionData.duration_minutes} mins</Text>
-                    <Text style={appStyles.standardFont}>   Climbs: {sessionData.climb_count}</Text>
-                </Text>
-            </View>
+                <Text style={styles.header}>{sessionData.wall_name}</Text>
+                <View style={styles.details}>
+                    <Text style={appStyles.standardFont}>{moment(new Date(sessionData.date)).format('DD-MM-YYYY')}</Text>
+                    <Text style={appStyles.standardFont}>
+                        <Text style={appStyles.standardFont}>{sessionData.duration_minutes} mins</Text>
+                        <Text style={appStyles.standardFont}>   Climbs: {sessionData.climb_count}</Text>
+                    </Text>
+                </View>
+            </Pressable>  
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     sessionContainer: {
-        padding: 15,
-        marginBottom: 10,
+        paddingTop: 2,
+        paddingHorizontal: 15,
+        paddingBottom: 10,
         borderColor: 'orange',
         borderWidth: 2,
         borderRadius: 20,
         backgroundColor: 'white',
-        width: 250,
+        minWidth: '80%',
+        maxWidth: '80%',
         marginBottom: 15,
     },
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-    },
-    wallText: {
         fontSize: 16,
         fontWeight: 'bold',
         color: 'darkblue'
     },
     icons: {
-        flexDirection: 'row',
+        flexDirection: 'row-reverse'
     },
     details: {
         marginTop: 5,

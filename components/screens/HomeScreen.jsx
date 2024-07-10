@@ -21,11 +21,11 @@ export default function HomeScreen({ navigation }) {
 
                     <Text style={appStyles.h1}>(Time To Climb Logo)</Text>
 
-                    <Pressable style={styles.mapContainer} onPress={() => navigation.navigate('Map Screen', { mapData })}>
-                        <Map mapData={mapData} />
+                    <Pressable style={styles.mapContainer} onPress={() => navigation.navigate('Map Screen')}>
+                        <Map />
                     </Pressable>
 
-                    <Dashboard navigation={navigation} mapData={mapData} />
+                    <Dashboard navigation={navigation} />
 
                     <View style={styles.keyStatsContainer}>
                         <Text style={[appStyles.h3, appStyles.lightModeFont, { marginBottom: 10 }]}>Latest Session</Text>

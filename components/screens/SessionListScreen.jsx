@@ -5,10 +5,11 @@ import ButtonRedirect from '../ButtonRedirect';
 import SessionList from '../SessionList'
 import appStyles from '../../style-sheets/app-style';
 import sessionListStyles from '../../style-sheets/session-list-style';
+import { useMapData } from '../../contexts/map-context';
 
-export default function SessionListScreen({ route, navigation }) {
+export default function SessionListScreen({ navigation }) {
 
-  const { mapData } = route.params;
+  const { mapData } = useMapData();
   mapData.zoomed = true;
   mapData.miniView = true;
 
@@ -30,13 +31,13 @@ export default function SessionListScreen({ route, navigation }) {
 
           {/* <Text style={[appStyles.h3, { marginBottom: 20 }]}>Map view</Text> */}
 
-          <Pressable style={sessionListStyles.mapContainer} onPress={() => navigation.navigate('Map Screen', { mapData })}>
-            <Map mapData={mapData} />
+          <Pressable style={sessionListStyles.mapContainer} onPress={() => navigation.navigate('Map Screen')}>
+            <Map />
           </Pressable>
 
           {/* <Text style={[appStyles.h3, { marginBottom: 20 }]}>List view</Text> */}
 
-          <SessionList />
+          <SessionList navigation={navigation} />
         </View>
       </ScrollView>
     </ImageBackground>

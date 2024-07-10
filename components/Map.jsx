@@ -4,9 +4,11 @@ import MapView, { Marker } from 'react-native-maps';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { FontAwesome } from '@expo/vector-icons';
 import mapStyles from '../style-sheets/map-style';
+import { useMapData } from '../contexts/map-context';
 
-export default function Map({ mapData }) {
+export default function Map() {
 
+    const { mapData } = useMapData();
     const centralUkLatitude = 54.473699;
     const centralUkLongitude = -3.326840;
     const zoomedDefaultLatitude = 53.380618;
@@ -19,10 +21,15 @@ export default function Map({ mapData }) {
     let latitudeDelta;
     let longitudeDelta;
 
-    const largeView = {
+    let largeView = { //TODO: change to const once all UK wall data exists in the DB
         latitudeDelta: 0.5,
         longitudeDelta: 11
     }
+    // TODO: line below is temp code due to only having wall data for a small section of the UK
+    largeView = {
+        latitudeDelta: 0.5,
+        longitudeDelta: 1.2
+    } //TODO: delete this line once all UK wall data exists in the DB
     const smallView = {
         latitudeDelta: 0.5,
         longitudeDelta: 0.04
@@ -49,9 +56,13 @@ export default function Map({ mapData }) {
             mapCentreLongitude = zoomedDefaultLongitude;
         }
         else {
-            // Zoom out to display UK
+            // Zoom out to display entire UK
             mapCentreLatitude = centralUkLatitude;
             mapCentreLongitude = centralUkLongitude;
+
+            // TODO: below is temp code due to only having wall data for a small section of the UK
+            mapCentreLatitude = zoomedDefaultLatitude; //TODO: delete this line once all UK wall data exists in the DB
+            mapCentreLongitude = zoomedDefaultLongitude; //TODO: delete this line once all UK wall data exists in the DB
         }
     }
 
