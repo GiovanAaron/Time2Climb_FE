@@ -77,6 +77,7 @@ export default function SessionInfo({ editSession, setEditSession }) {
     const handleConfirmDelete = () => {
         Alert.alert('Session deleted!', '')
         setDeleteModalVisible(false);
+        deleteClimb()
     }
 
     const showDatePicker = () => {
@@ -247,16 +248,6 @@ export default function SessionInfo({ editSession, setEditSession }) {
                         {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
                     </View>
                 </Pressable>
-
-                <Text style={styles.sessionInfoLabel}>Number of climbs recorded</Text>
-                <Text style={styles.sessionInfoItem}>
-                    2 Climbs
-                    {/* {
-                        climbList.length > 1 ?
-                          climbList.length + ' climbs' :
-                          climbList.length + ' climb'
-                    } */}
-                </Text>
 
                 {editSession && savingSession &&
                     < ActivityIndicator size={"large"} color={"#007AFF"} style={{ marginVertical: 10 }} />}

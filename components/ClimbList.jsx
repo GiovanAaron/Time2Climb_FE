@@ -1,4 +1,4 @@
-import { getClimbsBySessionId, postClimb, climbTypeList, outcomesList, gradesList } from './screens/screenSessionData'
+import { getClimbsBySessionId, postClimb, deleteClimb, climbTypeList, outcomesList, gradesList } from './screens/screenSessionData'
 import { Modal, Alert, View, Text, Pressable, ActivityIndicator } from "react-native";
 import { useEffect, useState } from 'react';
 import _ from 'lodash';
@@ -26,21 +26,22 @@ export default function ClimbList({ editSession }) {
     const [addClimbOpen, setAddClimbOpen] = useState(false);
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
-    const [newClimbPosted, setNewClimbPosted] = useState(0);
+    const [newClimbsPosted, setNewClimbsPosted] = useState(0);
+    const [climbsDeleted, setClimbsDeleted] = useState(0);
     const [deleteClimbId, setDeleteClimbId] = useState(null);
 
     useEffect(() => {
         // console.log("useEffect activated")
         getClimbsBySessionId(sessionId)
-        .then((data) => {
-            setClimbList(data.climbs)
-        })
-        .catch((err) => {
-            console.log("component err", err)
-        })
+            .then((data) => {
+                setClimbList(data.climbs)
+            })
+            .catch((err) => {
+                console.log("component err", err)
+            })
 
         setNewClimb({ ...newClimb, session_id: sessionId })
-    }, [newClimbPosted])
+    }, [newClimbsPosted, climbsDeleted])
 
     const climbOutcomeShortLabelLookup = {
         "Onsight (first attempt - no beta)": "Onsight",
@@ -82,18 +83,15 @@ export default function ClimbList({ editSession }) {
 
     let climbTypeBox =
         <View style={[styles.climbIconBox, { borderColor: 'red' }]}>
-            <MaterialCommunityIcons name="carabiner" size={32} color="grey" />
-            <Text style={styles.climbItem}>Type</Text>
+            {climbType ?
+                <Text style={[styles.climbItem, { color: 'red', fontWeight: 'bold' }]}>{climbType.label}</Text> :
+                <View style={{ alignItems: 'center' }}>
+                    <MaterialCommunityIcons name="carabiner" size={32} color="grey" />
+                    <Text style={styles.climbItem}>Type</Text>
+                </View>
+            }
             <Ionicons name="caret-down-outline" size={15} color="black" />
         </View>
-
-    if (climbType) {
-        climbTypeBox =
-            <View style={[styles.climbIconBox, { borderColor: 'red' }]}>
-                <Text style={[styles.climbItem, { color: 'red', fontWeight: 'bold' }]}>{climbType.label}</Text>
-                <Ionicons name="caret-down-outline" size={15} color="black" />
-            </View>
-    }
 
     let climbGradeBox =
         <View style={[styles.climbIconBox, { borderColor: 'orange' }]}>
@@ -129,20 +127,20 @@ export default function ClimbList({ editSession }) {
         if (climbType && climbGrade && climbOutcome) {
             setSavingClimb(true);
             postClimb(newClimb)
-            .then((response) => {
-                setSavingClimb(false);
-                setNewClimbPosted(newClimbPosted + 1)
+                .then((response) => {
+                    setSavingClimb(false);
+                    setNewClimbsPosted(newClimbsPosted + 1)
 
-                setClimbType(null);
-                setClimbGrade(null);
-                setClimbOutcome(null);
+                    setClimbType(null);
+                    setClimbGrade(null);
+                    setClimbOutcome(null);
 
-                Alert.alert('Success!', 'Your new climb has been added')
-                
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+                    Alert.alert('Success!', 'Your new climb has been added')
+
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
         } else {
             Alert.alert('Missing data', 'Please complete all fields before saving')
         }
@@ -156,6 +154,12 @@ export default function ClimbList({ editSession }) {
     const handleConfirmDelete = () => {
         Alert.alert('Climb deleted!', '')
         setDeleteModalVisible(false);
+        console.log(deleteClimbId)
+        deleteClimb(deleteClimbId)
+            .then(() => {
+                console.log("climb deleted")
+                setClimbsDeleted(climbsDeleted + 1)
+            })
     }
 
     const handleToggleAddClimb = () => {
@@ -216,8 +220,18 @@ export default function ClimbList({ editSession }) {
     }
 
     return (
-
         <View style={styles.sectionContainer}>
+
+            <View style={styles.climbCountContainer}>
+                <Text style={styles.sessionInfoLabel}>Number of climbs recorded</Text>
+                <Text style={styles.sessionInfoItem}>
+                    {
+                        climbList.length > 1 ?
+                            climbList.length + ' climbs' :
+                            climbList.length + ' climb'
+                    }
+                </Text>
+            </View>
 
             <View style={styles.headerInfoBox}>
                 <Text style={appStyles.h2}>Climbs</Text>
@@ -310,7 +324,7 @@ export default function ClimbList({ editSession }) {
                             </View>
 
                             <Modal
-                                animationType="slide"
+                                animationType="none"
                                 transparent={true}
                                 visible={deleteModalVisible}
                                 onRequestClose={() => setDeleteModalVisible(false)}
@@ -332,8 +346,8 @@ export default function ClimbList({ editSession }) {
 
                             </Modal>
                         </View>
-                        <View style={{flexDirection: 'row', justifyContent: 'center', marginVertical: 5}}>
-                        {editSession &&
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginVertical: 5 }}>
+                            {editSession &&
                                 <ButtonAction
                                     icon={<Ionicons name="trash-sharp" size={24} color="red" />}
                                     onPress={() => handlePressDeleteClimbButton(climb.id)}
