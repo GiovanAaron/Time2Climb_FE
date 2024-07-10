@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { getSessionById } from './screens/screenSessionData'
+import { getSession } from './screens/screenSessionData'
 
 import { Modal, Alert, View, Text, Pressable, ActivityIndicator } from "react-native";
 
@@ -21,11 +21,9 @@ import appStyles from "../style-sheets/app-style"
 export default function SessionInfo({ editSession, setEditSession }) {
 
     const [sessionId, setSessionId] = useState(1);
-    const [sessionWall, setSessionWall] = useState(null)
-
-    const [sessionDate, setSessionDate] = useState(null);
-    const [sessionTime, setSessionTime] = useState(null);
     const [sessionDuration, setSessionDuration] = useState(null);
+
+    const [sessionInfo, setSessionInfo] = useState({})
 
     const [datePickerOpen, setDatePickerOpen] = useState(false);
     const [timePickerOpen, setTimePickerOpen] = useState(false);
@@ -35,36 +33,43 @@ export default function SessionInfo({ editSession, setEditSession }) {
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
     useEffect(() => {
-        // getSessionById(sessionId)
-        // .then((data) => {
-        //     console.log("all climbs", data);
-        // })
-        // .catch((err) => {
-        //     // console.log("component err", err)
-        // })
+        getSession(1)
+            .then((userSession) => {
+                setSessionInfo({
+                    ...sessionInfo,
+                    wall_id: userSession.wall_id,
+                    wall_name: "Climbing Works",
+                    date: userSession.date,
+                    duration_minutes: userSession.duration_minutes
+                })
+            })
+            .catch((err) => {
+                console.log("component err", err)
+            })
     }, [])
 
-    const formatTime = ({
-        hours,
-        minutes,
-    }) => {
-        let timeParts = "";
+    const formatTime = (minutes) => {
 
-        if (hours !== undefined) {
-            timeParts += (hours.toString() + " hrs ");
-        }
-        if (minutes !== undefined) {
-            timeParts += (minutes.toString() + " mins");
-        }
-        return timeParts;
+        if (minutes === 1) return "1 minute"
+        if (minutes < 60) return minutes + " minutes"
+     
+        const hours = Math.floor(minutes / 60)
+        let hoursText = hours + " hours"
+        if (hours === 1) hoursText = hours + " hour"
+
+        const extraMins = minutes % 60
+        let minutesText = extraMins + " minutes"
+        if (extraMins === 1) minutesText = extraMins + " minute"
+
+        return `${hoursText} and ${minutesText}`
+
     };
 
     let formattedDate, formattedTime, formattedWall, formattedDuration;
-    sessionDate ? formattedDate = dayjs(sessionDate).format('DD/MM/YYYY') : formattedDate = "-";
-    sessionTime ? formattedTime = dayjs(sessionTime).format('HH:mm:ss') : formattedTime = "-";
-    sessionWall ? formattedWall = sessionWall : formattedWall = "-";
-    sessionDuration ? formattedDuration = sessionDuration : formattedDuration = "-";
-
+    sessionInfo.date ? formattedDate = dayjs(sessionInfo.date).format('DD/MM/YYYY') : formattedDate = "-";
+    sessionInfo.date ? formattedTime = dayjs(sessionInfo.date).format('HH:mm:ss') : formattedTime = "-";
+    sessionInfo.wall_name ? formattedWall = sessionInfo.wall_name : formattedWall = "-";
+    sessionInfo.duration_minutes ? formattedDuration = formatTime(sessionInfo.duration_minutes) : formattedDuration = "-";
 
     const handlePressEditButton = () => {
         setEditSession(!editSession)
@@ -94,30 +99,52 @@ export default function SessionInfo({ editSession, setEditSession }) {
 
     const handleDateChange = (event, selectedDate) => {
         setDatePickerOpen(false);
+        
         if (event.type === 'set') {
-            setSessionDate(selectedDate);
+            
+            const year = dayjs(selectedDate).year()
+            const month = dayjs(selectedDate).month()
+            const date = dayjs(selectedDate).date()
+            console.log("here", year, month, date);
+            
+            const newDate = dayjs(sessionInfo.date)
+            .year(year)
+            .month(month)
+            .date(date)
+            
+            setSessionInfo( {...sessionInfo, date: newDate} );
         }
     }
 
     const handleTimeChange = (event, selectedTime) => {
         setTimePickerOpen(false);
         if (event.type === 'set') {
-            setSessionTime(selectedTime);
+
+            const hours = dayjs(selectedTime).hour()
+            const minutes = dayjs(selectedTime).minute()
+            const newDate = dayjs(sessionInfo.date)
+                .hour(hours)
+                .minute(minutes)
+
+            setSessionInfo( {...sessionInfo, date: newDate} );
         }
     }
 
     const handleDurationConfirmation = (pickedDuration) => {
-        setSessionDuration(formatTime(pickedDuration));
+
+        const minutes = (pickedDuration.hours * 60) + pickedDuration.minutes
+
+        setSessionInfo({...sessionInfo, duration_minutes: minutes});
         setDurationPickerOpen(false);
     }
 
     const handleWallChange = (wall) => {
-        setSessionWall(wall.label)
+        setSessionInfo({ ...sessionInfo, wall_name: wall.label })
     }
 
     const handleSessionSave = () => {
 
-        if (sessionWall && sessionDate && sessionTime && sessionDuration) {
+        if (sessionInfo.wall_name && sessionInfo.date && sessionDuration) {
             setSavingSession(true);
         } else {
             Alert.alert('Missing data', 'Please complete all fields before saving')
@@ -254,7 +281,7 @@ export default function SessionInfo({ editSession, setEditSession }) {
                 {editSession && !savingSession &&
                     < Pressable onPress={handleSessionSave}>
                         <Text
-                            style={sessionWall && sessionDate && sessionTime && sessionDuration ?
+                            style={sessionInfo.wall_name && sessionInfo.date && sessionInfo.duration_minutes ?
                                 styles.saveSessionButton :
                                 [styles.saveSessionButton, styles.saveButtonNull]
                             }
