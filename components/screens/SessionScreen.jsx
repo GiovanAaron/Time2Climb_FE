@@ -2,7 +2,7 @@ import ClimbList from '../ClimbList'
 import SessionInfo from '../SessionInfo'
 import { View, ScrollView, ImageBackground } from "react-native";
 import styles from "../../style-sheets/session-style"
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import appStyles from '../../style-sheets/app-style';
 import { useRoute } from '@react-navigation/native';
 
@@ -22,7 +22,7 @@ export default function SessionScreen({ navigation }) {
 
           <View style={styles.middleBackground}> 
         
-          <SessionInfo editSession={editSession} setEditSession={setEditSession} sessionData={sessionData} setSessionId={setSessionId}/>
+          <SessionInfo editSession={editSession} setEditSession={setEditSession} sessionData={sessionData} setSessionId={setSessionId} navigation={navigation}/>
           <ClimbList editSession={editSession} sessionId={sessionId}/>
 
           </View>

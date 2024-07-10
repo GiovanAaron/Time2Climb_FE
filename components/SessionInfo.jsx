@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { Modal, Alert, View, Text, Pressable, ActivityIndicator } from "react-native";
-import { patchSession, postSession } from './screens/screenSessionData'
+import { patchSession, postSession, deleteSession } from './screens/screenSessionData'
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -17,7 +17,7 @@ import dayjs from 'dayjs';
 import styles from "../style-sheets/session-style"
 import appStyles from "../style-sheets/app-style"
 
-export default function SessionInfo({ editSession, setEditSession, sessionData, setSessionId }) {
+export default function SessionInfo({ editSession, setEditSession, sessionData, setSessionId, navigation }) {
 
     const [sessionInfo, setSessionInfo] = useState({})
 
@@ -66,7 +66,13 @@ export default function SessionInfo({ editSession, setEditSession, sessionData, 
     const handleConfirmDelete = () => {
         Alert.alert('Session deleted!', '')
         setDeleteModalVisible(false);
-        deleteSession()
+        deleteSession(sessionInfo.session_id)
+        .then(()=>{
+            navigation.navigate('Sessions Screen')
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     const showDatePicker = () => {
@@ -140,11 +146,17 @@ export default function SessionInfo({ editSession, setEditSession, sessionData, 
                         setSavingSession(false);
                         setSessionId(newSession.id)
                     })
+                    .catch((err)=> {
+                        console.log(err);
+                    })
             } else {
                 patchSession(newSesssion, sessionInfo.session_id)
                     .then((response) => {
                         Alert.alert('Success!', 'Your session has been updated');
                         setSavingSession(false);
+                    })
+                    .catch((err)=> {
+                        console.log(err);
                     })
             }
 
