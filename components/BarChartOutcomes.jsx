@@ -23,7 +23,7 @@ const BarChartOutcomes = () => {
                                 y={110}
                                 width={40}
                                 height={-scale(value)}
-                                fill="green"
+                                fill="#47A970"
                             />
                             <Text
                                 x={index * 53 + 25}

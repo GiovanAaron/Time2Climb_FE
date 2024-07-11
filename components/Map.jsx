@@ -118,7 +118,7 @@ export default function Map({ navigation }) {
                         title={location.name}
                         onPress={(e) => onWallMarkerPress(location.id)}
                     >
-                        <FontAwesome name="map-marker" size={30} color="red" />
+                        <FontAwesome name="map-marker" size={30} color="#FF481A" />
                     </Marker>
                 ))}
             </MapView>

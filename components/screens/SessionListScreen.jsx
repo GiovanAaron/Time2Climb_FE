@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, View, Text, StyleSheet, Pressable, ScrollView, ImageBackground } from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView, ImageBackground } from "react-native";
 import Map from '../Map';
 import ButtonRedirect from '../ButtonRedirect';
 import SessionList from '../SessionList';
@@ -19,25 +19,29 @@ export default function SessionListScreen({ navigation }) {
 
         <View style={appStyles.screenContainer}>
 
+          <View style={appStyles.sectionContainer}>
+
           <Text style={[appStyles.h2, { marginBottom: 20 }]}>My Sessions</Text>
 
-          <View style={[styles.container, {marginBottom: 20}]}>
-            <ButtonRedirect
-              navigation={navigation}
-              screen="Session Screen"
-              btnText="Add Session"
-            />
-          </View>
+            <View style={[styles.container, { marginBottom: 20 }]}>
+              <ButtonRedirect
+                navigation={navigation}
+                screen="Session Screen"
+                btnText="Add Session"
+              />
+            </View>
 
-          {/* <Text style={[appStyles.h3, { marginBottom: 20 }]}>Map view</Text> */}
+            {/* <Text style={[appStyles.h3, { marginBottom: 20 }]}>Map view</Text> */}
 
           <Pressable style={sessionListStyles.mapContainer} onPress={() => navigation.navigate('Map Screen', navigation={navigation})}>
             <Map navigation={navigation} />
           </Pressable>
 
-          {/* <Text style={[appStyles.h3, { marginBottom: 20 }]}>List view</Text> */}
+            {/* <Text style={[appStyles.h3, { marginBottom: 20 }]}>List view</Text> */}
 
-          <SessionList navigation={navigation} />
+            <SessionList navigation={navigation} />
+          </View>
+
         </View>
       </ScrollView>
     </ImageBackground>

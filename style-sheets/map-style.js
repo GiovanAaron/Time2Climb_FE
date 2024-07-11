@@ -31,16 +31,17 @@ const mapStyles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        borderColor: 'red',
+        borderColor: 'white',
         borderWidth: 0,
         marginTop: 30
     },
     mapContainer: {
         width: '85%',
-        marginBottom: 20,
+        marginTop: 90,
+        marginBottom: 40,
         padding: 0,
         borderWidth: 2,
-        borderColor: 'green',
+        borderColor: '#47A970',
         borderRadius: 30,
         elevation: 5,
         overflow: 'hidden'

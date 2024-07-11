@@ -5,18 +5,34 @@ const appStyles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: 'red',
+    borderColor: 'white',
     borderWidth: 0,
-    marginTop: 30
+  },
+  sectionContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: 'orange',
+    borderWidth: 0,
+    // backgroundColor: 'rgba(255, 255, 255, 0.85)',
+    width: '90%',
+    borderRadius: 20,
+    marginBottom: 40,
+    marginTop: 80,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
   },
   h1: {
     fontSize: 36,
     fontWeight: 'bold',
-    marginBottom: 15
+    marginBottom: 20,
+    marginVertical: 20,
+    textAlign: 'center',
   },
   h2: {
-    fontSize: 28,
-    fontWeight: 'bold'
+    fontSize: 36,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
   h3: {
     fontSize: 22,

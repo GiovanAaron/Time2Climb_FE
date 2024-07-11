@@ -7,17 +7,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderColor: 'white',
         borderWidth: 0,
-        marginVertical: 25
-    },
-    middleBackground: {
-        borderRadius: 20,
-        backgroundColor: 'rgba(255, 255, 255, 0.7)',
-        padding: 15,
-        borderColor: 'white',
-        borderWidth: 0,
-        width: '80%',
     },
     sectionContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderColor: '#FFC759',
+        borderWidth: 1,
+        backgroundColor: 'white',
+        width: '85%',
+        borderRadius: 20,
+        marginBottom: 40,
+        marginTop: 90,
+        paddingHorizontal: 10,
+        paddingVertical: 20,
+    },
+    subSectionContainer: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -29,10 +34,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     headerInfoBox: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 20,
+        marginVertical: 10,
         borderWidth: 0,
         width: '100%',
         borderColor: 'white'
@@ -59,7 +63,7 @@ const styles = StyleSheet.create({
         columnGap: 15
     },
     climbIconBox: {
-        borderColor: 'green',
+        borderColor: '#47A970',
         borderWidth: 2,
         backgroundColor: 'white',
         flex: 1,
@@ -155,14 +159,14 @@ const styles = StyleSheet.create({
     sectionTextStyle: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#007AFF',
+        color: '#0083A7',
     },
     cancelContainerStyle: {
         backgroundColor: 'white',
         borderRadius: 5
     },
     cancelTextStyle: {
-        color: '#007AFF',
+        color: '#0083A7',
         fontSize: 18,
         fontWeight: 'bold',
     },

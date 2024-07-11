@@ -23,7 +23,7 @@ const BarChartTypes = () => {
                                 x={45}
                                 height={40}
                                 width={scale(value)}
-                                fill="tomato"
+                                fill="#FF481A"
                             />
                             <Text
                                 y={index * 50 + 25}

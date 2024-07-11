@@ -8,16 +8,20 @@ const profileStyles = StyleSheet.create({
         justifyContent: 'center',
         borderColor: 'white',
         borderWidth: 0,
-        marginVertical: 30,
     },
     sectionContainer: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'flex-start',
-        borderColor: 'white',
-        borderWidth: 0,
-        width: '75%',
-        marginTop: 40
+        justifyContent: 'center',
+        borderColor: '#47A970',
+        borderWidth: 1,
+        backgroundColor: 'white',
+        width: '85%',
+        paddingHorizontal: 30,
+        borderRadius: 20,
+        marginBottom: 40,
+        marginTop: 90,
+        paddingVertical: 20,
     },
     photoFrame: {
         width: 125,
@@ -25,7 +29,7 @@ const profileStyles = StyleSheet.create({
         marginTop: 15,
         alignItems: 'center',
         justifyContent: 'center',
-        borderColor: '#007AFF',
+        borderColor: '#0083A7',
         borderWidth: 3,
         overflow: 'hidden',
         borderRadius: 100,
@@ -39,12 +43,13 @@ const profileStyles = StyleSheet.create({
         marginBottom: 20,
         marginTop: 20,
         backgroundColor: 'white',
-        borderColor: '#93C572',
+        borderColor: '#47A970',
         borderWidth: 2,
         borderRadius: 20,
         padding: 15,
         lineHeight: 22,
         elevation: 2,
+        width: '90%'
     },
     profileStat: {
         fontSize: 18,
@@ -56,12 +61,13 @@ const profileStyles = StyleSheet.create({
         marginTop: 15,
     },
     profileStatsContainer: {
-        borderColor: 'orange',
+        borderColor: '#FFC759',
         borderWidth: 2,
         padding: 15,
         borderRadius: 20,
         backgroundColor: 'white',
         elevation: 2,
+        width: '90%'
     },
     profileStatLabel: {
         fontSize: 18,
@@ -69,7 +75,7 @@ const profileStyles = StyleSheet.create({
         marginVertical: 5
     },
     signOutButton: {
-        backgroundColor: '#007AFF',
+        backgroundColor: '#0083A7',
         padding: 10,
         marginVertical: 30,
         width: 100,

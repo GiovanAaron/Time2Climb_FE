@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 
-import { getSession } from './screens/screenSessionData'
-
 import { Modal, Alert, View, Text, Pressable, ActivityIndicator } from "react-native";
+import { patchSession, postSession, deleteSession, getWalls } from './screens/screenSessionData'
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -18,12 +17,10 @@ import dayjs from 'dayjs';
 import styles from "../style-sheets/session-style"
 import appStyles from "../style-sheets/app-style"
 
-export default function SessionInfo({ editSession, setEditSession }) {
-
-    const [sessionId, setSessionId] = useState(1);
-    const [sessionDuration, setSessionDuration] = useState(null);
+export default function SessionInfo({ editSession, setEditSession, sessionData, setSessionId, navigation }) {
 
     const [sessionInfo, setSessionInfo] = useState({})
+    const [walls, setWalls] = useState([])
 
     const [datePickerOpen, setDatePickerOpen] = useState(false);
     const [timePickerOpen, setTimePickerOpen] = useState(false);
@@ -33,26 +30,21 @@ export default function SessionInfo({ editSession, setEditSession }) {
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
     useEffect(() => {
-        getSession(1)
-            .then((userSession) => {
-                setSessionInfo({
-                    ...sessionInfo,
-                    wall_id: userSession.wall_id,
-                    wall_name: userSession.wall_name,
-                    date: userSession.date,
-                    duration_minutes: userSession.duration_minutes
-                })
-            })
-            .catch((err) => {
-                console.log("component err", err)
-            })
+        setSessionInfo(sessionData)
+        getWalls()
+        .then((result) => {
+            setWalls(result.walls)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
     }, [])
 
     const formatTime = (minutes) => {
 
         if (minutes === 1) return "1 minute"
         if (minutes < 60) return minutes + " minutes"
-     
+
         const hours = Math.floor(minutes / 60)
         let hoursText = hours + " hours"
         if (hours === 1) hoursText = hours + " hour"
@@ -82,7 +74,13 @@ export default function SessionInfo({ editSession, setEditSession }) {
     const handleConfirmDelete = () => {
         Alert.alert('Session deleted!', '')
         setDeleteModalVisible(false);
-        deleteClimb()
+        deleteSession(sessionInfo.session_id)
+        .then(()=>{
+            navigation.navigate('Sessions Screen')
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     const showDatePicker = () => {
@@ -99,20 +97,19 @@ export default function SessionInfo({ editSession, setEditSession }) {
 
     const handleDateChange = (event, selectedDate) => {
         setDatePickerOpen(false);
-        
+
         if (event.type === 'set') {
-            
+
             const year = dayjs(selectedDate).year()
             const month = dayjs(selectedDate).month()
             const date = dayjs(selectedDate).date()
-            console.log("here", year, month, date);
-            
+
             const newDate = dayjs(sessionInfo.date)
-            .year(year)
-            .month(month)
-            .date(date)
-            
-            setSessionInfo( {...sessionInfo, date: newDate} );
+                .year(year)
+                .month(month)
+                .date(date)
+
+            setSessionInfo({ ...sessionInfo, date: newDate });
         }
     }
 
@@ -126,7 +123,7 @@ export default function SessionInfo({ editSession, setEditSession }) {
                 .hour(hours)
                 .minute(minutes)
 
-            setSessionInfo( {...sessionInfo, date: newDate} );
+            setSessionInfo({ ...sessionInfo, date: newDate });
         }
     }
 
@@ -134,36 +131,69 @@ export default function SessionInfo({ editSession, setEditSession }) {
 
         const minutes = (pickedDuration.hours * 60) + pickedDuration.minutes
 
-        setSessionInfo({...sessionInfo, duration_minutes: minutes});
+        setSessionInfo({ ...sessionInfo, duration_minutes: minutes });
         setDurationPickerOpen(false);
     }
 
     const handleWallChange = (wall) => {
-        setSessionInfo({ ...sessionInfo, wall_name: wall.label })
+        setSessionInfo({ ...sessionInfo, wall_name: wall.label, wall_id: wall.value })
     }
 
     const handleSessionSave = () => {
 
-        if (sessionInfo.wall_name && sessionInfo.date && sessionDuration) {
+        if (sessionInfo.wall_name && sessionInfo.date && sessionInfo.duration_minutes) {
             setSavingSession(true);
+
+            const newSesssion = { user_id: 1, wall_id: sessionInfo.wall_id, date: sessionInfo.date, duration_minutes: sessionInfo.duration_minutes }
+
+            if (!sessionInfo.session_id) {
+                postSession(newSesssion)
+                    .then(({ newSession }) => {
+                        setSessionInfo({ ...sessionInfo, session_id: newSession.id });
+                        Alert.alert('Success!', 'Your session has been saved');
+                        setSavingSession(false);
+                        setSessionId(newSession.id)
+                    })
+                    .catch((err)=> {
+                        console.log(err);
+                    })
+            } else {
+                patchSession(newSesssion, sessionInfo.session_id)
+                    .then((response) => {
+                        Alert.alert('Success!', 'Your session has been updated');
+                        setSavingSession(false);
+                    })
+                    .catch((err)=> {
+                        console.log(err);
+                    })
+            }
+
         } else {
             Alert.alert('Missing data', 'Please complete all fields before saving')
         }
 
     }
 
-    let climbingWallIndex = 0;
-    const climbingWallData = [
-        { key: climbingWallIndex++, section: true, label: 'Walls' },
-        { key: climbingWallIndex++, label: 'Climbing Works', value: 1 },
-        { key: climbingWallIndex++, label: 'Sheffield Depot', value: 2 },
-        { key: climbingWallIndex++, label: 'Sheffield Hanger', value: 3 },
-        { key: climbingWallIndex++, label: 'Nottingham Depot', value: 4 }
-    ];
+    let climbingWallData = walls.map((wall, index) => {
+        const wallDatum = {key: index, label: wall.name, value: wall.id}
+        return wallDatum
+    })
+
+    climbingWallData.unshift({ key: -1, section: true, label: 'Walls' })
+
+
+    // let climbingWallIndex = 0;
+    // const climbingWallData = [
+    //     { key: climbingWallIndex++, section: true, label: 'Walls' },
+    //     { key: climbingWallIndex++, label: 'Climbing Works', value: 1 },
+    //     { key: climbingWallIndex++, label: 'Sheffield Depot', value: 2 },
+    //     { key: climbingWallIndex++, label: 'Sheffield Hanger', value: 3 },
+    //     { key: climbingWallIndex++, label: 'Nottingham Depot', value: 4 }
+    // ];
 
     return (
 
-        <View style={styles.sectionContainer}>
+        <View style={styles.subSectionContainer}>
 
             <TimerPickerModal
                 visible={durationPickerOpen}
@@ -211,9 +241,8 @@ export default function SessionInfo({ editSession, setEditSession }) {
                 onChange={handleTimeChange}
             />}
 
+            <Text style={appStyles.h2}>Session Info</Text>
             <View style={styles.headerInfoBox}>
-                <Text style={appStyles.h2}>Session Info
-                </Text>
 
                 {editSession ?
                     <View style={{ flexDirection: 'row', columnGap: 5, alignItems: 'center' }}>
@@ -290,6 +319,12 @@ export default function SessionInfo({ editSession, setEditSession }) {
                         </Text>
                     </Pressable>}
 
+                <View style={styles.climbCountContainer}>
+                    <Text style={styles.sessionInfoLabel}>Number of climbs recorded</Text>
+                    <Text style={styles.sessionInfoItem}>
+                        {sessionInfo.climb_count ? sessionInfo.climb_count : 0}
+                    </Text>
+                </View>
 
             </View >
         </View >

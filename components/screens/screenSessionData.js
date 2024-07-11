@@ -1,104 +1,78 @@
 
 import axios from 'axios';
 
-export const getClimbsBySessionId = (sessionId) => {
+export const getWalls = () => {
   return axios
-  .get(`https://time2climb-be.onrender.com/api/climbs/${sessionId}`)
-  .then(({ data }) => {
-    return data
-  })
-  .catch((error) => {
-    console.log("get all climbs error", error)
-  })
+    .get(`https://time2climb-be.onrender.com/api/walls`)
+    .then(({ data }) => {
+      return data
+    })
 }
 
-export const getSessionById = (sessionId) => {
+export const getClimbsBySessionId = (sessionId) => {
   return axios
-  .get(`https://time2climb-be.onrender.com/api/sessions/${sessionId}`)
-  .then(({ data }) => {
-    return data
-  })
-  .catch((error) => {
-    console.log("get session info", error)
-  })
+    .get(`https://time2climb-be.onrender.com/api/climbs/${sessionId}`)
+    .then(({ data }) => {
+      return data
+    })
 }
 
 export const postClimb = (newClimb) => {
   return axios
-  .post(`https://time2climb-be.onrender.com/api/climbs`,
-    {
+    .post(`https://time2climb-be.onrender.com/api/climbs`,
+      {
         session_id: newClimb.session_id,
         grade_id: newClimb.grade_id,
         type_id: newClimb.type_id,
         climb_outcome_id: newClimb.climb_outcome_id,
-    }
-  )
-  .then(({ data }) => {
-    return data
-  })
-  .catch((error) => {
-    console.log("post a climb error", error)
-  })
+      }
+    )
+    .then(({ data }) => {
+      console.log("posted")
+      return data
+    })
 }
 
 export const deleteClimb = (climbId) => {
   return axios
-  .delete(`https://time2climb-be.onrender.com/api/climbs/${climbId}`)
-  .catch((error) => {
-    console.log("delete a climb error", error)
-  })
+    .delete(`https://time2climb-be.onrender.com/api/climbs/${climbId}`)
+}
+
+export const deleteSession = (sessionId) => {
+  return axios
+    .delete(`https://time2climb-be.onrender.com/api/sessions/${sessionId}`)
+    .then((response) => {
+      console.log(response.status)
+    })
 }
 
 export const patchClimb = (climbId, patchBody) => {
   return axios
-  .patch(`https://time2climb-be.onrender.com/api/climbs/${climbId}`,
-    patchBody
-  )
-  .then(({ data }) => {
-    return data
-  })
-  .catch((error) => {
-    console.log("patch a climb error", error)
-  })
+    .patch(`https://time2climb-be.onrender.com/api/climbs/${climbId}`,
+      patchBody
+    )
+    .then(({ data }) => {
+      return data
+    })
 }
 
-export const getSession = (sessionId) => {
+export const postSession = (newSession) => {
   return axios
-  .get(`https://time2climb-be.onrender.com/api/sessions/${sessionId}`)
-  .then(({ data }) => {
-    return data.userSession[0];
-  })
-  .catch((error) => {
-    console.log("get a session error", error)
-  })
+    .post(`https://time2climb-be.onrender.com/api/sessions`, newSession
+    )
+    .then(({ data }) => {
+      return data
+    })
 }
 
-export const climbList = [
-  {
-    climb_id: 1,
-    session_id: 1,
-    grade_id: 51,
-    grade_label: '6b+',
-    grade_system_id: 3,
-    grade_system_label: 'Font',
-    climb_type_id: 2,
-    climb_type_label: 'Boulder (font)',
-    climb_outcome_id: 1,
-    climb_outcome_label: 'Onsight (first attempt - no beta)'
-  },
-  {
-    climb_id: 2,
-    session_id: 1,
-    grade_id: 34,
-    grade_label: 'V6',
-    grade_system_id: 2,
-    grade_system_label: 'V',
-    climb_type_id: 1,
-    climb_type_label: 'Boulder (V)',
-    climb_outcome_id: 2,
-    climb_outcome_label: 'Flash (first attempt - with beta)'
-  }
-]
+export const patchSession = (newSession, sessionId) => {
+  return axios
+    .patch(`https://time2climb-be.onrender.com/api/sessions/${sessionId}`, newSession
+    )
+    .then(({ data }) => {
+      return data
+    })
+}
 
 export const gradesList = [
   { "id": 1, "grade": "3", "category": 1 },
