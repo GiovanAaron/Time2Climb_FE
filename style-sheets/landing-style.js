@@ -44,7 +44,7 @@ const landingStyles = StyleSheet.create({
         fontSize: 18,
     },
     button: {
-        backgroundColor: '#007AFF',
+        backgroundColor: '#0083A7',
         padding: 10,
         marginBottom: 20,
         width: 100,

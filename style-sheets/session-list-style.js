@@ -8,7 +8,7 @@ const sessionListStyles = StyleSheet.create({
         marginBottom: 15,
         padding: 0,
         borderWidth: 2,
-        borderColor: 'green',
+        borderColor: '#47A970',
         borderRadius: 30,
         elevation: 5,
         overflow: 'hidden'

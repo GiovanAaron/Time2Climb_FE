@@ -20,7 +20,7 @@ const statStyles = StyleSheet.create({
     },
     statContainer: {
         backgroundColor: 'white',
-        borderColor: 'blue',
+        borderColor: '#0083A7',
         borderWidth: 1,
         width: '75%',
         minHeight: 150,

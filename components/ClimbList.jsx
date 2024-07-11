@@ -87,9 +87,9 @@ export default function ClimbList({ editSession, sessionId }) {
     climbOutcomesData.unshift({ key: 0, section: true, label: 'Outcome' })
 
     let climbTypeBox =
-        <View style={[styles.climbIconBox, { borderColor: 'red' }]}>
+        <View style={[styles.climbIconBox, { borderColor: '#FF481A' }]}>
             {climbType ?
-                <Text style={[styles.climbItem, { color: 'red', fontWeight: 'bold' }]}>{climbType.label}</Text> :
+                <Text style={[styles.climbItem, { color: '#FF481A', fontWeight: 'bold' }]}>{climbType.label}</Text> :
 
                 <View style={{ alignItems: 'center' }}>
                     <MaterialCommunityIcons name="carabiner" size={32} color="grey" />
@@ -100,23 +100,23 @@ export default function ClimbList({ editSession, sessionId }) {
         </View>
 
     let climbGradeBox =
-        <View style={[styles.climbIconBox, { borderColor: 'orange' }]}>
-            <MaterialCommunityIcons name="arm-flex-outline" size={32} color={climbType ? "orange" : 'lightgrey'} />
+        <View style={[styles.climbIconBox, { borderColor: '#FFC759' }]}>
+            <MaterialCommunityIcons name="arm-flex-outline" size={32} color={climbType ? "#FFC759" : 'lightgrey'} />
             <Text style={[styles.climbItem, { color: climbType ? "black" : 'lightgrey' }]}>Grade</Text>
             <Ionicons name="caret-down-outline" size={15} color={climbType ? "black" : 'lightgrey'} />
         </View>
 
     if (climbGrade) {
         climbGradeBox =
-            <View style={[styles.climbIconBox, { borderColor: 'orange' }]}>
-                <Text style={[styles.climbItem, { color: 'orange', fontWeight: 'bold' }]}>{climbGrade}</Text>
+            <View style={[styles.climbIconBox, { borderColor: '#FFC759' }]}>
+                <Text style={[styles.climbItem, { color: '#FFC759', fontWeight: 'bold' }]}>{climbGrade}</Text>
                 <Ionicons name="caret-down-outline" size={15} color="black" />
             </View>
     }
 
     let climbOutcomeBox =
         <View style={styles.climbIconBox}>
-            <MaterialCommunityIcons name="check-bold" size={32} color={climbType ? "green" : 'lightgrey'} />
+            <MaterialCommunityIcons name="check-bold" size={32} color={climbType ? "#47A970" : 'lightgrey'} />
             <Text style={[styles.climbItem, { color: climbType ? "black" : 'lightgrey' }]}>Outcome</Text>
             <Ionicons name="caret-down-outline" size={15} color={climbType ? "black" : 'lightgrey'} />
         </View>
@@ -124,7 +124,7 @@ export default function ClimbList({ editSession, sessionId }) {
     if (climbOutcome) {
         climbOutcomeBox =
             <View style={styles.climbIconBox}>
-                <Text style={[styles.climbItem, { color: 'green', fontWeight: 'bold' }]}>{climbOutcomeShortLabelLookup[climbOutcome]}</Text>
+                <Text style={[styles.climbItem, { color: '#47A970', fontWeight: 'bold' }]}>{climbOutcomeShortLabelLookup[climbOutcome]}</Text>
                 <Ionicons name="caret-down-outline" size={15} color="black" />
             </View>
     }
@@ -276,7 +276,7 @@ export default function ClimbList({ editSession, sessionId }) {
                 </View>
             }
             {loadingClimbs && <Text style={styles.loadingMsg}>Loading Climbs</Text>}
-            {loadingClimbs && <ActivityIndicator size={"large"} color={"#007AFF"} style={{ marginVertical: 10 }} />}
+            {loadingClimbs && <ActivityIndicator size={"large"} color={"#0083A7"} style={{ marginVertical: 10 }} />}
 
 
             <View style={styles.climbListContainer}>
@@ -325,19 +325,19 @@ export default function ClimbList({ editSession, sessionId }) {
 
                         <View style={styles.climbContainer}>
 
-                            <View style={[styles.climbIconBox, { borderColor: 'red' }]}>
+                            <View style={[styles.climbIconBox, { borderColor: '#FF481A' }]}>
                                 <SelectorWrapper data={climbTypeData} disabled={!editSession} handler={(type) => handleSelectClimbType(type, climb.id)}>
                                     <Text style={styles.climbItem}>{climb.type_label}</Text>
                                 </SelectorWrapper>
                                 {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
                             </View>
 
-                            <View style={[styles.climbIconBox, { borderColor: 'orange' }]}>
+                            <View style={[styles.climbIconBox, { borderColor: '#FFC759' }]}>
                                 <SelectorWrapper data={climbGradesData} disabled={!editSession} handler={(grade) => handleSelectClimbGrade(grade, climb.id)}>
                                     {climb.grade_label ?
                                         <Text style={styles.climbItem}>{climb.grade_label}</Text> :
                                         <View style={{ alignItems: 'center' }}>
-                                            <MaterialCommunityIcons name="arm-flex-outline" size={32} color={climbType ? "orange" : 'lightgrey'} />
+                                            <MaterialCommunityIcons name="arm-flex-outline" size={32} color={climbType ? "#FFC759" : 'lightgrey'} />
                                             <Text style={[styles.climbItem, { color: climbType ? "black" : 'lightgrey' }]}>Grade</Text>
                                         </View>
                                     }
@@ -345,7 +345,7 @@ export default function ClimbList({ editSession, sessionId }) {
                                 {editSession && <Ionicons name="caret-down-outline" size={15} color="black" />}
                             </View>
 
-                            <View style={[styles.climbIconBox, { borderColor: 'green' }]}>
+                            <View style={[styles.climbIconBox, { borderColor: '#47A970' }]}>
                                 <SelectorWrapper data={climbOutcomesData} disabled={!editSession} handler={(outcome) => handleSelectClimbOutcome(outcome, climb.id)}>
                                     <Text style={styles.climbItem}>{climbOutcomeShortLabelLookup[climb.outcome_label]}</Text>
                                 </SelectorWrapper>
@@ -360,7 +360,7 @@ export default function ClimbList({ editSession, sessionId }) {
                             >
                                 <View style={styles.modalOverlay}>
                                     <View style={styles.modalContainer}>
-                                        <Text style={[styles.modalText, { color: 'red', fontSize: 20 }]}>Confirm delete climb?</Text>
+                                        <Text style={[styles.modalText, { color: '#FF481A', fontSize: 20 }]}>Confirm delete climb?</Text>
                                         <Text style={[styles.modalText, { fontSize: 16 }]}>This cannot be undone</Text>
                                         <View style={styles.modalOptions}>
                                             <Pressable onPress={() => setDeleteModalVisible(false)} hitSlop={50}>
@@ -378,13 +378,13 @@ export default function ClimbList({ editSession, sessionId }) {
                         <View style={{ flexDirection: 'row', justifyContent: 'center', marginVertical: 5, columnGap: 20 }}>
                             {editSession &&
                                 <ButtonAction
-                                    icon={<Ionicons name="trash-sharp" size={24} color="red" />}
+                                    icon={<Ionicons name="trash-sharp" size={24} color="#FF481A" />}
                                     onPress={() => handlePressDeleteClimbButton(climb.id)}
                                 />
                             }
                             {editSession &&
                                 <ButtonAction
-                                    icon={<MaterialCommunityIcons name="content-save" size={24} color="blue" />}
+                                    icon={<MaterialCommunityIcons name="content-save" size={24} color="#0083A7" />}
                                     onPress={() => handleClimbSave(climb.id)}
                                 />
                             }
