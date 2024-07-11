@@ -30,7 +30,7 @@ export default function WallSessionsScreen({ route, navigation }) {
         <ScrollView>
           <View style={[styles.screenContainer, styles.middleBackground]}>
               {wallSessions.map((sess) => {
-                  return <Session key={sess.session_id} sessionData={sess} navigation={navigation} />;
+                  return <Session key={sess.id} sessionData={sess} navigation={navigation} />;
               })}
           </View>
         </ScrollView >
@@ -41,9 +41,11 @@ export default function WallSessionsScreen({ route, navigation }) {
 
 const wallScreensStyles = StyleSheet.create({
   container: {
-      // flex: 1,
-      // justifyContent: 'center',
-      // alignItems: 'center'
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginHorizontal: 10,
+      marginTop: 40
   },
   centerText: {
     // textAlign: 'center',
