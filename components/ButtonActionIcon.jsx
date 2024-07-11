@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-export default function ButtonAction(props) {
+export default function ButtonActionIcon(props) {
     const { onPress, icon } = props;
 
     return (

@@ -5,7 +5,7 @@ import { patchSession, postSession, deleteSession, getWalls } from './screens/sc
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import ButtonAction from './ButtonAction';
+import ButtonActionIcon from './ButtonActionIcon';
 
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { TimerPickerModal } from "react-native-timer-picker";
@@ -246,16 +246,16 @@ export default function SessionInfo({ editSession, setEditSession, sessionData, 
 
                 {editSession ?
                     <View style={{ flexDirection: 'row', columnGap: 5, alignItems: 'center' }}>
-                        <ButtonAction
+                        <ButtonActionIcon
                             icon={<Ionicons name="trash-sharp" size={24} color="red" />}
                             onPress={handlePressDeleteButton}
                         />
-                        <ButtonAction
+                        <ButtonActionIcon
                             icon={<MaterialCommunityIcons name="pencil-off-outline" size={24} color="blue" />}
                             onPress={handlePressEditButton} />
                     </View>
                     :
-                    <ButtonAction
+                    <ButtonActionIcon
                         icon={<MaterialCommunityIcons name="pencil-outline" size={24} color="blue" />}
                         onPress={handlePressEditButton}
                     />

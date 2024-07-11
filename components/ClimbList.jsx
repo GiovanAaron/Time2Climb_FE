@@ -2,7 +2,7 @@ import { getClimbsBySessionId, postClimb, deleteClimb, patchClimb, climbTypeList
 import { Modal, Alert, View, Text, Pressable, ActivityIndicator } from "react-native";
 import { useEffect, useState } from 'react';
 import _ from 'lodash';
-import ButtonAction from './ButtonAction';
+import ButtonActionIcon from './ButtonActionIcon';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -258,14 +258,14 @@ export default function ClimbList({ editSession, sessionId }) {
                             {addClimbOpen ?
                                 <View style={{ flexDirection: 'row', columnGap: 5, alignItems: 'center' }}>
                                     <Text>Hide</Text>
-                                    <ButtonAction
+                                    <ButtonActionIcon
                                         icon={<Ionicons name="remove-circle-outline" size={24} color="black" />}
                                         onPress={handleToggleAddClimb}
                                     />
                                 </View> :
                                 <View style={{ flexDirection: 'row', columnGap: 5, alignItems: 'center' }}>
                                     <Text>Add climb</Text>
-                                    <ButtonAction
+                                    <ButtonActionIcon
                                         icon={<Ionicons name="add-circle-outline" size={24} color="black" />}
                                         onPress={handleToggleAddClimb}
                                     />
@@ -377,13 +377,13 @@ export default function ClimbList({ editSession, sessionId }) {
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'center', marginVertical: 5, columnGap: 20 }}>
                             {editSession &&
-                                <ButtonAction
+                                <ButtonActionIcon
                                     icon={<Ionicons name="trash-sharp" size={24} color="#FF481A" />}
                                     onPress={() => handlePressDeleteClimbButton(climb.id)}
                                 />
                             }
                             {editSession &&
-                                <ButtonAction
+                                <ButtonActionIcon
                                     icon={<MaterialCommunityIcons name="content-save" size={24} color="#0083A7" />}
                                     onPress={() => handleClimbSave(climb.id)}
                                 />

@@ -6,9 +6,10 @@ import { useFocusEffect } from '@react-navigation/native';
 
 import app from '../../firebaseConfig'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import ButtonRedirect from "../ButtonRedirect";
+import ButtonActionIcon from "../ButtonActionText";
 
 import { UserContext } from '../../app/authListener';
+import ButtonActionText from "../ButtonActionText";
 
 const image = require('../../assets/images/bady-abbas-VmYZe_yqxL0-unsplash.jpg')
 
@@ -95,7 +96,7 @@ export default function LandingScreen({ navigation }) {
     login()
   };
 
-  const login = () => {
+  const login = (() => {
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         navigation.replace('Main')
@@ -122,7 +123,7 @@ export default function LandingScreen({ navigation }) {
             break;
         }
       });
-  };
+  });
 
   return (
 
@@ -160,7 +161,7 @@ export default function LandingScreen({ navigation }) {
 
               {logInError && <Text style={landingStyles.logInError}>{logInErrorMessage}</Text>}
 
-              <Pressable style={landingStyles.button} onPress={handleLogIn}>
+              {/* <Pressable style={landingStyles.button} onPress={handleLogIn}>
                 <Text style={landingStyles.buttonText}>Log in</Text>
               </Pressable>
 
@@ -170,21 +171,21 @@ export default function LandingScreen({ navigation }) {
 
               <Pressable style={landingStyles.button} onPress={() => navigation.replace('Main')}>
                 <Text style={landingStyles.buttonText}>Skip</Text>
-              </Pressable> 
+              </Pressable>  */}
 
-              {/* <ButtonRedirect
-                onPress={handleLogIn} 
-                btnText="Login"
+              <ButtonActionText
+                  onPress={login}
+                  btnText="Login"
               />
               <Text style={landingStyles.signUpPrompt}>{"\n"}Or</Text>
-              <ButtonRedirect
-                onPress={() => setRegisterScreen(!registerScreen)}
-                btnText="Register"
+              <ButtonActionText
+                  onPress={(() => setRegisterScreen(!registerScreen))}
+                  btnText="Register"
               />
-              <ButtonRedirect
-                onPress={() => navigation.replace('Main')} 
-                btnText="Skip"
-              /> */}
+              <ButtonActionText
+                  onPress={(() => navigation.replace('Main'))}
+                  btnText="Skip"
+              />
 
               {/* <Pressable style={landingStyles.button} onPress={() => console.log(user.uid)}>
                 <Text style={landingStyles.buttonText}>Log user</Text>
@@ -224,13 +225,13 @@ export default function LandingScreen({ navigation }) {
                 <Text style={landingStyles.buttonText}>Back</Text>
               </Pressable> */}
 
-              <ButtonRedirect
-                onPress={createUser}
-                btnText="Register"
+              <ButtonActionText
+                  onPress={createUser}
+                  btnText="Register"
               />
-              <ButtonRedirect
-                onPress={() => setRegisterScreen(false)}
-                btnText="Back"
+              <ButtonActionText
+                  onPress={() => setRegisterScreen(false)}
+                  btnText="Back"
               />
             </View>
           }

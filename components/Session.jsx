@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import ButtonAction from './ButtonAction';
+import ButtonActionIcon from './ButtonActionIcon';
 import appStyles from '../style-sheets/app-style';
 
 const moment = require('moment');
@@ -30,11 +30,11 @@ export default function Session({ navigation, sessionData }) {
                     </Text>
                 </View>
                 <View style={styles.icons}>
-                    <ButtonAction
+                    <ButtonActionIcon
                         onPress={handleDelete}
                         icon={<Ionicons name="trash" color={'#FF481A'} size={20} />}
                     />
-                    <ButtonAction
+                    <ButtonActionIcon
                         onPress={handleEdit}
                         icon={<Ionicons name="create" color={'#0083A7'} size={20} />}
                     />
