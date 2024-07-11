@@ -159,7 +159,7 @@ export default function LandingScreen({ navigation }) {
               />
 
               {logInError && <Text style={landingStyles.logInError}>{logInErrorMessage}</Text>}
-{/* 
+
               <Pressable style={landingStyles.button} onPress={handleLogIn}>
                 <Text style={landingStyles.buttonText}>Log in</Text>
               </Pressable>
@@ -170,9 +170,9 @@ export default function LandingScreen({ navigation }) {
 
               <Pressable style={landingStyles.button} onPress={() => navigation.replace('Main')}>
                 <Text style={landingStyles.buttonText}>Skip</Text>
-              </Pressable> */}
+              </Pressable> 
 
-              <ButtonRedirect
+              {/* <ButtonRedirect
                 onPress={handleLogIn} 
                 btnText="Login"
               />
@@ -184,7 +184,7 @@ export default function LandingScreen({ navigation }) {
               <ButtonRedirect
                 onPress={() => navigation.replace('Main')} 
                 btnText="Skip"
-              />
+              /> */}
 
               {/* <Pressable style={landingStyles.button} onPress={() => console.log(user.uid)}>
                 <Text style={landingStyles.buttonText}>Log user</Text>
