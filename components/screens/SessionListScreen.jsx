@@ -19,7 +19,7 @@ export default function SessionListScreen({ navigation }) {
 
         <View style={appStyles.screenContainer}>
 
-          <Text style={[appStyles.h2, { marginBottom: 20 }]}>Your Sessions</Text>
+          <Text style={[appStyles.h2, { marginBottom: 20 }]}>My Sessions</Text>
 
           <View style={[styles.container, {marginBottom: 20}]}>
             <ButtonRedirect
