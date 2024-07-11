@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, View, Text, Pressable, ImageBackground } from "react-native";
+import { ScrollView, View, Text, Pressable, ImageBackground, Image } from "react-native";
 import Map from '../Map';
 import Dashboard from '../Dashboard';
 import styles from '../../style-sheets/home-style';
@@ -21,8 +21,13 @@ export default function HomeScreen({ navigation }) {
 
                     <View style={appStyles.sectionContainer}>
 
-                        <Text style={appStyles.h1}>(Time To Climb Logo)</Text>
-
+                        <View style={styles.logoContainer}>
+                            <Image
+                                style={styles.logo}
+                                source={require('../../assets/Logo.png')}
+                            />
+                        </View>
+                        
                         <Pressable style={styles.mapContainer} onPress={() => navigation.navigate('Map Screen')}>
                             <Map />
                         </Pressable>

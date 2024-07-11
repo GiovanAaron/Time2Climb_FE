@@ -92,6 +92,20 @@ const landingStyles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
+    logoContainer: {
+        width: '90%',
+        height: 170,
+        borderColor: 'red',
+        borderWidth: 0,
+        marginBottom: 30,
+        backgroundColor: 'rgba(255, 255, 255, 0.85)',
+        padding: 15,
+        borderRadius: 20,
+    },
+    logo: {
+        width: '100%',
+        height: '100%',
+    }
 })
 
 export default landingStyles;

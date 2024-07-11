@@ -56,6 +56,20 @@ const styles = StyleSheet.create({
         padding: 0,
         borderWidth: 1,
         borderColor: 'black'
+    },
+    logoContainer: {
+        width: '85%',
+        height: 170,
+        borderColor: 'red',
+        borderWidth: 0,
+        marginBottom: 30,
+        backgroundColor: 'rgba(255, 255, 255, 0.85)',
+        padding: 15,
+        borderRadius: 20,
+    },
+    logo: {
+        width: '100%',
+        height: '100%',
     }
 })
 

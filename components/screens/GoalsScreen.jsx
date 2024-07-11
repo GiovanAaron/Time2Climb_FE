@@ -36,11 +36,11 @@ export default function Goals({ navigation }) {
 
   return (
     <ImageBackground source={global.backgroundImage} resizeMode="cover" style={appStyles.backgroundStyle} imageStyle={appStyles.backgroundImg}>
-      <View style={appStyles.screenContainer}>
+      <View style={[appStyles.screenContainer]}>
         {achievements.traveller &&
           <Stars />
         }
-        <View style={appStyles.sectionContainer}>
+        <View style={[appStyles.sectionContainer, {backgroundColor: 'rgba(255, 255, 255, 0.85)'}]}>
           <Text style={appStyles.h2}>Goals</Text>
           <View style={styles.awardListContainer}>
 

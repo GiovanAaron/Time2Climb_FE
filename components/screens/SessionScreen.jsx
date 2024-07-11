@@ -20,7 +20,7 @@ export default function SessionScreen({ navigation }) {
       <ScrollView>
         <View style={appStyles.screenContainer}>
 
-          <View style={appStyles.sectionContainer}>
+          <View style={[appStyles.sectionContainer, {backgroundColor: 'rgba(255, 255, 255, 0.85)'}]}>
 
             <SessionInfo editSession={editSession} setEditSession={setEditSession} sessionData={sessionData} setSessionId={setSessionId} navigation={navigation} />
             <ClimbList editSession={editSession} sessionId={sessionId} />

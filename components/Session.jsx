@@ -32,7 +32,7 @@ export default function Session({ navigation, sessionData }) {
                 <View style={styles.icons}>
                     <ButtonAction
                         onPress={handleDelete}
-                        icon={<Ionicons name="trash" color={'red'} size={20} />}
+                        icon={<Ionicons name="trash" color={'#FF481A'} size={20} />}
                     />
                     <ButtonAction
                         onPress={handleEdit}
