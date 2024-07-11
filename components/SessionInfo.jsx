@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { Modal, Alert, View, Text, Pressable, ActivityIndicator } from "react-native";
-import { patchSession, postSession, deleteSession } from './screens/screenSessionData'
+import { patchSession, postSession, deleteSession, getWalls } from './screens/screenSessionData'
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -20,6 +20,7 @@ import appStyles from "../style-sheets/app-style"
 export default function SessionInfo({ editSession, setEditSession, sessionData, setSessionId, navigation }) {
 
     const [sessionInfo, setSessionInfo] = useState({})
+    const [walls, setWalls] = useState([])
 
     const [datePickerOpen, setDatePickerOpen] = useState(false);
     const [timePickerOpen, setTimePickerOpen] = useState(false);
@@ -30,6 +31,13 @@ export default function SessionInfo({ editSession, setEditSession, sessionData, 
 
     useEffect(() => {
         setSessionInfo(sessionData)
+        getWalls()
+        .then((result) => {
+            setWalls(result.walls)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
     }, [])
 
     const formatTime = (minutes) => {
@@ -166,14 +174,22 @@ export default function SessionInfo({ editSession, setEditSession, sessionData, 
 
     }
 
-    let climbingWallIndex = 0;
-    const climbingWallData = [
-        { key: climbingWallIndex++, section: true, label: 'Walls' },
-        { key: climbingWallIndex++, label: 'Climbing Works', value: 1 },
-        { key: climbingWallIndex++, label: 'Sheffield Depot', value: 2 },
-        { key: climbingWallIndex++, label: 'Sheffield Hanger', value: 3 },
-        { key: climbingWallIndex++, label: 'Nottingham Depot', value: 4 }
-    ];
+    let climbingWallData = walls.map((wall, index) => {
+        const wallDatum = {key: index, label: wall.name, value: wall.id}
+        return wallDatum
+    })
+
+    climbingWallData.unshift({ key: -1, section: true, label: 'Walls' })
+
+
+    // let climbingWallIndex = 0;
+    // const climbingWallData = [
+    //     { key: climbingWallIndex++, section: true, label: 'Walls' },
+    //     { key: climbingWallIndex++, label: 'Climbing Works', value: 1 },
+    //     { key: climbingWallIndex++, label: 'Sheffield Depot', value: 2 },
+    //     { key: climbingWallIndex++, label: 'Sheffield Hanger', value: 3 },
+    //     { key: climbingWallIndex++, label: 'Nottingham Depot', value: 4 }
+    // ];
 
     return (
 

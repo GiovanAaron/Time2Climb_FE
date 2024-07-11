@@ -37,7 +37,8 @@ const mapStyles = StyleSheet.create({
     },
     mapContainer: {
         width: '85%',
-        marginBottom: 20,
+        marginTop: 90,
+        marginBottom: 40,
         padding: 0,
         borderWidth: 2,
         borderColor: 'green',

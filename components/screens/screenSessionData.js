@@ -1,6 +1,14 @@
 
 import axios from 'axios';
 
+export const getWalls = () => {
+  return axios
+    .get(`https://time2climb-be.onrender.com/api/walls`)
+    .then(({ data }) => {
+      return data
+    })
+}
+
 export const getClimbsBySessionId = (sessionId) => {
   return axios
     .get(`https://time2climb-be.onrender.com/api/climbs/${sessionId}`)

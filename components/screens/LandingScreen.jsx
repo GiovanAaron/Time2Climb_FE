@@ -160,9 +160,9 @@ export default function LandingScreen({ navigation }) {
                 <Text style={landingStyles.signUpPrompt}>Or <Text style={{textDecorationLine: 'underline'}}>register</Text> a new account</Text>
               </Pressable>
 
-              <Pressable style={landingStyles.button} onPress={() => navigation.replace('Main')}>
+              {/* <Pressable style={landingStyles.button} onPress={() => navigation.replace('Main')}>
                 <Text style={landingStyles.buttonText}>Skip</Text>
-              </Pressable>
+              </Pressable> */}
     
               {/* <Pressable style={landingStyles.button} onPress={() => console.log(user.uid)}>
                 <Text style={landingStyles.buttonText}>Log user</Text>
