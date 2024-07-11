@@ -6,6 +6,7 @@ import { useFocusEffect } from '@react-navigation/native';
 
 import app from '../../firebaseConfig'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import ButtonRedirect from "../ButtonRedirect";
 
 import { UserContext } from '../../app/authListener';
 
@@ -158,7 +159,7 @@ export default function LandingScreen({ navigation }) {
               />
 
               {logInError && <Text style={landingStyles.logInError}>{logInErrorMessage}</Text>}
-
+{/* 
               <Pressable style={landingStyles.button} onPress={handleLogIn}>
                 <Text style={landingStyles.buttonText}>Log in</Text>
               </Pressable>
@@ -169,7 +170,21 @@ export default function LandingScreen({ navigation }) {
 
               <Pressable style={landingStyles.button} onPress={() => navigation.replace('Main')}>
                 <Text style={landingStyles.buttonText}>Skip</Text>
-              </Pressable>
+              </Pressable> */}
+
+              <ButtonRedirect
+                onPress={handleLogIn} 
+                btnText="Login"
+              />
+              <Text style={landingStyles.signUpPrompt}>{"\n"}Or</Text>
+              <ButtonRedirect
+                onPress={() => setRegisterScreen(!registerScreen)}
+                btnText="Register"
+              />
+              <ButtonRedirect
+                onPress={() => navigation.replace('Main')} 
+                btnText="Skip"
+              />
 
               {/* <Pressable style={landingStyles.button} onPress={() => console.log(user.uid)}>
                 <Text style={landingStyles.buttonText}>Log user</Text>
@@ -201,13 +216,22 @@ export default function LandingScreen({ navigation }) {
 
               {passwordError && <Text style={landingStyles.registerError}>{passwordErrorMessage}</Text>}
 
-              <Pressable onPress={createUser} style={[landingStyles.button, { marginTop: 10 }]}>
+              {/* <Pressable onPress={createUser} style={[landingStyles.button, { marginTop: 10 }]}>
                 <Text style={[landingStyles.buttonText]}>Register</Text>
               </Pressable>
 
               <Pressable style={landingStyles.button} onPress={() => setRegisterScreen(false)}>
                 <Text style={landingStyles.buttonText}>Back</Text>
-              </Pressable>
+              </Pressable> */}
+
+              <ButtonRedirect
+                onPress={createUser}
+                btnText="Register"
+              />
+              <ButtonRedirect
+                onPress={() => setRegisterScreen(false)}
+                btnText="Back"
+              />
             </View>
           }
 
