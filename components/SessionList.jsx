@@ -92,6 +92,6 @@ export default function SessionList({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 10,
+        width: '75%',
     },
 });

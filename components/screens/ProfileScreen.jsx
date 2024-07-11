@@ -28,9 +28,9 @@ export default function ProfileScreen({ navigation }) {
   return (
     <ImageBackground source={global.backgroundImage} resizeMode="cover" style={appStyles.backgroundStyle} imageStyle={appStyles.backgroundImg}>
       <ScrollView>
-        <View style={profileStyles.screenContainer}>
+        <View style={appStyles.screenContainer}>
 
-          <View style={profileStyles.sectionContainer}>
+          <View style={appStyles.sectionContainer}>
 
             <Text style={appStyles.h2}>Milo the Monkey</Text>
 

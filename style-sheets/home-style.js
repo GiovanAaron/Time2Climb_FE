@@ -7,10 +7,23 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderColor: 'red',
         borderWidth: 0,
-        marginVertical: 30
+    },
+    sectionContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderColor: 'green',
+        borderWidth: 1,
+        backgroundColor: 'white',
+        width: '85%',
+        paddingHorizontal: 20,
+        borderRadius: 20,
+        marginBottom: 40,
+        marginTop: 90,
+        paddingVertical: 20,
     },
     mapContainer: {
-        width: '75%',
+        width: '85%',
         height: 200,
         marginBottom: 20,
         padding: 0,
@@ -21,7 +34,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden'
     },
     keyStatsContainer: {
-        width: '75%',
+        width: '85%',
         borderColor: 'orange',
         borderWidth: 2,
         marginBottom: 5,
@@ -37,7 +50,7 @@ const styles = StyleSheet.create({
         color: 'darkblue'
     },
     dashboardContainer: {
-        width: '75%',
+        width: '100%',
         height: 200,
         marginBottom: 20,
         padding: 0,
