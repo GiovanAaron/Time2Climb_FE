@@ -53,7 +53,7 @@ function TabNavigator() {
         component={HomeStack}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" color={'red'} size={24} />
+            <Ionicons name="home" color={'#FF481A'} size={24} /> // red
           )
         }} />
       <Tab.Screen
@@ -61,7 +61,7 @@ function TabNavigator() {
         component={SessionListStack}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome6 name="person-falling" color={'orange'} size={24} />
+            <FontAwesome6 name="person-falling" color={'#FFC759'} size={24} /> // orange
           )
         }} />
       <Tab.Screen
@@ -69,7 +69,7 @@ function TabNavigator() {
         component={GoalsScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="trophy" color={'green'} size={24} />
+            <Ionicons name="trophy" color={'#47A970'} size={24} /> // green
           )
         }} />
      <Tab.Screen
@@ -77,7 +77,7 @@ function TabNavigator() {
         component={ProfileScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person" color={'#007AFF'} size={24} />
+            <Ionicons name="person" color={'#0083A7'} size={24} /> // blue
           )
         }} />    
         </Tab.Navigator>

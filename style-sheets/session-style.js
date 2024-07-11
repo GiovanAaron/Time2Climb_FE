@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        borderColor: 'orange',
+        borderColor: '#FFC759',
         borderWidth: 1,
         backgroundColor: 'white',
         width: '85%',
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         borderWidth: 0,
         width: '100%',
-        borderColor: 'red'
+        borderColor: 'white'
     },
     sessionInfoContainer: {
         alignItems: 'start',
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         columnGap: 15
     },
     climbIconBox: {
-        borderColor: 'green',
+        borderColor: '#47A970',
         borderWidth: 2,
         backgroundColor: 'white',
         flex: 1,
@@ -159,14 +159,14 @@ const styles = StyleSheet.create({
     sectionTextStyle: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#007AFF',
+        color: '#0083A7',
     },
     cancelContainerStyle: {
         backgroundColor: 'white',
         borderRadius: 5
     },
     cancelTextStyle: {
-        color: '#007AFF',
+        color: '#0083A7',
         fontSize: 18,
         fontWeight: 'bold',
     },

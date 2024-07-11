@@ -45,24 +45,24 @@ export default function Goals({ navigation }) {
           <View style={styles.awardListContainer}>
 
             <View style={styles.awardContainer}>
-              <View style={[styles.trophyFrame, { borderColor: achievements.first_steps ? "orange" : "lightgrey" }]}>
+              <View style={[styles.trophyFrame, { borderColor: achievements.first_steps ? "#FFC759" : "lightgrey" }]}>
                 <Ionicons name="footsteps-outline"
                   size={52}
-                  color={achievements.first_steps ? "orange" : "lightgrey"} />
+                  color={achievements.first_steps ? "#FFC759" : "lightgrey"} />
               </View>
               <AchievementAlertWrapper name="First-steps" description="You logged your first climb">
-                <Text style={[styles.awardFrame, { color: achievements.first_steps ? "orange" : "lightgrey" }]}>First steps</Text>
+                <Text style={[styles.awardFrame, { color: achievements.first_steps ? "#FFC759" : "lightgrey" }]}>First steps</Text>
               </AchievementAlertWrapper>
             </View>
 
             <View style={styles.awardContainer}>
               <AchievementAlertWrapper name="Traveller" description="You visited 5 different climbing walls">
-                <View style={[styles.trophyFrame, { borderColor: achievements.traveller ? "green" : "lightgrey" }]}>
+                <View style={[styles.trophyFrame, { borderColor: achievements.traveller ? "#47A970" : "lightgrey" }]}>
                   <FontAwesome name="ticket"
                     size={52}
-                    color={achievements.traveller ? "green" : "lightgrey"} />
+                    color={achievements.traveller ? "#47A970" : "lightgrey"} />
                 </View>
-                <Text style={[styles.awardFrame, { color: achievements.traveller ? "green" : "lightgrey" }]}>Traveller</Text>
+                <Text style={[styles.awardFrame, { color: achievements.traveller ? "#47A970" : "lightgrey" }]}>Traveller</Text>
               </AchievementAlertWrapper>
             </View>
 

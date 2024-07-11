@@ -36,7 +36,7 @@ export default function Session({ navigation, sessionData }) {
                     />
                     <ButtonAction
                         onPress={handleEdit}
-                        icon={<Ionicons name="create" color={'cornflowerblue'} size={20} />}
+                        icon={<Ionicons name="create" color={'#0083A7'} size={20} />}
                     />
                 </View>
             </Pressable>
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         paddingTop: 2,
         paddingHorizontal: 15,
         paddingBottom: 10,
-        borderColor: 'orange',
+        borderColor: '#FFC759',
         borderWidth: 2,
         borderRadius: 20,
         backgroundColor: 'white',
