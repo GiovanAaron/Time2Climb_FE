@@ -14,11 +14,11 @@ const appStyles = StyleSheet.create({
     justifyContent: 'center',
     borderColor: 'orange',
     borderWidth: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    backgroundColor: 'rgba(255, 255, 255, 0.85)',
     width: '85%',
     borderRadius: 20,
     marginBottom: 40,
-    marginTop: 90,
+    marginTop: 80,
     paddingHorizontal: 10,
     paddingVertical: 20,
   },
@@ -27,7 +27,7 @@ const appStyles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     marginVertical: 20,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   h2: {
     fontSize: 36,

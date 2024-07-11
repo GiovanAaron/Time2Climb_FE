@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderColor: 'green',
-        borderWidth: 1,
+        borderWidth: 0,
         backgroundColor: 'white',
         width: '85%',
         height: '100%',
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     },
     trophyFrame: {
         borderColor: 'lightgrey',
-        borderWidth: 1,
+        borderWidth: 0,
         width: 120,
         height: 120,
         padding: 25,
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     awardFrame: {
         marginTop: 10,
         borderColor: 'white',
-        borderWidth: 1,
+        borderWidth: 0,
         borderRadius: 5,
         borderWidth: 2,
         fontWeight: 'bold',
