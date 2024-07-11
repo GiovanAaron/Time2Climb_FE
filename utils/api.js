@@ -27,6 +27,7 @@ export const fetchUserSessions = ((user_id) => {
 });
 
 export const fetchUserWallSessions = ((user_id, wall_id) => {
+    console.log(user_id,wall_id, '--api data');
     return t2cDb.get(`/sessions/users/${user_id}/walls/${wall_id}`)
         .then(({data}) => {
             return data;

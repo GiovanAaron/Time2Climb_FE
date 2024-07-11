@@ -13,6 +13,7 @@ import SessionListScreen from '../components/screens/SessionListScreen';
 import SessionScreen from '../components/screens/SessionScreen';
 import StatsScreen from '../components/screens/StatsScreen';
 import GoalsScreen from '../components/screens/GoalsScreen';
+import WallSessionsScreen from '../components/screens/WallSessionsScreen.jsx';
 import { MapDataProvider } from '../contexts/map-context.js';
 
 global.backgroundImage = require('../assets/images/bady-abbas-VmYZe_yqxL0-unsplash.jpg');

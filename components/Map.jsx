@@ -75,8 +75,12 @@ export default function Map({ navigation }) {
         }
     }
 
-    const onSessionMarkerPress = (id) => {
-        navigation.navigate('Wall Sessions Screen');
+    const onSessionMarkerPress = (wall_id, wall_name) => {
+        const wall = {
+            id: wall_id,
+            name: wall_name
+        }
+        navigation.navigate('Wall Sessions Screen', {wall});
     };
 
     const onWallMarkerPress = (id) => {
@@ -99,7 +103,7 @@ export default function Map({ navigation }) {
                         coordinate={{ latitude: Number(location.lat), longitude: Number(location.long) }}
                         title={location.name}
                         description={`Number of sessions at this location: ${location.session_count}`}
-                        onPress={(e) => onSessionMarkerPress(location.id)}
+                        onPress={(e) => onSessionMarkerPress(location.id, location.name)}
                     >
                         <View style={mapStyles.userMarker}>
                             <Text style={mapStyles.userMarkerText}>{location.session_count}</Text>
