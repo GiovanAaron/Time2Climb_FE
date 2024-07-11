@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useContext, useCallback } from "react";
-import { TextInput, ImageBackground, View, Text, Pressable } from "react-native";
+import { TextInput, ImageBackground, View, Text, Pressable, Image } from "react-native";
 import landingStyles from "../../style-sheets/landing-style";
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -132,6 +132,13 @@ export default function LandingScreen({ navigation }) {
           {!registerScreen ?
             <View style={landingStyles.logInSection}>
 
+              <View style={landingStyles.logoContainer}>
+                <Image
+                  style={landingStyles.logo}
+                  source={require('../../assets/Logo.png')}
+                />
+              </View>
+
               <Text style={landingStyles.loginPrompt}>Log in</Text>
 
               <TextInput
@@ -157,13 +164,13 @@ export default function LandingScreen({ navigation }) {
               </Pressable>
 
               <Pressable onPress={() => setRegisterScreen(!registerScreen)} >
-                <Text style={landingStyles.signUpPrompt}>Or <Text style={{textDecorationLine: 'underline'}}>register</Text> a new account</Text>
+                <Text style={landingStyles.signUpPrompt}>Or <Text style={{ textDecorationLine: 'underline' }}>register</Text> a new account</Text>
               </Pressable>
 
               <Pressable style={landingStyles.button} onPress={() => navigation.replace('Main')}>
                 <Text style={landingStyles.buttonText}>Skip</Text>
               </Pressable>
-    
+
               {/* <Pressable style={landingStyles.button} onPress={() => console.log(user.uid)}>
                 <Text style={landingStyles.buttonText}>Log user</Text>
               </Pressable> */}
