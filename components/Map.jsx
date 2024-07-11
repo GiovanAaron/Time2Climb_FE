@@ -1,12 +1,12 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import MapView, { Marker } from 'react-native-maps';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { FontAwesome } from '@expo/vector-icons';
 import mapStyles from '../style-sheets/map-style';
 import { useMapData } from '../contexts/map-context';
 
-export default function Map() {
+export default function Map({ navigation }) {
 
     const { mapData } = useMapData();
     const centralUkLatitude = 54.473699;
@@ -75,8 +75,12 @@ export default function Map() {
         }
     }
 
-    const onSessionMarkerPress = (id) => {
-        // TODO: redirect to list of sessions for this wall
+    const onSessionMarkerPress = (wall_id, wall_name) => {
+        const wall = {
+            id: wall_id,
+            name: wall_name
+        }
+        navigation.navigate('Wall Sessions Screen', {wall});
     };
 
     const onWallMarkerPress = (id) => {
@@ -99,7 +103,7 @@ export default function Map() {
                         coordinate={{ latitude: Number(location.lat), longitude: Number(location.long) }}
                         title={location.name}
                         description={`Number of sessions at this location: ${location.session_count}`}
-                        onPress={(e) => onSessionMarkerPress(location.id)}
+                        onPress={(e) => onSessionMarkerPress(location.id, location.name)}
                     >
                         <View style={mapStyles.userMarker}>
                             <Text style={mapStyles.userMarkerText}>{location.session_count}</Text>

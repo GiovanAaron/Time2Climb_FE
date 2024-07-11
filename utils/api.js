@@ -25,3 +25,15 @@ export const fetchUserSessions = ((user_id) => {
             throw(err);
         });
 });
+
+export const fetchUserWallSessions = ((user_id, wall_id) => {
+    console.log(user_id,wall_id, '--api data');
+    return t2cDb.get(`/sessions/users/${user_id}/walls/${wall_id}`)
+        .then(({data}) => {
+            return data;
+        })
+        .catch((err) => {
+            console.log(err, '-- Error occurred whilst fetching user wall sessions --');
+            throw(err);
+        });
+});

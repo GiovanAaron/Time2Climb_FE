@@ -1,7 +1,8 @@
 import React, {useContext} from "react";
 import { ScrollView, Pressable, Image, View, Text, ImageBackground } from "react-native";
-import profileStyles from '../../style-sheets/profile-style'
-import appStyles from "../../style-sheets/app-style"
+import profileStyles from '../../style-sheets/profile-style';
+import ButtonRedirect from "../ButtonRedirect";
+import appStyles from "../../style-sheets/app-style";
 
 import { UserContext } from '../../app/authListener';
 
@@ -57,10 +58,16 @@ export default function ProfileScreen({ navigation }) {
             </View>
 
           </View>
-
-          <Pressable style={profileStyles.signOutButton} onPress={logOut}>
-            <Text style={profileStyles.signOutButtonText}>Logout</Text>
-          </Pressable>
+          <View style={{marginBottom: 50}}>
+            {/* <Pressable style={profileStyles.signOutButton} onPress={logOut}>
+              <Text style={profileStyles.signOutButtonText}>Logout</Text>
+            </Pressable> */}
+            <ButtonRedirect
+              navigation={navigation} 
+              screen={'Landing Screen'} 
+              btnText="Logout"
+            />
+          </View>
         </View>
       </ScrollView>
     </ImageBackground>

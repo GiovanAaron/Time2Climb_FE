@@ -5,7 +5,7 @@ import mapStyles from '../../style-sheets/map-style';
 import appStyles from '../../style-sheets/app-style';
 import { useMapData } from '../../contexts/map-context';
 
-export default function MapScreen() {
+export default function MapScreen({ navigation }) {
   
   const { mapData } = useMapData();
   mapData.zoomed = false;
@@ -15,7 +15,7 @@ export default function MapScreen() {
     <ImageBackground source={global.backgroundImage} resizeMode="cover" style={appStyles.backgroundStyle} imageStyle={appStyles.backgroundImg}>
       <View style={appStyles.screenContainer}>
         <View style ={mapStyles.mapContainer}>
-        <Map /> 
+        <Map navigation={navigation} /> 
         </View>
       </View>
     </ImageBackground>

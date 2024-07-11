@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text,  View, StyleSheet, Pressable } from 'react-native';
+import { Text, StyleSheet, Pressable } from 'react-native';
 
 export default function ButtonRedirect(props) {
 
@@ -12,11 +12,9 @@ export default function ButtonRedirect(props) {
     };
   
     return (
-        // <View style={customBtnStyles.container}>
-            <Pressable style={customBtnStyles.button} onPress={handlePress} >
-                <Text style={customBtnStyles.text}>{btnText}</Text>
-            </Pressable>
-        // </View>
+        <Pressable style={customBtnStyles.button} onPress={handlePress} >
+            <Text style={customBtnStyles.text}>{btnText}</Text>
+        </Pressable>
     );
 }
 
@@ -24,20 +22,16 @@ const customBtnStyles = StyleSheet.create({
     button: {
         alignItems: 'center',
         justifyContent: 'center',
+        paddingVertical: 5,
         paddingHorizontal: 0,
-        borderRadius: 25,
-        elevation: 6,
-        backgroundColor: '#7AD3D7',
-        borderColor: '#0083A7',
+        borderRadius: 10,
+        elevation: 2,
+        backgroundColor: 'lightblue',
+        borderColor: '#007AFF',
         borderWidth: 2,
         marginVertical: 3,
         marginHorizontal: 1,
-        minWidth: '30%',
-        width: '30%',
-        alignSelf: 'center',
-        paddingVertical: 10,
-        borderWidth: 2,
-        borderBottomWidth: 8,
+        minWidth: '30%'
     },
     text: {
         fontSize: 14,

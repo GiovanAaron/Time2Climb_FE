@@ -28,7 +28,7 @@ export default function HomeScreen({ navigation }) {
                             />
                         </View>
                         
-                        <Pressable style={styles.mapContainer} onPress={() => navigation.navigate('Map Screen')}>
+                        <Pressable style={styles.mapContainer} onPress={() => navigation.navigate('Map Screen', navigation={navigation})}>
                             <Map />
                         </Pressable>
 
@@ -51,15 +51,15 @@ export default function HomeScreen({ navigation }) {
                         <View style={styles.keyStatsContainer}>
                             <Text style={[appStyles.h3, appStyles.lightModeFont, { marginBottom: 10 }]}>My Key Stats</Text>
                             <Text style={styles.stat}>
-                                <Text style={{ fontWeight: 'bold' }}>Your most visited wall:{"\n"}</Text>
+                                <Text style={{ fontWeight: 'bold' }}>My most visited wall:{"\n"}</Text>
                                 The Climbing Works
                             </Text>
                             <Text style={styles.stat}>
-                                <Text style={{ fontWeight: 'bold' }}>Your longest session:{"\n"}</Text>
+                                <Text style={{ fontWeight: 'bold' }}>My longest session:{"\n"}</Text>
                                 200 minutes
                             </Text>
                             <Text style={styles.stat}>
-                                <Text style={{ fontWeight: 'bold' }}>Total climbs:{"\n"}</Text>
+                                <Text style={{ fontWeight: 'bold' }}>My total climbs:{"\n"}</Text>
                                 27
                             </Text>
                         </View>
